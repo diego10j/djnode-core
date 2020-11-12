@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+<ion-toolbar id="barra" color="tertiary">
+
+  <ion-item lines="none" class="bg-transparente">
+    <ion-button slot="start" color="primary">
+      Insertar
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+    </ion-button>
+    <ion-button slot="start" color="danger">
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      Eliminar
+    </ion-button>
+    <ion-button slot="start" color="success">
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      Guardar
+    </ion-button>
+  </ion-item>
+
+  <ion-buttons  slot="start">
+    <ion-button #botInsertar *ngIf="isBotonInsertar"  id="botInsertar" (click)="onClickInsertar($event)"  title="INSERTAR">
+      <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button #botEliminar *ngIf="isBotonEliminar"  id="botEliminar" (click)="onClickEliminar($event)" title="ELIMINAR">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button #botGuardar *ngIf="isBotonGuardar"  id="botGuardar" (click)="onClickGuardar($event)" title="GUARDAR">
+      <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+    </ion-button>
+
+      <ng-content ></ng-content>
+
+  </ion-buttons>
+  <ion-buttons  slot="end" style="padding-right: 5px;">
+    <ng-container >
+      <ng-template [ngTemplateOutlet]="derecha"></ng-template>
+  </ng-container>
+  </ion-buttons>  
+
+</ion-toolbar>
+</ion-header>

@@ -1,0 +1,21 @@
+
+<ion-content>
+
+  <app-barra #barra>
+   
+    <app-boton valor="Calcular" icono="star" soloIcono="true"></app-boton>
+    <ng-template #derecha>
+      <app-boton valor="Otro" color="success" icono="build-outline" (onClick)="otro()" ></app-boton>
+    </ng-template>
+    
+  </app-barra>
+
+  <app-tabla #tab_tabla1></app-tabla>
+
+ 
+
+  <app-tabla #tab_tabla2></app-tabla>
+
+
+
+</ion-content>

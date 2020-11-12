@@ -1,0 +1,26 @@
+<div class="pantalla">
+  <app-barra #barra></app-barra>
+  <app-division tipo="vertical" porcentaje1="40">
+    <ng-template #division1>
+      <app-tabla #tabTabla1></app-tabla>
+    </ng-template>
+    <ng-template #division2>
+
+      <p-tabView>
+        <p-tabPanel header="OPCIONES">
+          <app-tabla #tabTabla2></app-tabla>
+        </p-tabPanel>
+        <p-tabPanel header="REPORTES">
+          <app-tabla #tabTabla3></app-tabla>
+        </p-tabPanel>
+        <p-tabPanel header="OBJETOS - COMPONENTES">
+          <app-tabla #tabTabla4></app-tabla>
+        </p-tabPanel>
+        <p-tabPanel header="CAMPOS">
+          <app-tabla #tabTabla5></app-tabla>
+        </p-tabPanel>
+      </p-tabView>
+
+    </ng-template>
+  </app-division>
+</div>

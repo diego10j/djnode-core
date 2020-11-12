@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="ios" color="light">
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Formato Tabla</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [forceOverscroll]="false" [fullscreen]="true">
+
+  <ion-toolbar>
+    <ion-segment value="orden" >
+      <ion-segment-button value="orden" layout="icon-start" (click)="cambiarSegmento(true)">
+        <ion-label>Ordenar</ion-label>
+        <ion-icon name="swap-vertical-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="configura" layout="icon-start" (click)="cambiarSegmento(false)">
+        <ion-label>Configurar</ion-label>
+        <ion-icon name="options-outline"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+
+  <ng-container *ngIf="isOrden">
+    <p-orderList class="ion-padding" [value]="columnas" controlsPosition="right" 
+    dragdrop="true">
+      <ng-template let-columna pTemplate="item">
+        <span lines="none" class="bg-transparente">
+          <ion-label>{{columna.nombreVisual | uppercase}}</ion-label>
+        </span>
+      </ng-template>
+    </p-orderList>
+  </ng-container>
+  <ng-container *ngIf="!isOrden">
+    <div class="ion-padding p-fluid p-formgrid p-grid">
+      <div class="p-field">
+        <ion-label position="stacked" class="text-muted">COLUMNA</ion-label>
+
+        <p-dropdown [options]="columnas" [(ngModel)]="seleccionada" 
+        optionLabel="nombreVisual"  [filter]="true" filterBy="nombreVisual">
+        </p-dropdown>
+      </div>
+
+      <div class="p-field">
+        <ion-label position="stacked" class="text-muted">NOMBRE VISUAL</ion-label>
+        <input pInputText [(ngModel)]="seleccionada.nombreVisual" type="text">
+      </div>
+      <div class="p-field">
+        <ion-label position="stacked" class="text-muted">ANCHO COLUMNA</ion-label>
+        <input pInputText [(ngModel)]="seleccionada.anchoColumna" type="text">
+      </div>
+      <div class="p-field">
+        <ion-label position="stacked" class="text-muted">COMENTARIO</ion-label>
+        <input pInputText [(ngModel)]="seleccionada.comentario" type="text">
+      </div>
+    </div>
+  </ng-container>
+
+</ion-content>
+<ion-footer >
+  <ion-item lines="none" class="bg-transparente">
+    <ion-button slot="end" (click)="guardar()">
+      Aceptar
+      <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-footer>
