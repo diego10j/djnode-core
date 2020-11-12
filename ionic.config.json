@@ -1,5 +1,5 @@
 {
-  "name": "cliente",
+  "name": "djnode-core",
   "integrations": {
     "cordova": {}
   },

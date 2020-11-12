@@ -1,8 +1,9 @@
 {
-  "name": "cliente",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "name": "djnode-core",
+  "version": "0.2.1",
+  "license": "MIT",
+  "author": "Diego Jacome",
+  "homepage": "https://produapps.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,7 +12,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diego10j/djnode.git"
+  },
   "dependencies": {
     "@angular/animations": "^10.1.6",
     "@angular/cdk": "^10.2.5",
