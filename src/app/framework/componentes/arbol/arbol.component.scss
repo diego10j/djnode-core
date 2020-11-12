@@ -1,0 +1,14 @@
+:host ::ng-deep {
+    .p-tree {
+        padding:0;
+        border: 0;
+        .p-tree-container .p-treenode{
+            font-size: 0.8rem;
+            .p-treenode-content{
+                padding:0;
+                margin: 0;
+            } 
+        }
+        
+    }
+}

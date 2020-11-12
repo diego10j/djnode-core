@@ -1,0 +1,26 @@
+<ion-card class="bg-white" *ngIf="isDibujar" style="height: 97%;">
+  <ion-card-header style="padding-top:2px;">
+    <ion-icon style="float: right;cursor: pointer;" color="primary" (click)="opcionesArbol.toggle($event)"
+      name="ellipsis-vertical"></ion-icon>
+    <ion-icon style="float: right;margin-right:15px;cursor: pointer;" color="primary" (click)="busqueda.toggle($event)" name="search"></ion-icon>
+  </ion-card-header>
+
+
+  <ion-card-content class="ion-no-padding">
+    <p-tree #djArbol [value]="datos" (onNodeSelect)="nodeSelect($event)" selectionMode="single"
+      [(selection)]="seleccionado">
+    </p-tree>
+  </ion-card-content>
+</ion-card>
+
+<p-overlayPanel #busqueda appendTo="body">
+  <ng-template pTemplate>
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input [(ngModel)]="textoFiltro" pInputText type="text" placeholder="Buscar" autofocus="true"
+        (input)="djArbol._filter($event)" />
+    </span>
+  </ng-template>
+</p-overlayPanel>
+
+<p-tieredMenu appendTo="body" #opcionesArbol [model]="menuOpciones" [popup]="true"></p-tieredMenu>

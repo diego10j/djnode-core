@@ -1,0 +1,58 @@
+<ion-content [fullscreen]="true">
+
+  <ion-toolbar slot="fixed" color="translucent">
+
+  </ion-toolbar>
+
+  <div class="container">
+
+    <div class="header">
+      <div class="title">
+        <ion-row>
+          <ion-col>
+            <div class="animated fadeInDown">
+              <div class="logo"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      <h3><span class="text-secondary">Conta</span>box</h3>
+      <p>Iniciar Sesión</p>
+    </div>
+
+    <div class="body">
+      <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="validarLogin()">
+        <ion-list>
+
+          <ion-item>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input type="text" formControlName="identificacion" maxlength="13" placeholder="Cédula o RUC"
+              name="usuario" required>
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input type="password" formControlName="clave" placeholder="Contraseña" name="clave" required>
+            </ion-input>
+          </ion-item>
+
+        </ion-list>
+
+
+        <div class="margin">
+          <ion-button expand="block" [disabled]="loginForm.invalid" shape="round" color="secondary" type="submit">
+            Login
+          </ion-button>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="footer">
+      <span>¿No tienes cuenta?</span> <button type="button" (click)="abrirRegistrar()" class="ion-no-padding">Registrarse</button>
+    </div>
+
+  </div>
+
+</ion-content>
