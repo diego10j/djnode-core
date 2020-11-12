@@ -1,7 +1,0 @@
-{
-  "name": "djnode-core",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}
