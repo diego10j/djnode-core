@@ -15,13 +15,13 @@ export class Usuario {
     get imagenUrl() {
 
         if ( !this.img ) {
-            return `${ environment.API_REST }/upload/no-img.jpg`;
+            return `${ environment.API_REST }/api/uploads/getImagen/no-img.jpg`;
         } else if ( this.img.includes('https') ) {
             return this.img;
         } else if ( this.img ) {
             return `${ environment.API_REST }/upload/${ this.img }`;
         } else {
-            return `${ environment.API_REST }/upload/no-img.jpg`;
+            return `${ environment.API_REST }/api/uploads/getImagen/no-img.jpg`;
         }
     }
 }

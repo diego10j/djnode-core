@@ -1,12 +1,12 @@
 
   <div class="pantalla">
     <app-barra #barra></app-barra>
-    <app-division tipo="horizontal" porcentaje1="25">
+    <app-division tipo="vertical" porcentaje1="25">
       <ng-template #division1>
         <app-arbol #arbArbol></app-arbol>
       </ng-template>
       <ng-template #division2>
-        <app-division tipo="vertical" porcentaje1="50">
+        <app-division tipo="horizontal" porcentaje1="50">
           <ng-template #division1>
             <app-tabla #tabTabla1></app-tabla>
           </ng-template>

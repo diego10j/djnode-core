@@ -1,18 +1,24 @@
 <p-contextMenu #mnCtx appendTo="body" [target]="cardTabla" [model]="menuContextual" *ngIf="!lectura"></p-contextMenu>
 
-<div #cardTabla (mousedown)="onFocusTabla()">
-    <ion-card *ngIf="isDibujar" class="tablaFocus">
+<div #cardTabla (mousedown)="onFocusTabla()" style="min-height: 100px;">
+    <ion-card *ngIf="isDibujar">
+        <ion-item lines="none" class="ion-no-padding">
 
-        <ion-card-header style="padding-top:5px;" >
-            <ion-icon style="float: right; cursor: pointer;font-size: 15px;" color="primary"
-                (click)="opcionesTabla.toggle($event)" name="ellipsis-vertical"></ion-icon>
-                <ion-icon *ngIf="!tipoFormulario" style="margin-right:15px;float: right; cursor: pointer;font-size: 15px;" color="primary"
-                (click)="busqueda.toggle($event)" name="search"></ion-icon>
-        </ion-card-header>
-        <ion-card-header *ngIf="titulo" class="ion-no-padding ion-padding-horizontal">
-            <ion-card-title class="ion-no-padding text-tertiary">{{titulo}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
+            <ion-label *ngIf="titulo" class="tituloTabla">{{titulo}}</ion-label>
+            <div slot="end">
+                <ion-icon *ngIf="textoFiltroGlobal!==''" (click)="borrarFiltros()" class="cursor" name="filter-circle"
+                    color="primary">
+                </ion-icon>
+                <ion-icon class="ion-padding-horizontal cursor" *ngIf="!tipoFormulario" color="primary"
+                    (click)="busqueda.toggle($event)" name="search"></ion-icon>
+                <ion-icon color="primary" class="cursor" (click)="opcionesTabla.toggle($event)"
+                    ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+            </div>
+        </ion-item>
+
+
+
+        <ion-card-content class="ion-no-padding ion-padding-horizontal ion-padding-bottom">
             <ng-container *ngIf="!tipoFormulario">
                 <!--  TABLA DE SOLO LECTURA [lazy]="true" (onLazyLoad)="onCargarLazy($event)"-->
                 <ng-container *ngIf="lectura">
@@ -20,16 +26,24 @@
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-responsive-demo"
                         [loading]="buscando" [resizableColumns]="true" sortMode="multiple" [paginator]="paginacion"
                         [rows]="tabla.filasPorPagina" [totalRecords]="tabla.datos.length" [scrollable]="true"
-                        [style]="{'width': '100%','min-height': '100%','font-size': '0.9rem'}" paginatorPosition="top"
+                        [style]="{'width': '100%','min-height': '100%','font-size': '0.8rem'}" paginatorPosition="top"
                         alwaysShowPaginator="true" showJumpToPageDropdown="true" [showPageLinks]="false"
-                        currentPageReportTemplate="Página. {currentPage} de {totalPages}"
-                        [responsive]="true" [autoLayout]="true" selectionMode="single"
-                        [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario" [metaKeySelection]="true"
-                        [sortField]="campoOrden" (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
+                        currentPageReportTemplate="Página {currentPage} de {totalPages}" [responsive]="true"
+                        [autoLayout]="true" selectionMode="single" [(selection)]="tabla.seleccionada"
+                        [dataKey]="tabla.campoPrimario" [metaKeySelection]="true" [sortField]="campoOrden"
+                        (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
 
                         <ng-template pTemplate="paginatorleft" let-state>
-                            Registros ({{state.totalRecords}}) 
-                      </ng-template>
+                            Registros ({{state.totalRecords}})
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="columns.length">
+                                    <span class="text-muted">No se encontraron registros</span>
+                                </td>
+                            </tr>
+                        </ng-template>
 
                         <ng-template pTemplate="colgroup">
                             <colgroup>
@@ -52,21 +66,24 @@
                             </tr>
                             <tr>
                                 <ng-container *ngFor="let columna of columnas">
-                                    <th *ngIf="columna.visible && columna.filtro">
-                                        <input pInputText *ngIf="columna.componente !== 'Combo'" type="text"
-                                            (input)="djtabla.filter($event.target.value, columna.nombre, 'contains')"
-                                            placeholder="Buscar..." class="componenteFiltro">
-                                        <p-multiSelect appendTo="body" *ngIf="columna.isCombo"
-                                            [options]="columna.listaCombo" placeholder="Buscar..."
-                                            [panelStyle]="{'font-size':'0.7rem'}"
-                                            (onChange)="onFiltrarColumnaCombo($event,columna.nombre)"
-                                            [style]="{'width':'100%', 'font-size':'0.7rem', 'background-color': 'rgb(247, 247, 247)','font-weight':'900'}">
-                                            <ng-template let-item pTemplate="selectedItem">
-                                                <span *ngIf="item.label !=='|'"> {{item.label}}</span>
-                                                <span *ngIf="item.label =='|'" style="visibility: hidden">
-                                                    {{item.label}}</span>
-                                            </ng-template>
-                                            <ng-template let-opciones pTemplate="item">
+                                    <th *ngIf="columna.visible" class="ion-text-center">
+                                        <ng-container *ngIf="columna.filtro">
+
+                                            <input pInputText *ngIf="columna.componente !== 'Combo'" type="text"
+                                                (input)="djtabla.filter($event.target.value, columna.nombre, 'contains')"
+                                                placeholder="Buscar..." class="componenteFiltro ion-padding-horizontal"
+                                                [(ngModel)]="columna.textoFiltro">
+                                            <p-multiSelect appendTo="body" *ngIf="columna.isCombo"
+                                                [options]="columna.listaCombo" placeholder="Buscar..."
+                                                [panelStyle]="{'font-size':'0.7rem'}" [(ngModel)]="columna.textoFiltro"
+                                                (onChange)="onFiltrarColumnaCombo($event,columna.nombre)"
+                                                [style]="{'width':'90%', 'font-size':'0.7rem','background':'white','text-align':'left'}">
+                                                <ng-template let-item pTemplate="selectedItem">
+                                                    <span *ngIf="item.label !=='|'"> {{item.label}}</span>
+                                                    <span *ngIf="item.label =='|'" style="visibility: hidden">
+                                                        {{item.label}}</span>
+                                                </ng-template>
+                                                <ng-template let-opciones pTemplate="item">
                             <tr style="padding: 0;margin: 0;">
                                 <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
                                     *ngFor="let valor  of opciones.label.split('|')">
@@ -77,39 +94,54 @@
                         </ng-template>
 
                         </p-multiSelect>
-                        </th>
-                </ng-container>
-                </tr>
 
-                </ng-template>
-                <ng-template pTemplate="body" let-fila>
-                    <tr [pSelectableRow]="fila" *ngIf="fila.visible === undefined ">
-                        <ng-container *ngFor="let columna of columnas">
-                            <td *ngIf="columna.visible">
-                                <span class="p-column-title">{{columna.nombreVisual}}</span> <!--  Responsive-->
-                                <div *ngIf="columna.componente === 'Texto' || columna.componente === 'Etiqueta'"
-                                    class="componenteTexto">
-                                    {{fila[columna.nombre]}}
-                                </div>
-                                <div *ngIf="columna.componente === 'Calendario' || columna.componente === 'Hora' || columna.componente === 'CalendarioHora'"
-                                    class="componenteTexto centrar">
-                                    {{fila[columna.nombre]}}
-                                </div>
-                                <div *ngIf="columna.componente === 'TextoNumero' || columna.componente === 'TextoEntero' "
-                                    class="componenteNumero">
-                                    {{fila[columna.nombre]}}
-                                </div>
-                                <div *ngIf="columna.componente === 'TextoMoneda'" class="componenteNumero">
-                                    {{fila[columna.nombre] | currency}}
-                                </div>
-                                <div *ngIf="columna.componente === 'Combo'" class="componenteTexto">
-                                    {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
-                                </div>
-                            </td>
-                        </ng-container>
-                    </tr>
-                </ng-template>
-                </p-table>
+
+                </ng-container>
+
+                </th>
+            </ng-container>
+            </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="fila" *ngIf="fila.visible === undefined ">
+                    <ng-container *ngFor="let columna of columnas">
+                        <td *ngIf="columna.visible">
+                            <span class="p-column-title">{{columna.nombreVisual}}</span> <!--  Responsive-->
+                            <div *ngIf="columna.componente === 'Texto' || columna.componente === 'Etiqueta'"
+                                class="componenteTexto">
+                                {{fila[columna.nombre]}}
+                            </div>
+                            <div *ngIf="columna.componente === 'Calendario' || columna.componente === 'Hora' || columna.componente === 'CalendarioHora'"
+                                class="componenteTexto centrar">
+                                {{fila[columna.nombre]}}
+                            </div>
+                            <div *ngIf="columna.componente === 'TextoNumero' || columna.componente === 'TextoEntero' "
+                                class="componenteNumero">
+                                {{fila[columna.nombre]}}
+                            </div>
+                            <div *ngIf="columna.componente === 'TextoMoneda'" class="componenteNumero">
+                                {{fila[columna.nombre] | currency}}
+                            </div>
+                            <div *ngIf="columna.componente === 'Check'" style="text-align: center;vertical-align: middle;">
+                                <p-checkbox [(ngModel)]="fila[columna.nombre]" [style]="{'width':'100%'}" binary="true"
+                                    inputId="binary" 
+                                    [disabled]="true" ></p-checkbox>
+                            </div>
+
+                            <div *ngIf="columna.componente === 'Upload'" style="text-align: center; width:100%;display:block;">
+                                    <ion-thumbnail class="cursor"  [style]="{'margin-left':'30%'}"   slot="start" (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
+                                        <img [src]="(fila[columna.nombre]  | imagen)">
+                                    </ion-thumbnail>                       
+                            </div>
+                            <div *ngIf="columna.componente === 'Combo'" class="componenteTexto">
+                                {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
+                            </div>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            </p-table>
             </ng-container>
 
 
@@ -126,11 +158,19 @@
                     showJumpToPageDropdown="true" [showPageLinks]="false" [responsive]="true" [autoLayout]="true"
                     selectionMode="single" [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario"
                     [metaKeySelection]="true" (sortFunction)="onOrdenarTablaEditable($event)" [customSort]="true"
-                    [sortField]="campoOrden" currentPageReportTemplate="Página. {currentPage} de {totalPages}"
+                    [sortField]="campoOrden" currentPageReportTemplate="Página {currentPage} de {totalPages}"
                     (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
 
                     <ng-template pTemplate="paginatorleft" let-state>
                         Registros ({{state.totalRecords}})
+                    </ng-template>
+
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td [attr.colspan]="columns.length">
+                                <span class="text-muted">No se encontraron registros</span>
+                            </td>
+                        </tr>
                     </ng-template>
 
                     <ng-template pTemplate="colgroup">
@@ -155,39 +195,42 @@
                         </tr>
                         <tr>
                             <ng-container *ngFor="let columna of columnas">
-                                <th *ngIf="columna.visible && columna.filtro">
-                                    <input pInputText *ngIf="!columna.isCombo" type="text"
-                                        (input)="djtabla.filter($event.target.value, columna.nombre, 'contains')"
-                                        placeholder="Buscar..." class="componenteFiltro">
-                                    <p-multiSelect appendTo="body" *ngIf="columna.isCombo"
-                                        [options]="columna.listaCombo" placeholder="Buscar..."
-                                        [panelStyle]="{'font-size':'0.7rem'}"
-                                        (onChange)="onFiltrarColumnaCombo($event,columna.nombre)"
-                                        [style]="{'width':'100%', 'font-size':'0.7rem', 'background-color': 'rgb(247, 247, 247)','font-weight':'900'}">
+                                <th *ngIf="columna.visible" class="ion-text-center">
+                                    <ng-container *ngIf="columna.filtro">
 
-                                        <ng-template let-item pTemplate="selectedItem">
-                                            <span *ngIf="item.label !=='|'"> {{item.label}}</span>
-                                            <span *ngIf="item.label =='|'" style="visibility: hidden">
-                                                {{item.label}}</span>
-                                        </ng-template>
-                                        <ng-template let-opciones pTemplate="item">
+                                        <input pInputText *ngIf="columna.componente !== 'Combo'" type="text"
+                                            (input)="djtabla.filter($event.target.value, columna.nombre, 'contains')"
+                                            placeholder="Buscar..." class="componenteFiltro ion-padding-horizontal"
+                                            [(ngModel)]="columna.textoFiltro">
+                                        <p-multiSelect appendTo="body" *ngIf="columna.isCombo"
+                                            [options]="columna.listaCombo" placeholder="Buscar..."
+                                            [panelStyle]="{'font-size':'0.7rem'}" [(ngModel)]="columna.textoFiltro"
+                                            (onChange)="onFiltrarColumnaCombo($event,columna.nombre)"
+                                            [style]="{'width':'90%', 'font-size':'0.7rem','background':'white','text-align':'left'}">
+                                            <ng-template let-item pTemplate="selectedItem">
+                                                <span *ngIf="item.label !=='|'"> {{item.label}}</span>
+                                                <span *ngIf="item.label =='|'" style="visibility: hidden">
+                                                    {{item.label}}</span>
+                                            </ng-template>
+                                            <ng-template let-opciones pTemplate="item">
                         <tr style="padding: 0;margin: 0;">
                             <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
                                 *ngFor="let valor  of opciones.label.split('|')">
-                                <span style="font-size: 0.8rem;padding-right: 15px;min-width:100%;"> {{valor}}</span>
+                                <span style="font-size: 0.8rem;padding-right: 15px;min-width:100%;">
+                                    {{valor}}</span>
                             </td>
                         </tr>
                     </ng-template>
-
                     </p-multiSelect>
-                    </th>
+            </ng-container>
+            </th>
             </ng-container>
             </tr>
             </ng-template>
             <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex">
                 <tr [pSelectableRow]="fila" [pEditableRow]="fila" *ngIf="fila.visible === undefined ">
                     <ng-container *ngFor="let columna of columnas">
-                        
+
                         <td *ngIf="columna.visible">
                             <span class="p-column-title">{{columna.nombreVisual}}</span> <!--  Responsive-->
                             <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
@@ -262,10 +305,12 @@
                                     <ng-template let-item pTemplate="selectedItem">
                                         <span *ngIf="item.label !=='|'">
                                             <span *ngFor="let valor  of item.label.split('|')">
-                                                <span style="font-size: 0.9rem;padding-right: 10px;"> {{valor}}</span>
+                                                <span style="font-size: 0.9rem;padding-right: 10px;">
+                                                    {{valor}}</span>
                                             </span>
                                         </span>
-                                        <span *ngIf="item.label =='|'" style="visibility: hidden"> {{item.label}}</span>
+                                        <span *ngIf="item.label =='|'" style="visibility: hidden">
+                                            {{item.label}}</span>
                                     </ng-template>
                                     <ng-template let-opciones pTemplate="item">
 
@@ -312,7 +357,7 @@
 </div>
 
 
-<div *ngIf="columna.componente === 'Etiqueta'" style="white-space:pre-line;">
+<div *ngIf="columna.componente === 'Etiqueta'" style="white-space:pre-line;" class="componenteTexto">
     {{fila[columna.nombre]}}
 </div>
 
@@ -365,11 +410,27 @@
         <div *ngIf="mostrarPaginadorFormulario">
             <p-paginator [rows]="1" [first]="indiceFilaActual" [totalRecords]="tabla.datos.length"
                 [showJumpToPageDropdown]="true" [showPageLinks]="false"
-                currentPageReportTemplate="Registro. {currentPage} de {totalPages}"
+                currentPageReportTemplate="Registro {currentPage} de {totalPages}"
                 (onPageChange)="onPaginadorFormulario($event)">
             </p-paginator>
         </div>
     </div>
+
+    <ion-row *ngIf="!seleccionada">
+        <ng-container *ngFor="let columna of columnas">
+            <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
+                size-sm="12" size-xs="12">
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 30%;height: 20px"></ion-skeleton-text>
+                </ion-label>
+                <div class="p-inputtext-sm" style="white-space:pre-line;">
+                    <ion-skeleton-text animated style="width: 99%; height: 35px"></ion-skeleton-text>
+                </div>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+
+
     <ion-row *ngIf="seleccionada" name="djtablaEditable" focus="false" [dir]="numeroTabla"
         class="p-fluid p-formgrid p-grid">
         <ng-container *ngFor="let columna of columnas">

@@ -84,6 +84,14 @@ export class TablaComponent implements OnInit {
     this.tabla.numeroFilas = _numeroFilas;
   }
 
+  get tipoFormulario(): boolean {
+    return this.tabla.tipoFormulario;
+  }
+
+  set tipoFormulario(_tipoFormulario: boolean) {
+    this.tabla.tipoFormulario = _tipoFormulario;
+  }
+
   get paginacion(): boolean {
     if (this.datos) {
       if (this.tabla.filasPorPagina >= this.datos.length) {
@@ -93,12 +101,16 @@ export class TablaComponent implements OnInit {
     return true;
   }
 
+  get numeroTabla() {
+    return this.tabla.numeroTabla;
+  }
+
   @ViewChild('djtabla', { static: false }) djtabla: Table;
   @ViewChild('opcionesTabla', { static: false }) opcionesTabla: TieredMenu;
 
   public tabla: Tabla;
   indiceFilaActual = 0;
-  public numeroTabla = "1"; //por defecto tabla 1
+  //por defecto tabla 1
   public buscando = false;
   public textoFiltroGlobal = '';
   public titulo: string;
@@ -108,7 +120,6 @@ export class TablaComponent implements OnInit {
   public relaciones: TablaComponent[] = []; //Agrega relación, guarda el número de tabla de la relacion
   public arbol: ArbolComponent;
   //Para formularios
-  public tipoFormulario = false;
   public mostrarPaginadorFormulario = true;
   public modoFormulario = 'web';//controles tipo web
   // Menu contextual
@@ -123,6 +134,10 @@ export class TablaComponent implements OnInit {
   private itemFormatoTabla: MenuItem;
   private itemVistaTabla: MenuItem;
   private itemVistaFormulario: MenuItem;
+  private itemSeparadorVista: MenuItem;
+  //Servicio
+  private metodoServicio: string;
+  private bodyServicio: any;
 
   //Calendario - Fechas
   es: any;
@@ -212,8 +227,8 @@ export class TablaComponent implements OnInit {
     };
 
     this.itemFormatoTabla = {
-      label: 'Formato Tabla',
-      icon: 'pi pi-fw pi-cog',
+      label: 'Personalizar',
+      icon: 'pi pi-user-edit',
       command: () => {
         this.opcionesTabla.hide();
         this.abrirFormatoTabla();
@@ -225,7 +240,7 @@ export class TablaComponent implements OnInit {
       command: () => {
         this.opcionesTabla.hide();
         this.setTipoTabla();
-        this.setFocus();
+        //this.setFocus();
       }
     };
     this.itemVistaFormulario = {
@@ -234,15 +249,19 @@ export class TablaComponent implements OnInit {
       command: () => {
         this.opcionesTabla.hide();
         this.setTipoFormulario();
-        this.setFocus();
+        //this.setFocus();
       }
     };
+
+    this.itemSeparadorVista = {
+      separator:true
+    }
     this.menuOpciones.push(this.itemActualizar);
     this.menuOpciones.push(this.itemExportarExcel);
     this.menuOpciones.push({ separator: true, });
     this.menuOpciones.push(this.itemVistaTabla);
     this.menuOpciones.push(this.itemVistaFormulario);
-    this.menuOpciones.push({ separator: true, });
+    this.menuOpciones.push(this.itemSeparadorVista);
     this.menuOpciones.push(this.itemFormatoTabla);
 
   }
@@ -298,6 +317,69 @@ export class TablaComponent implements OnInit {
     }
 
 
+    //Menu Opciones
+    this.itemSeparadorVista.visible=!this.lectura;
+    this.itemVistaFormulario.visible=!this.lectura;
+    this.itemVistaTabla.visible=!this.lectura;
+
+
+  }
+
+
+  public setTablaServicio(metodoServicio: string, bodyServicio: {}, numeroTabla: number) {
+    this.tabla.numeroTabla = numeroTabla + '';
+    this.metodoServicio = metodoServicio;
+    this.bodyServicio = bodyServicio;
+    this.tabla.columnas = new Array<Columna>();
+    this.tabla.datos = [];
+    this.lectura = true;
+    if (this.utilitario.isDefined(bodyServicio)) {
+      this.bodyServicio = bodyServicio;
+    }
+    else {
+      this.bodyServicio = {};
+    }
+    this.bodyServicio['ide_opci'] = this.utilitario.getIdeOpci();
+    this.bodyServicio['numero_tabl'] = this.numeroTabla;
+    this.bodyServicio['soloColumnas'] = true;
+    //Forma Columnas
+    return new Promise(resolve => {
+      this.sistemaService.llamarServicioPost(this.metodoServicio, this.bodyServicio).subscribe(async resp => {
+        const respuesta: any = resp;
+        if (respuesta.datos) {
+          for (const colActual of respuesta.datos) {
+            const col: Columna = new Columna();
+            col.nombre = colActual.nombre;
+            col.nombreVisual = colActual.nombrevisual;
+            col.orden = colActual.orden;
+            col.anchoColumna = colActual.anchocolumna;
+            col.visible = colActual.visible;
+            col.lectura = true;
+            col.componente = colActual.componente;
+            col.filtro = colActual.filtro;
+            col.comentario = colActual.comentario;
+            col.mayusculas = colActual.mayusculas;
+            if (this.utilitario.isDefined(this.campoPrimario) === false) {
+
+            }
+            this.tabla.columnas.push(col);
+          }
+          //console.log(this.tabla.columnas);
+          //El campo primario va a ser simepre el de la columna 0
+          //Oculta y hace lectura campo primario
+          this.campoPrimario = respuesta.campoPrimario;
+          this.getColumna(this.tabla.campoPrimario).visible = false;
+          //console.log( this.campoPrimario );
+        }
+        resolve(this.tabla.columnas);
+      }, (err) => {
+        this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        this.buscando = false;
+      });
+    });
+
+
+
   }
 
   /**
@@ -308,52 +390,38 @@ export class TablaComponent implements OnInit {
    */
   public setTabla(nombreTabla: string, campoPrimario: string, numeroTabla: number): Promise<Columna[]> {
     //this.tabla = new Tabla();
-    this.numeroTabla = numeroTabla + '';
+    // this.utilitario.abrirLoading();
+    this.tabla.numeroTabla = numeroTabla + '';
     this.tabla.nombreTabla = nombreTabla.toLowerCase();
     this.tabla.campoPrimario = campoPrimario.toLowerCase();;
     this.campoOrden = campoPrimario.toLowerCase();; //Por defecto ordena por campo primario
     this.tabla.columnas = new Array<Columna>();
     this.tabla.datos = [];
-
+    const ide_opci = this.utilitario.getIdeOpci();
     //Forma Columnas
     return new Promise(resolve => {
-      this.sistemaService.getColumnasTabla(this.tabla.nombreTabla).subscribe(resp => {
+      this.sistemaService.getColumnasTabla(this.tabla.nombreTabla, ide_opci, this.numeroTabla).subscribe(async resp => {
         const respuesta: any = resp;
         if (respuesta.datos) {
           for (const colActual of respuesta.datos) {
             const col: Columna = new Columna();
             col.nombre = colActual.nombre;
-            col.nombreVisual = colActual.nombre.toUpperCase();
+            col.nombreVisual = colActual.nombrevisual.toUpperCase();
             col.orden = colActual.orden;
-            col.requerida = colActual.requerida === 'NO' ? true : false;
+            col.requerida = colActual.requerida;
             col.tipo = colActual.tipo;
             col.longitud = colActual.longitud;
-            col.decimales = !colActual.decimales ? 0 : colActual.decimales;
-            col.campoPrimario = !colActual.campoPrimario ? false : colActual.campoPrimario;
-            //Componente
-            col.componente = 'Texto'; // Por defecto
-            if (colActual.tipo === 'date') {
-              col.componente = 'Calendario';
-            }
-            else if (colActual.tipo.startsWith('timestamp')) {
-              col.componente = 'CalendarioHora';
-              col.anchoColumna = 20;
-            }
-            else if (colActual.tipo.startsWith('time')) {
-              col.componente = 'Hora';
-            }
-            else if (colActual.tipo === 'numeric' || colActual.tipo === 'decimal') {
-              col.componente = 'TextoNumero';
-            }
-            else if (colActual.tipo.includes('int')) {
-              col.componente = 'TextoEntero';
-            }
-            else if (colActual.tipo === 'money') {
-              col.componente = 'TextoMoneda';
-            }
-            else if (colActual.tipo === 'boolean') {
-              col.componente = 'Check';
-            }
+            col.decimales = colActual.decimales;
+            col.anchoColumna = colActual.anchocolumna;
+            col.componente = colActual.componente;
+            col.visible = colActual.visible;
+            col.lectura = colActual.lectura;
+            col.valorDefecto = colActual.valordefecto;
+            col.mascara = colActual.mascara;
+            col.filtro = colActual.filtro;
+            col.comentario = colActual.comentario;
+            col.mayusculas = colActual.mayusculas;
+            col.unico = colActual.unico;
             this.tabla.columnas.push(col);
           }
           //console.log(this.tabla.columnas);
@@ -361,11 +429,9 @@ export class TablaComponent implements OnInit {
           if (this.utilitario.isDefined(this.tabla.campoForanea)) {
             this.getColumna(this.tabla.campoForanea).visible = false;
           }
-
           //Oculta y hace lectura campo primario
           this.getColumna(this.tabla.campoPrimario).visible = false;
           this.getColumna(this.tabla.campoPrimario).lectura = true;
-
         }
         resolve(this.tabla.columnas);
       }, (err) => {
@@ -390,6 +456,40 @@ export class TablaComponent implements OnInit {
   }
 
   /**
+   * Oculta todas las columnas
+   */
+  ocultarColumnas() {
+    for (const colActual of this.columnas) {
+      colActual.setVisible(false);
+    }
+  }
+
+  private cargarConfiguracionTabla() {
+
+    let ide_opci = this.utilitario.getIdeOpci();
+    //Configuracion inicial de la tabla
+    this.sistemaService.getConfiguracionTabla(ide_opci, this.tabla.numeroTabla).subscribe(resp => {
+      const respuesta: any = resp;
+      if (respuesta.tabla) {
+        this.tabla.campoPrimario = respuesta.tabla.primaria_tabl;
+        this.tabla.nombreTabla = respuesta.tabla.tabla_tabl;
+        this.tabla.campoNombre = respuesta.tabla.nombre_tabl;
+        this.tabla.campoForanea = respuesta.tabla.foranea_tabl;
+        this.tabla.campoPadre = respuesta.tabla.padre_tabl;
+        this.tabla.campoOrden = respuesta.tabla.orden_tabl;
+        this.tabla.filasPorPagina = respuesta.tabla.filas_tabl;
+        this.tabla.tipoFormulario = respuesta.tabla.formulario_tabl;
+        this.tabla.calculaPrimaria = respuesta.tabla.genera_primaria_tabl;
+      }
+    }, (err) => {
+      this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+      this.buscando = false;
+    });
+  }
+
+
+
+  /**
    * Consultaren el servicio web
    */
   public dibujar() {
@@ -400,13 +500,19 @@ export class TablaComponent implements OnInit {
       this.ordenarColumnas();
       this.formarMenuContextual();
     }
+
     this.consultar();
     this.isDibujar = true;
+    // this.utilitario.cerrarLoading();
   }
 
 
   public consultar() {
-    if (this.tabla.nombreTabla) {
+
+    if (this.utilitario.isDefined(this.metodoServicio)) {
+      this.consultarServicio();
+    }
+    else if (this.utilitario.isDefined(this.tabla.nombreTabla)) {
       this.consultarTabla();
     }
   }
@@ -586,7 +692,7 @@ export class TablaComponent implements OnInit {
 
           //Asigna el foco a la tabla 1  si la tabla es editable
           if (this.lectura === false) {
-            if (this.numeroTabla === '1') {
+            if (this.tabla.numeroTabla === '1') {
               this.setFocus();
             }
           }
@@ -598,6 +704,57 @@ export class TablaComponent implements OnInit {
       }
       );
   }
+
+
+
+
+  private consultarServicio() {
+    this.buscando = true;
+
+    //Guarda valor fila seleccionada si no es fila insertada
+    let valorPrimariaSelec = null;
+    if (this.isDibujar) {
+      if (this.seleccionada != null) {
+        if (!this.isFilaInserrtada(this.getIndiceFilaActual())) {
+          valorPrimariaSelec = this.getValorSeleccionado();
+        }
+      }
+    }
+    // this.tabla.datos=[];
+    this.bodyServicio['soloColumnas'] = false;
+    this.seleccionada = null;
+    this.sistemaService.llamarServicioPost(this.metodoServicio, this.bodyServicio).subscribe(resp => {
+      const respuest: any = resp;
+      if (respuest.datos) {
+        this.tabla.datos = respuest.datos;
+
+        //Si no hay fila seleccionada
+        if (this.utilitario.isDefined(valorPrimariaSelec) === false) {
+          this.indiceFilaActual = 0;
+          //selecciona la primera fila
+          if (this.datos.length > 0) {
+            this.seleccionada = this.datos[0];
+          }
+        }
+        else {
+          //selecciona fila marcada antes de consultar
+          if (this.utilitario.isDefined(valorPrimariaSelec)) {
+            this.seleccionarFilaValorPrimario(valorPrimariaSelec);
+          }
+        }
+        this.buscando = false;
+        for (let relacion of this.relaciones) {
+          relacion.seleccionada = null;
+          relacion.ejecutarValorForanea(this.getValorSeleccionado());
+        }
+      }
+    }, (err) => {
+      this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+      this.buscando = false;
+    }
+    );
+  }
+
 
   private isValorValido(fila: any, columna: Columna): boolean {
 
@@ -671,7 +828,7 @@ export class TablaComponent implements OnInit {
         return;
       }
 
-      if (numTabla === this.numeroTabla) {
+      if (numTabla === this.tabla.numeroTabla) {
         el.setAttribute('focus', 'true');
         el.parentElement.parentElement.classList.add('tablaFocus');
       }
@@ -692,7 +849,6 @@ export class TablaComponent implements OnInit {
     if (this.lectura) {
       return false;
     }
-
     const elements: Element[] = Array.from(document.getElementsByName('djtablaEditable'));
     const numTablasEditablre = elements.length;
     if (numTablasEditablre === 1) {
@@ -700,7 +856,7 @@ export class TablaComponent implements OnInit {
     }
     for (let el of elements) {
       const numTabla = el.getAttribute('dir');
-      if (numTabla === this.numeroTabla) {
+      if (numTabla === this.tabla.numeroTabla) {
         const valorFocus = el.getAttribute('focus');
         if (valorFocus === 'true') {
           return true;
@@ -711,11 +867,11 @@ export class TablaComponent implements OnInit {
   }
 
   // Asigna el foco a la tabla 
-  setFocus() {
+  private setFocus() {
     const elements: Element[] = Array.from(document.getElementsByName('djtablaEditable'));
     for (let el of elements) {
       const numTabla = el.getAttribute('dir');
-      if (numTabla === this.numeroTabla) {
+      if (numTabla === this.tabla.numeroTabla) {
         el.setAttribute('focus', 'true');
         el.parentElement.parentElement.classList.add('tablaFocus');
       }
@@ -821,13 +977,13 @@ export class TablaComponent implements OnInit {
   onMetodoChange(event, nombreColumna, fila) {
     const columna = this.getColumna(nombreColumna);
     this.seleccionada = fila;
-    if (this.utilitario.isDefined(this.seleccionada['insertada']) == false) {
+    if (this.utilitario.isDefined(this.seleccionada['insertada']) === false) {
       this.seleccionada['modificada'] = true;
       let colModificadas = [];
       if (this.utilitario.isDefined(this.seleccionada['colModificadas'])) {
         colModificadas = this.seleccionada['colModificadas'];
       }
-      colModificadas.indexOf(columna.nombre) === -1 ? colModificadas.push(columna.nombre) : colModificadas.indexOf(columna.nombre);
+      colModificadas.indexOf(columna.nombre) === -1 ? colModificadas.push(columna.nombre) : colModificadas;
       this.seleccionada['colModificadas'] = colModificadas;
     }
     if (columna.onMetodoChange) {
@@ -902,8 +1058,8 @@ export class TablaComponent implements OnInit {
   }
 
   /**
- * Selecciona Fila por campo primario
- */
+   * Selecciona Fila por campo primario
+   */
   seleccionarFilaValorPrimario(_valorCampoPrimario): void {
     let fila = this.tabla.datos.find(fila => fila[this.tabla.campoPrimario].toString() === _valorCampoPrimario.toString());
     this.seleccionada = fila;
@@ -1016,10 +1172,10 @@ export class TablaComponent implements OnInit {
    * Retorna si la tabla tiene registros o no
    */
   isEmpty(): boolean {
-    if (this.datos.length > 0) {
+    if (this.datos.length === 0) {
       return true;
     }
-    return true;
+    return false;
   }
 
   /**
@@ -1028,9 +1184,7 @@ export class TablaComponent implements OnInit {
   insertar() {
     if (this.lectura === false) {
       if (this.isDibujar) {
-        if (!this.tipoFormulario) {
-          this.djtabla.clear();
-        }
+        this.borrarFiltros(); //????
         if (this.validarInsertar && this.getInsertadas().length > 0 && this.getTotalFilas() > 0) {
           this.utilitario.agregarMensajeAdvertencia('Ya existe un registro insertado',
             'No se puede insertar');
@@ -1351,10 +1505,7 @@ export class TablaComponent implements OnInit {
   }
 
   public actualizar() {
-    if (!this.tipoFormulario) {
-      this.djtabla.clear();
-      this.djtabla.sortField = this.campoOrden;
-    }
+    this.borrarFiltros();
     this.eliminadas = [];
     this.textoFiltroGlobal = '';
     this.consultar();
@@ -1370,10 +1521,19 @@ export class TablaComponent implements OnInit {
     const colFecha = this.tabla.columnas.filter(col => col.componente.includes('Calendario'));
     for (let filaActual of lisInsertadas) {
       const objInsert = {};
+
+      const columnasInsert = this.columnas.map(function (colActual) {
+        const rObj = {
+          nombre: colActual.nombre
+        };
+        return rObj;
+      });
+
       objInsert['tipo'] = 'insertar';
       objInsert['nombreTabla'] = this.tabla.nombreTabla.toLowerCase();
       objInsert['campoPrimario'] = this.tabla.campoPrimario.toLowerCase();
-      objInsert['serial'] = this.tabla.calculaPrimaria;
+      objInsert['columnas'] = columnasInsert,
+        objInsert['serial'] = this.tabla.calculaPrimaria;
       if (!this.tabla.calculaPrimaria) {
         //elimina campo primario cuando es serial
         //objInsert['key'] = filaActual[this.tabla.campoPrimario];
@@ -1538,6 +1698,16 @@ export class TablaComponent implements OnInit {
     this.tabla.calculaPrimaria = false;
   }
 
+  setFilaActual(numeroFila: number) {
+    let nuevaFila = this.datos[numeroFila];
+    if (this.utilitario.isDefined(nuevaFila)) {
+      this.onSeleccionarFila(nuevaFila);
+    }
+    else {
+      this.utilitario.agregarMensajeError('No existe la fila ' + numeroFila);
+    }
+
+  }
 
   setLectura(_lectura: boolean) {
     this.tabla.lectura = _lectura;
@@ -1669,12 +1839,13 @@ export class TablaComponent implements OnInit {
 
 
   async abrirFormatoTabla() {
-    const colVisibles = this.columnas.filter(col => col.visible === true);
+
     const modal = await this.modalController.create({
       component: FormatoTablaComponent,
 
       componentProps: {
-        columnas: colVisibles
+        columnas: this.columnas,
+        tabla: this.tabla
       },
       cssClass: 'modal-fullscreen',
       //cssClass: 'my-custom-modal-class',
@@ -1686,7 +1857,18 @@ export class TablaComponent implements OnInit {
     const { data } = await modal.onDidDismiss();
     if (this.utilitario.isDefined(data)) {
       this.tabla.columnas = (data.columnas as Columna[]);
+      this.ordenarColumnas();
     }
 
+  }
+
+  borrarFiltros() {
+    if (!this.tipoFormulario) {
+      this.djtabla.clear();
+    }
+    this.textoFiltroGlobal = '';
+    for (const colActual of this.columnas) {
+      colActual.textoFiltro = null;
+    }
   }
 }

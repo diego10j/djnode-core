@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar mode="ios" color="light">
+  <ion-toolbar mode="ios" color="tertiary">
 
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -7,6 +7,13 @@
       <ion-button (click)="toggleMenu()">
         <ion-icon name="menu" slot="icon-only"></ion-icon>
       </ion-button> -->
+    </ion-buttons>
+
+
+    <ion-buttons slot="end">
+      <ion-avatar (click)="abrirPopoverUsuario( $event )" class="cursor">
+        <div class="u-text-avatar">{{ firstLetter }}</div>
+      </ion-avatar>
     </ion-buttons>
 
 

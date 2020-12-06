@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 import { Usuario } from '../../clases/usuario';
-import { UsuarioService } from '../../servicios/usuario.service';
-import { Router } from '@angular/router';
 import { SeguridadService } from '../../servicios/seguridad.service';
+import { PopoverUsuarioComponent } from '../popover-usuario/popover-usuario.component';
 
 @Component({
   selector: 'app-cabecera',
@@ -13,14 +13,19 @@ export class CabeceraComponent implements OnInit {
 
   public usuario: Usuario;
 
-  constructor(private seguridad: SeguridadService) {
+  public firstLetter = "";
+
+  constructor(private seguridad: SeguridadService,
+    private popoverCtrl: PopoverController) {
     this.usuario = seguridad.usuario;
   }
 
   logout() {
-    this.seguridad.logout();
+    //this.seguridad.logout();
   }
-  ngOnInit() { }
+  ngOnInit() {
+    this.firstLetter = this.usuario.nombre.charAt(0) || '';
+  }
 
   async toggleMenu() {
     const splitPane = document.querySelector('ion-split-pane');
@@ -40,6 +45,21 @@ export class CabeceraComponent implements OnInit {
         menu.open();
       }
     }
+  }
+
+
+  async abrirPopoverUsuario(ev: any) {
+
+    const popover = await this.popoverCtrl.create({
+      component: PopoverUsuarioComponent,
+      event: ev,
+      mode: 'ios',
+      translucent: true,
+      backdropDismiss: true,
+      showBackdrop: true,
+    });
+    await popover.present();
+
   }
 
 

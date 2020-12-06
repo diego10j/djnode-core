@@ -10,7 +10,7 @@ import { SeguridadService } from '../../../framework/servicios/seguridad.service
 })
 export class LoginPage implements OnInit {
 
-  public formSubmitted = false;
+
 
   public loginForm = this.fb.group({
     identificacion: ['', Validators.required],
@@ -30,9 +30,9 @@ export class LoginPage implements OnInit {
   }
 
   validarLogin() {
-    this.seguridad.login(this.loginForm.value)
+    this.utilitario.abrirLoading();
+    this.seguridad.login(this.loginForm.value,this.utilitario.getPlataforma())
       .subscribe(resp => {
-
         if (this.loginForm.get('recordar').value) {
           localStorage.setItem('identificacion', this.loginForm.get('identificacion').value);
         } else {
@@ -41,10 +41,10 @@ export class LoginPage implements OnInit {
         // Navegar al Dashboard
         //this.router.navigateByUrl('/');
         this.utilitario.abrirPagina('dashboard');
-
-
+        this.utilitario.cerrarLoading();
       }, (err) => {
         // Si sucede un error
+        this.utilitario.cerrarLoading();
         this.utilitario.agregarMensajeError(err.error.mensaje);
       });
 

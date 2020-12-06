@@ -1,19 +1,19 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar mode="ios" color="light">
-    <ion-buttons slot="start">
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Formato Tabla</ion-title>
+    <ion-title>Personalizar columnas</ion-title>
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content [forceOverscroll]="false" [fullscreen]="true">
 
-  <ion-toolbar>
-    <ion-segment value="orden" >
+  <ion-toolbar  mode="ios">
+    <ion-segment  mode="ios"  value="orden" >
       <ion-segment-button value="orden" layout="icon-start" (click)="cambiarSegmento(true)">
         <ion-label>Ordenar</ion-label>
         <ion-icon name="swap-vertical-outline"></ion-icon>
@@ -27,7 +27,7 @@
 
 
   <ng-container *ngIf="isOrden">
-    <p-orderList class="ion-padding" [value]="columnas" controlsPosition="right" 
+    <p-orderList class="ion-padding" [value]="columnasVisibles" controlsPosition="right" 
     dragdrop="true">
       <ng-template let-columna pTemplate="item">
         <span lines="none" class="bg-transparente">
@@ -41,7 +41,7 @@
       <div class="p-field">
         <ion-label position="stacked" class="text-muted">COLUMNA</ion-label>
 
-        <p-dropdown [options]="columnas" [(ngModel)]="seleccionada" 
+        <p-dropdown [options]="columnasVisibles" [(ngModel)]="seleccionada" 
         optionLabel="nombreVisual"  [filter]="true" filterBy="nombreVisual">
         </p-dropdown>
       </div>
@@ -62,11 +62,16 @@
   </ng-container>
 
 </ion-content>
-<ion-footer >
+<ion-footer  class="ion-no-border" >
   <ion-item lines="none" class="bg-transparente">
-    <ion-button slot="end" (click)="guardar()">
-      Aceptar
-      <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+
+    <ion-button slot="end" color="light" (click)="closeModal()">
+      Cancelar
+    </ion-button>
+
+    <ion-button slot="end" (click)="guardar()" [disabled]="cargando">
+      <ion-spinner *ngIf="cargando"></ion-spinner>
+      <ion-label  class="ion-margin-horizontal"> Aplicar</ion-label>
     </ion-button>
   </ion-item>
 </ion-footer>

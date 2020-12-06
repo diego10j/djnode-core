@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import Condicion from '../interfaces/condicion';
+import Columna from '../clases/columna';
+import Tabla from '../clases/tabla';
+import { ServicioBase } from '../clases/servicio-base';
 
 
 
@@ -9,20 +10,7 @@ import Condicion from '../interfaces/condicion';
 @Injectable({
   providedIn: 'root'
 })
-export class SistemaService {
-  constructor(private http: HttpClient) { }
-
-  get token(): string {
-    return localStorage.getItem('token') || '';
-  }
-
-  get headers() {
-    return {
-      headers: {
-        'x-token': this.token
-      }
-    };
-  }
+export class SistemaService extends ServicioBase {
 
   /**
    * Consulta ws consultarTabla
@@ -30,104 +18,102 @@ export class SistemaService {
    * @param filas 
    * @param pagina 
    */
-  consultarTabla(nombreTabla: string, campoOrden: string, condiciones:Condicion[],  filas: number, pagina: number) {
+  consultarTabla(nombreTabla: string, campoOrden: string, condiciones: Condicion[], filas: number, pagina: number) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campoOrden = campoOrden.toLowerCase();//pg estandar para tablas
-    const campos = {
+    const body = {
       nombreTabla,
       campoOrden,
       condiciones,
       filas,
       pagina,
     };
-    const url = `${environment.API_REST}/api/sistema/consultarTabla`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/consultarTabla', body);
   }
 
-  getColumnasTabla(nombreTabla: string) {
+  /**
+   * Llama al ws getColumnasTabla
+   */
+  getColumnasTabla(nombreTabla: string,ide_opci: string, numero_tabl: string) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
-    const campos = {
-      nombreTabla
+    const body = {
+      nombreTabla,
+      ide_opci,
+      numero_tabl
     };
-    const url = `${environment.API_REST}/api/sistema/getColumnasTabla`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/getColumnasTabla', body);
   }
 
   getComboTabla(nombreTabla: string, campoPrimario: string, campoNombre: string, condicion?: string) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campoPrimario = campoPrimario.toLowerCase();//pg estandar para tablas
     campoNombre = campoNombre.toLowerCase();//pg estandar para tablas
-    const campos = {
+    const body = {
       nombreTabla,
       campoPrimario,
       campoNombre,
       condicion
     };
-    const url = `${environment.API_REST}/api/sistema/getComboTabla`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/getComboTabla', body);
   }
 
-   getComboSql(sql: string) {
-    const campos = {
+  getComboSql(sql: string) {
+    const body = {
       sql
     };
-    const url = `${environment.API_REST}/api/sistema/getComboTabla`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/getComboTabla', body);
   }
 
 
   isEliminar(nombreTabla: string, campoPrimario: string, valorCampoPrimario: any) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campoPrimario = campoPrimario.toLowerCase();//pg estandar para tablas
-    const campos = {
+    const body = {
       nombreTabla,
       campoPrimario,
       valorCampoPrimario
     };
-    const url = `${environment.API_REST}/api/sistema/isEliminar`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/isEliminar', body);
   }
 
   ejecutarListaSQL(listaSQL: any) {
-    const campos = {
+    const body = {
       listaSQL
     };
-    const url = `${environment.API_REST}/api/sistema/ejecutarListaSQL`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/ejecutarListaSQL', body);
   }
 
 
   isUnico(nombreTabla: string, campo: string, valorCampo: any) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campo = campo.toLowerCase();//pg estandar para tablas
-    const campos = {
+    const body = {
       nombreTabla,
       campo,
       valorCampo
     };
-    const url = `${environment.API_REST}/api/sistema/isUnico`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/isUnico', body);
   }
 
 
   getMaximo(nombreTabla: string, campoPrimario: string, numeroFilas: number) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campoPrimario = campoPrimario.toLowerCase();//pg estandar para tablas
-    const campos = {
+    const body = {
       nombreTabla,
       campoPrimario,
       numeroFilas
     };
-    const url = `${environment.API_REST}/api/sistema/getMaximo`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/getMaximo', body);
   }
 
-  consultarArbol(nombreTabla: string,  campoPrimario: string, campoNombre: string,campoPadre: string,campoOrden: string, condiciones:Condicion[]) {
+  consultarArbol(nombreTabla: string, campoPrimario: string, campoNombre: string, campoPadre:
+    string, campoOrden: string, condiciones: Condicion[]) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campoPrimario = campoPrimario.toLowerCase();//pg estandar para tablas
     campoNombre = campoNombre.toLowerCase();//pg estandar para tablas
     campoOrden = campoOrden.toLowerCase();//pg estandar para tablas
-    const campos = {
+    const body = {
       nombreTabla,
       campoOrden,
       condiciones,
@@ -135,9 +121,42 @@ export class SistemaService {
       campoNombre,
       campoPadre,
     };
-    const url = `${environment.API_REST}/api/sistema/consultarArbol`;
-    return this.http.post(url, campos, this.headers);
+    return this.llamarServicioPost('api/sistema/consultarArbol', body);
   }
 
+  configurarTabla(ide_opci: string, tabla: Tabla, columnas: Columna[]) {
+    const tabConf = new Tabla();
+    tabConf.numeroTabla = tabla.numeroTabla;
+    tabConf.nombreTabla = tabla.nombreTabla;
+    tabConf.campoPrimario = tabla.campoPrimario;
+    tabConf.campoNombre = tabla.campoNombre;
+    tabConf.campoForanea = tabla.campoForanea;
+    tabConf.campoPadre = tabla.campoPadre;
+    tabConf.campoOrden = tabla.campoOrden;
+    tabConf.numeroFilas = tabla.numeroFilas;
+    tabConf.tipoFormulario = tabla.tipoFormulario;
+    tabConf.calculaPrimaria = tabla.calculaPrimaria;
+    const body = {
+      ide_opci,
+      tabla: tabConf,
+      columnas
+    };
+    return this.llamarServicioPost('api/sistema/configurarTabla', body);
+  }
+
+  getConfiguracionTabla(ide_opci: string, numero_tabl: string) {
+    const body = {
+      ide_opci,
+      numero_tabl
+    };
+    return this.llamarServicioPost('api/sistema/getConfiguracionTabla', body);
+  }
+
+  eliminarConfiguracionTabla(ide_tabl: string) {
+    const body = {
+      ide_tabl
+    };
+    return this.llamarServicioPost('api/sistema/eliminarConfiguracionTabla', body);
+  }
 
 }

@@ -32,6 +32,14 @@ import { VisualizadorImagenComponent } from './visualizador-imagen/visualizador-
 import { ArbolComponent } from './arbol/arbol.component';
 import { AngularSplitModule } from 'angular-split';
 import { DivisionComponent } from './division/division.component';
+import { ToastModule } from 'primeng/toast';
+import { MensajeComponent } from './mensaje/mensaje.component';
+import {RippleModule} from 'primeng/ripple';
+import { MenuComponent } from './menu/menu.component';
+import { PopoverUsuarioComponent } from './popover-usuario/popover-usuario.component';
+import { LoadingComponent } from './loading/loading.component';
+import {DialogModule} from 'primeng/dialog';
+
 @NgModule({
   declarations: [
     TablaComponent,
@@ -42,6 +50,10 @@ import { DivisionComponent } from './division/division.component';
     FormatoTablaComponent,
     VisualizadorImagenComponent,
     DivisionComponent,
+    MensajeComponent,
+    MenuComponent,
+    PopoverUsuarioComponent,
+    LoadingComponent,
   ],
   exports: [
     TablaComponent,
@@ -50,6 +62,10 @@ import { DivisionComponent } from './division/division.component';
     BotonComponent,
     ArbolComponent,
     DivisionComponent,
+    MensajeComponent,
+    MenuComponent,
+    PopoverUsuarioComponent,
+    LoadingComponent,
   ],
   imports: [
     IonicModule,
@@ -76,6 +92,9 @@ import { DivisionComponent } from './division/division.component';
     TreeModule,
     PipesModule,
     FormsModule,
+    ToastModule,
+    RippleModule,
+    DialogModule,
     ReactiveFormsModule,
     AngularSplitModule.forRoot(),
   ]

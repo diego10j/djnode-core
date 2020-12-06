@@ -6,6 +6,7 @@ export default class Tabla {
     nombreTabla: string;
     campoPrimario: string;
     campoForanea: string;
+    campoNombre: string;
     valorForanea: string;
     campoPadre: string;
     valorPadre: string;
@@ -18,4 +19,7 @@ export default class Tabla {
     seleccionada: any;
     lectura = true;
     calculaPrimaria=true;
+    ideTabla:string; //pk sis_tabla
+    numeroTabla:string; //numero tabla sis_tabla
+    tipoFormulario = false;
 }

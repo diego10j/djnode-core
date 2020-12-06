@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { PrivateModule } from './pages/private/private.module';
 import { PublicModule } from './pages/public/public.module';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

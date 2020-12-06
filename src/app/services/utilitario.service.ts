@@ -1,12 +1,13 @@
+import { MenuItem } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment.prod';
 import { SistemaService } from '../framework/servicios/sistema.service';
 import { TablaComponent } from '../framework/componentes/tabla/tabla.component';
-
+import { LoadingController, Platform } from '@ionic/angular';
 @Injectable({
     providedIn: 'root',
 })
@@ -15,8 +16,11 @@ export class UtilitarioService {
         private storage: Storage,
         private router: Router,
         private datePipe: DatePipe,
-        private sistemaService: SistemaService,
-    ) { }
+        public platform: Platform,
+        public sistemaService: SistemaService,
+        private loadingController: LoadingController
+    ) {
+    }
 
     /**
      * Agrega un mensaje en la pantalla
@@ -50,12 +54,13 @@ export class UtilitarioService {
             html: $mensaje,
             heightAuto: false,
         });
+        this.cerrarLoading();//
     }
 
     /**
      * Agrega un mensaje de Advertencia en la pantalla
-     * @param $mensaje 
-     * @param $titulo 
+     * @param $mensaje
+     * @param $titulo
      */
     agregarMensajeAdvertencia($mensaje: string, $titulo?: string) {
         if (!this.isDefined($titulo)) {
@@ -74,7 +79,7 @@ export class UtilitarioService {
      * @param $title
      * @param $message
      */
-    async agregarMensajeExito($mensaje: string, $titulo?: string) {
+    agregarMensajeExito($mensaje: string, $titulo?: string) {
         if (!this.isDefined($titulo)) {
             $titulo = 'Éxito';
         }
@@ -85,6 +90,35 @@ export class UtilitarioService {
             heightAuto: false,
         });
     }
+
+    confirmar($mensaje: string, callback, $titulo?: string) {
+        if (!this.isDefined($titulo)) {
+            $titulo = 'Confirmar';
+        }
+        Swal.fire({
+            title: $titulo,
+            icon: 'question',
+            html: $mensaje,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText:
+                '<i class="fa fa-thumbs-up"></i> Si',
+            confirmButtonAriaLabel: 'Si',
+            cancelButtonText:
+                '<i class="fa fa-thumbs-down"></i> No',
+            cancelButtonAriaLabel: 'No',
+            confirmButtonColor: '#007AE0',
+            cancelButtonColor: '#989aa2',
+            heightAuto: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback();
+            }
+        });
+    }
+
+
+
     /**
      * Retorna si una variable esta definida
      * @param $variable
@@ -232,7 +266,7 @@ export class UtilitarioService {
         return this.getFormatoFecha(fechaDate);
     }
     /**
-     * Retorna la fecha actual en formato 
+     * Retorna la fecha actual en formato
      */
     getFechaActual(): string {
         return this.getFormatoFecha(new Date());
@@ -249,7 +283,7 @@ export class UtilitarioService {
      * @param parametros
      */
     abrirPagina(path: string, parametros?: any) {
-        this.router.navigate(['private/'+path], { replaceUrl: true });
+        this.router.navigate(['private/' + path], { replaceUrl: true });
     }
 
     /**
@@ -283,10 +317,10 @@ export class UtilitarioService {
     }
 
     guardarPantalla(...tablas: TablaComponent[]): boolean {
-        let lisAgrupa = [];
+        const lisAgrupa = [];
         for (const tab of tablas) {
-            //valida que no haya errores para ejecutar todas las sentencias
-            let lista = tab.guardar();
+            // valida que no haya errores para ejecutar todas las sentencias
+            const lista = tab.guardar();
             if (lista.length > 0) {
                 tab.buscando = true;
                 lisAgrupa.push(...lista);
@@ -294,14 +328,14 @@ export class UtilitarioService {
         }
         if (lisAgrupa.length > 0) {
             this.sistemaService.ejecutarListaSQL(lisAgrupa).subscribe(resp => {
-                for (let tab of tablas) {
+                for (const tab of tablas) {
                     tab.onCommit();
                     tab.buscando = false;
                 }
                 this.agregarMensajeExito('Datos guardados exitosamente');
             }, (err) => {
                 this.agregarMensajeError(err.error.mensaje);
-                for (let tab of tablas) {
+                for (const tab of tablas) {
                     tab.buscando = false;
                 }
             });
@@ -309,4 +343,242 @@ export class UtilitarioService {
         return true;
     }
 
+
+    getIdeOpci(ruta?: string): string {
+        if (!this.isDefined(ruta)) {
+            ruta = this.router.url;
+            ruta = ruta.substring(ruta.lastIndexOf('/') + 1, ruta.length);
+        }
+        const menus = JSON.parse(localStorage.getItem('menu')) || [];
+        //Busqueda recursiva
+        for (const opciActual of menus) {
+            const encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
+            if (encontro !== null) {
+                return encontro;
+            }
+        }
+        return null;
+    }
+
+    getRuta(): string {
+        let ruta = this.router.url;
+        ruta = ruta.substring(ruta.lastIndexOf('/') + 1, ruta.length);
+        return ruta;
+    }
+
+    private busquedaRecursivaIdeOpci(opcion: any, ruta: string): string {
+
+        if (opcion.ruta === ruta) {
+            return opcion.data;
+        }
+        if (opcion.items) {
+            for (const opciActual of opcion.items) {
+                const encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
+                if (encontro !== null) {
+                    return opciActual.data;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    getIp(): string {
+        return localStorage.getItem('ip') || '127.0.0.1';
+    }
+
+
+    getUserAgent(): any {
+        const agent = { browser: { name: null, version: null, v: null, userAgent: null, app: null, os: null }, mobile: false, pointlock: false };
+
+        let nVer = navigator.appVersion;
+        let nAgt = navigator.userAgent;
+        let browserName = navigator.appName;
+        let fullVersion = '' + parseFloat(navigator.appVersion);
+        let majorVersion = parseInt(navigator.appVersion, 10);
+        let nameOffset, verOffset, ix;
+        agent.pointlock = 'pointerLockElement' in document ||
+            'mozPointerLockElement' in document ||
+            'webkitPointerLockElement' in document;
+        // In Opera, the true version is after "Opera" or after "Version"
+        if ((verOffset = nAgt.indexOf('Opera')) != -1) {
+            browserName = 'Opera';
+            fullVersion = nAgt.substring(verOffset + 6);
+            if ((verOffset = nAgt.indexOf('Version')) != -1) {
+                fullVersion = nAgt.substring(verOffset + 8);
+            }
+        }
+        // In MSIE, the true version is after "MSIE" in userAgent
+        else if ((verOffset = nAgt.indexOf('MSIE')) != -1) {
+            browserName = 'Microsoft Internet Explorer';
+            fullVersion = nAgt.substring(verOffset + 5);
+        }
+        // In Chrome, the true version is after "Chrome"
+        else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
+            browserName = 'Chrome';
+            fullVersion = nAgt.substring(verOffset + 7);
+        }
+        // In Safari, the true version is after "Safari" or after "Version"
+        else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
+            browserName = 'Safari';
+            fullVersion = nAgt.substring(verOffset + 7);
+            if ((verOffset = nAgt.indexOf('Version')) != -1) {
+                fullVersion = nAgt.substring(verOffset + 8);
+            }
+        }
+        // In Firefox, the true version is after "Firefox"
+        else if ((verOffset = nAgt.indexOf('Firefox')) != -1) {
+            browserName = 'Firefox';
+            fullVersion = nAgt.substring(verOffset + 8);
+        }
+        // In most other browsers, "name/version" is at the end of userAgent
+        else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) <
+            (verOffset = nAgt.lastIndexOf('/'))) {
+            browserName = nAgt.substring(nameOffset, verOffset);
+            fullVersion = nAgt.substring(verOffset + 1);
+            if (browserName.toLowerCase() == browserName.toUpperCase()) {
+                browserName = navigator.appName;
+            }
+        }
+        // trim the fullVersion string at semicolon/space if present
+        if ((ix = fullVersion.indexOf(';')) != -1) {
+            fullVersion = fullVersion.substring(0, ix);
+        }
+        if ((ix = fullVersion.indexOf(' ')) != -1) {
+            fullVersion = fullVersion.substring(0, ix);
+        }
+
+        majorVersion = parseInt('' + fullVersion, 10);
+        if (isNaN(majorVersion)) {
+            fullVersion = '' + parseFloat(navigator.appVersion);
+            majorVersion = parseInt(navigator.appVersion, 10);
+        }
+        agent.browser.name = browserName;
+        agent.browser.version = fullVersion;
+        agent.browser.v = majorVersion;
+        agent.browser.app = navigator.appName;
+        agent.browser.userAgent = navigator.userAgent;
+        let OSName = 'Unknown OS';
+        if (navigator.appVersion.indexOf('Win') != -1) { OSName = 'Windows'; }
+        if (navigator.appVersion.indexOf('Mac') != -1) { OSName = 'MacOS'; }
+        if (navigator.appVersion.indexOf('X11') != -1) { OSName = 'UNIX'; }
+        if (navigator.appVersion.indexOf('Linux') != -1) { OSName = 'Linux'; }
+
+        agent.browser.os = OSName;
+        agent.mobile = (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        return agent;
+    }
+
+    getPlataforma(): string {
+        if (this.platform.is('desktop')) {
+            return 'desktop';
+        } else if (this.platform.is('ios')) {
+            return 'ios';
+        } else if (this.platform.is('android')) {
+            return 'android';
+        }
+        return 'desktop';
+    }
+
+
+    getSistemaOperativo(): any {
+
+        const sistemaOperativo = { nombre: null, icono: null, color: null };
+        try {
+            // system
+            let os = 'Unknown OS';
+            const nVer = navigator.appVersion;
+            const nAgt = navigator.userAgent;
+            let icono = '';
+            let color = '';
+
+            let clientStrings = [
+                { s: 'Windows XP', r: /(Windows NT 5.1|Windows XP)/ },
+                { s: 'Windows Server', r: /Windows NT 5.2/ },
+                { s: 'Windows Vista', r: /Windows NT 6.0/ },
+                { s: 'Windows 7', r: /(Windows 7|Windows NT 6.1)/ },
+                { s: 'Windows 8.1', r: /(Windows 8.1|Windows NT 6.3)/ },
+                { s: 'Windows 8', r: /(Windows 8|Windows NT 6.2)/ },
+                { s: 'Windows 10', r: /(Windows 10|Windows NT 10.0)/ },
+                { s: 'Android', r: /Android/ },
+                { s: 'Open BSD', r: /OpenBSD/ },
+                { s: 'Sun OS', r: /SunOS/ },
+                { s: 'Linux', r: /(Linux|X11)/ },
+                { s: 'iOS', r: /(iPhone|iPad|iPod)/ },
+                { s: 'Mac OS X', r: /Mac OS X/ },
+                { s: 'Mac OS', r: /(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/ },
+                { s: 'QNX', r: /QNX/ },
+                { s: 'UNIX', r: /UNIX/ },
+                { s: 'BeOS', r: /BeOS/ },
+                { s: 'OS/2', r: /OS\/2/ },
+                { s: 'Search Bot', r: /(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/ }
+            ];
+            for (const id in clientStrings) {
+                const cs = clientStrings[id];
+                if (cs.r.test(nAgt)) {
+                    os = cs.s;
+                    break;
+                }
+            }
+
+
+            let osVersion = null;
+
+            if (/Windows/.test(os)) {
+                osVersion = /Windows (.*)/.exec(os)[1];
+                os = 'Windows ' + osVersion;
+                sistemaOperativo.icono = 'logo-windows';
+                sistemaOperativo.color = 'primary';
+            }
+
+            switch (os) {
+                case 'Mac OS X':
+                    osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
+                    os = os + ' ' + osVersion;
+                    sistemaOperativo.icono = 'logo-apple';
+                    sistemaOperativo.color = 'dark';
+                    break;
+
+                case 'Android':
+                    osVersion = /Android ([\.\_\d]+)/.exec(nAgt)[1];
+                    os = os + ' ' + osVersion;
+                    sistemaOperativo.icono = 'logo-android';
+                    sistemaOperativo.color = 'success';
+                    break;
+
+                case 'iOS':
+                    osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
+                    osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+                    os = os + ' ' + osVersion;
+                    sistemaOperativo.icono = 'logo-apple';
+                    sistemaOperativo.color = 'dark';
+                    break;
+
+            }
+
+            sistemaOperativo.nombre = os;
+        } catch (err) {
+        }
+        return sistemaOperativo;
+    }
+
+
+    async abrirLoading() {
+        const loading = await this.loadingController.create({
+            //message: 'Cargando...',
+            cssClass: 'loadin-class',
+            mode: 'md',
+            spinner: 'dots',
+            translucent: true,
+            keyboardClose: true
+        });
+        return await loading.present();
+    }
+
+    cerrarLoading() {
+        this.loadingController.dismiss();
+    }
+
+
+    
 }

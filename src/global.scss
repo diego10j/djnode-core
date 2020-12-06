@@ -26,17 +26,45 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-@import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
-@import "~perfect-scrollbar/css/perfect-scrollbar.css";
 
-body {
-  font-size: 0.9rem;
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
+
+body :not(ion-icon):not(i):not(.pi) {
+  font-family: "DM Sans" !important;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff;
+}
 
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--ion-color-medium-shade);
+  border-radius: 5px;
+  &:active {
+    background: var(--ion-color-medium);
+  }
+}
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ion-color-medium);
+}
+
+ion-card {
+  --background: white;
+  box-shadow: none;
+  border-radius: 3px;
+}
 
 /*
    * textos colores fondo
@@ -144,6 +172,15 @@ body {
 .text-secondary {
   color: var(--ion-color-secondary) !important;
 }
+.text-medium {
+  color: var(--ion-color-medium) !important;
+}
+.text-light {
+  color: var(--ion-color-light) !important;
+}
+.text-dark {
+  color: var(--ion-color-dark) !important;
+}
 /*Tamaño de letra*/
 .text-8pt {
   font-size: 8pt;
@@ -181,15 +218,13 @@ body {
 }
 
 .height100 {
-height: 100%;
-display:block;
+  height: 100%;
+  display: block;
 }
 
-.font{
+.font {
   font-size: 0.9rem !important;
 }
-
-
 
 .bg-gray {
   color: #000;
@@ -266,10 +301,14 @@ body {
 }
 
 ion-content {
-  --background: rgba(248, 248, 250, .96); //f9f9f9
+  --background: #f2f2f2; //f9f9f9
 }
 .bg-content {
-  background: rgba(248, 248, 250, .96);
+  background: #f2f2f2;
+}
+
+.bg-oscuro {
+  background: #373737;
 }
 
 .bg-primary {
@@ -280,6 +319,9 @@ ion-content {
 }
 .bg-tertiary {
   background-color: var(--ion-color-tertiary);
+}
+.bg-light {
+  background-color: var(--ion-color-light);
 }
 
 .border-bottom {
@@ -332,20 +374,44 @@ ion-content {
   text-align: left;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }
 
-.pantalla{
-  width: 100%; 
+.pantalla {
+  width: 100%;
   height: calc(100% - 55px);
 }
 
-.my-custom-modal-class  
+.my-custom-modal-class .modal-wrapper {
+  --height: 70% !important;
+  --width: 80% !important;
+  position: absolute;
+}
 
-  .modal-wrapper {
-    --height: 70% !important;
-    --width: 80% !important;
-    position: absolute;
+.caja-borde {
+  border-radius: 0 !important;
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 2px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.12),
+    0 0 2px 0 rgba(0, 0, 0, 0.14) !important;
+}
+
+
+
+.loadin-class {
+
+  ion-spinner {
+    transform: scale(3);
   }
 
+  --spinner-color: var(--ion-color-secondary);
+  box-shadow: none;
+  color: rgb(66, 66, 66);
+  --background: none;
+  .loading-wrapper{
+      box-shadow: none !important;
+  }
+}

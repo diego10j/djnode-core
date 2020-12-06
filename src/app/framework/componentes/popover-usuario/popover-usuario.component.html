@@ -1,0 +1,36 @@
+<ion-row class="fondo">
+   <div class="profile-pic ion-no-padding clear">
+    <img src="assets/img/user.jpg" class="rounded-circle" alt="user" width="150">
+    <p class="ion-text-wrap text-light">
+      {{usuario.nombre | titlecase}}
+    </p>
+  </div>
+</ion-row>
+
+
+
+
+
+
+<ion-list mode="ios">
+
+  <ion-item mode="ios" lines="none" detail="false" button (click)="abrirPerfil()">
+    <ion-icon slot="start" name="person-outline"></ion-icon>
+    <ion-label>
+      Mi Perfil
+    </ion-label>
+  </ion-item>
+  <ion-item mode="ios" lines="full" detail="false" button>
+    <ion-icon slot="start" name="key-outline"></ion-icon>
+    <ion-label>
+      Cambiar Clave
+    </ion-label>
+  </ion-item>
+
+  <ion-item routerl mode="ios" lines="none" detail="false" button (click)="logout()">
+    <ion-icon slot="start" name="power-outline"></ion-icon>
+    <ion-label>
+      Salir
+    </ion-label>
+  </ion-item>
+</ion-list>

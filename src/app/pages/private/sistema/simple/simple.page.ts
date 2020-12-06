@@ -28,6 +28,7 @@ export class SimplePage extends Pantalla{
     this.tabTabla1.setLectura(true);
     //this.tabTabla1.setTipoFormularioIonic();
     this.tabTabla1.dibujar(); // última
+    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
   insertar(): void {

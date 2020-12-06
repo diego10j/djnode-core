@@ -8,14 +8,21 @@ import { Component, OnInit, Input, TemplateRef, ContentChild } from '@angular/co
 export class DivisionComponent implements OnInit {
 
 
-  @Input() tipo?: 'horizontal' | 'vertical' = 'vertical';
+  @Input() tipo?: 'horizontal' | 'vertical' = 'horizontal';
   @Input() porcentaje1 = 50; //Por defecto 
-  @Input() porcentaje2=0;
+  @Input() porcentaje2 = 0;
 
   @ContentChild('division1') division1: TemplateRef<any>;
   @ContentChild('division2') division2: TemplateRef<any>;
 
   constructor() {
+  }
+
+  get orientacion(): string {
+    if (this.tipo === 'horizontal') {
+      return 'vertical';
+    }
+    return 'horizontal';
   }
 
   ngOnInit() { }

@@ -1,92 +1,51 @@
-  <ion-menu side="start" menuId="first" contentId="main">
-    <ion-content>
-      <nav id="sidebar" class="sidebar" [ngClass]="{'sidebar-bg' : hasBackgroundImage()}">
-        <div class="sidebar-content">
-          <perfect-scrollbar>  
-            <div class="sidebar-profile">
-              <div class="user-pic">
-                <ion-avatar>
-                  <img src="assets/img/user.jpg" alt="User picture">
-                </ion-avatar>
-              </div>
-              <div class="user-info">
-                <span class="user-name">
-                  {{usuario.nombre | uppercase}}
-                </span>
-                <span class="user-role text-muted">{{usuario.rol}}</span>
-              </div>
-            </div>
-            <div class="sidebar-menu">
-              <ul>
-                <li *ngFor="let menu of menus"
-                  [ngClass]="{'active': menu.active , 'sidebar-dropdown':menu.type === 'dropdown' ,'sidebar-simple':menu.type === 'simple' , 'header-menu':menu.type === 'header'}">
-                  <span *ngIf="menu.type === 'header'">{{menu.title}}</span>
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-header mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-thumbnail>
+        <img class="img-responsive img-rounded" src="assets/svg/caja.svg" alt="Logo">
+      </ion-thumbnail>
+      <ion-title><span class="text-secondary">Conta</span>box</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-                  <a *ngIf="menu.type !== 'header' && menu.url ===undefined " (click)='toggle(menu)' class="cursor">
-                    <i class="{{menu.icon}}"></i>
-                    <span>{{menu.title | uppercase}}</span>
-                    <span *ngIf="menu.badge" class="badge badge-pill"
-                      [ngClass]="menu.badge.class">{{menu.badge.text}}</span>
-                  </a>
+  <ion-content>
+    <ion-list mode="ios">
+      <div class="paddingCard" *ngFor="let mn of menus">
 
-                    <a *ngIf="menu.type !== 'header' && menu.url" (click)="abrirPagina(menu)" class="cursor"> 
-                      <i class="{{menu.icon}}"></i>
-                      <span>{{menu.title | uppercase}}</span>
-                      <span *ngIf="menu.badge" class="badge badge-pill"
-                        [ngClass]="menu.badge.class">{{menu.badge.text}}</span>
-                    </a>
+        <!--OPCIONES SIN HIJOS-->
+        <ion-item mode="ios" [class]="mn.tag" *ngIf="mn.ruta" detail="false"
+          [ngClass]="{ 'ion-no-padding':true , 'active-item' : selected === mn.ruta}" button lines="none"
+          (click)="toggleMenu(mn)">
+          <ion-label class="padding-nivel0">
+            <ion-icon [name]="mn.icon"></ion-icon>
+            <ion-text class="padding-icono">{{mn.label}}</ion-text>
+          </ion-label>
+        </ion-item>
 
-                  <div *ngIf="menu.type === 'dropdown'" class="sidebar-submenu" [@slide]="getState(menu)">
-                    <ul>
-                      <li *ngFor="let submenu of menu.submenus">
-                          <a (click)="abrirPagina(submenu)" class="cursor"> {{submenu.title}} 
-                            <span *ngIf="submenu.badge" class="badge badge-pill"
-                              [ngClass]="submenu.badge.class">{{submenu.badge.text}}</span>
-                          </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </perfect-scrollbar>
-        </div>
-        <div class="sidebar-footer">
-          <div>
-  
-            <a>
-              <i class="fa fa-bell"></i>
-              <span class="badge badge-pill badge-warning notification">5</span>
-            </a>
-  
-          </div>
-          <div>
-            <a>
-              <i class="fa fa-envelope"></i>
-              <span class="badge badge-pill badge-success notification">7</span>
-            </a>
-          </div>
-          <div>
-            <a>
-              <i class="fa fa-cog"></i>
-              <span class="badge-sonar"></span>
-            </a>
-            <div class="dropdown-menu" *dropdownMenu>
-              <a class="dropdown-item" href="#">My profile</a>
-              <a class="dropdown-item" href="#">Help</a>
-              <a class="dropdown-item" href="#">Setting</a>
-            </div>
-          </div>
-          <div>
-            <a (click)="logout()">
-              <i class="fa fa-power-off"></i>
-            </a>
-          </div>
-        </div>
-      </nav>
-  
-    </ion-content>
-  </ion-menu> 
+        <!--OPCIONES CON HIJO-->
+        <ion-item mode="ios" button lines="none" *ngIf="!mn.ruta" detail="false"
+          [ngClass]="{ 'ion-no-padding':true , 'active-header' : mn.isOpen}" (click)="toggleMenu(mn)">
+          <ion-label class="padding-nivel0">
+            <ion-icon [name]="mn.icon"></ion-icon>
+            <ion-text class="padding-icono">{{mn.label}}</ion-text>
+          </ion-label>
+          <ion-icon [style]="{transform: (mn.isOpen ? 'rotate(90deg)' : 'rotate(0deg)')}" class="iconoOpen"
+            [class]="'menuarrow chevron_' + mn.tag" *ngIf="mn.items && mn.items.length"
+            name="arrow-forward-circle-outline" slot="end">
+          </ion-icon>
+        </ion-item>
+        <ion-item mode="ios" [class]="mn.tag" detail="false"
+          [ngClass]="{ 'ion-no-padding submenu':true , 'active-item' : selected === ch.ruta}"
+          *ngFor="let ch of mn.items" button lines="none" (click)="abrirPagina(ch)">
+          <ion-label class="padding-nivel1">
+            <ion-icon [name]="ch.icon"></ion-icon>
+            <ion-text class="padding-icono">{{ch.label}}</ion-text>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
 
 

@@ -25,6 +25,7 @@ export class EmpresaPage extends Pantalla{
     this.tabTabla1.setTipoFormulario();
     this.tabTabla1.setUnico();
     this.tabTabla1.dibujar(); // última
+    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
  async guardar() {

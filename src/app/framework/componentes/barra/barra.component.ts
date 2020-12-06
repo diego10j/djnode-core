@@ -1,12 +1,13 @@
 
-import { Component, ContentChild, TemplateRef } from '@angular/core';
+import { Component, ContentChild, TemplateRef, OnInit } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-barra',
   templateUrl: './barra.component.html',
   styleUrls: ['./barra.component.scss'],
 })
-export class BarraComponent {
+export class BarraComponent implements OnInit {
 
   @ContentChild(TemplateRef) derecha;
 
@@ -29,12 +30,15 @@ export class BarraComponent {
   onEliminar?: (event?: any) => void;
   onGuardar?: (event?: any) => void;
 
-  constructor() {
+  constructor(private primengConfig: PrimeNGConfig) {
     this.isBotonInsertar = true;
     this.isBotonEliminar = true;
     this.isBotonGuardar = true;
   }
 
+  ngOnInit() {
+    this.primengConfig.ripple = true;
+  }
 
   onClickInsertar(event) {
     if (this.onInsertar) {

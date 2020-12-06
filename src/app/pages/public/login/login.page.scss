@@ -1,178 +1,161 @@
+ion-content {
+  --background: url("../../../../assets/img/fondo.jpg") #DCE1E4 no-repeat !important;
+  --background-size: cover !important;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--ion-color-tertiary);
+}
+
+body {
+  color: var(--ion-color-tertiary);
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  
+}
 
 
-/*
- * animaciones
- */
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-.animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-  }
-  
-  .animated.infinite {
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
-  }
-  
-  .animated.fast {
-    -webkit-animation-duration: 400ms;
-    animation-duration: 400ms;
-  }
-  
-  .animated.slow {
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-  }
-  
-  @-webkit-keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  .fadeIn {
-    -webkit-animation-name: fadeIn;
-    animation-name: fadeIn;
-  }
-  
-  @-webkit-keyframes fadeInDown {
-    from {
-      opacity: 0;
-      -webkit-transform: translate3d(0, -100%, 0);
-      transform: translate3d(0, -100%, 0);
-    }
-  
-    to {
-      opacity: 1;
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-    }
-  }
-  
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      -webkit-transform: translate3d(0, -100%, 0);
-      transform: translate3d(0, -100%, 0);
-    }
-  
-    to {
-      opacity: 1;
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-    }
-  }
-  
-  .fadeInDown {
-    -webkit-animation-name: fadeInDown;
-    animation-name: fadeInDown;
-  }
-  
-  .logo {
-    width: 100px;
-    height: 100px;
-    margin: 20px auto 8px;
-    border-radius: 10%;
-    background: url("../../../../assets/svg/caja.svg") no-repeat;
-    background-size: 100%;
-  }
-  
-  ion-content {
-    --offset-top: 0px;
-    --offset-bottom: 0px;
-  
-    --background: url("../../../../assets/img/fondo.jpg") no-repeat !important;
-    --background-size: cover !important;
-  
-    --color: var(--ion-color-tertiary) !important;
-  
-    .container {
+section.side {
+  background: url(../../../../assets/img/bk.png) no-repeat;
+  background-size: 100% 102%;
+}
+
+.side img {
+  width: 50%;
+  max-width: 50%;
+}
+
+.login-container {
+  max-width: 450px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  text-transform: title;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.separator {
+  width: 150px;
+  height: 4px;
+  background-color: var(--ion-color-secondary);
+  margin: 24px;
+}
+
+.welcome-message {
+  text-align: center;
+  font-size: 1.1em;
+  line-height: 28px;
+  margin-bottom: 30px;
+  color: #696969;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control {
+  width: 100%;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+input,
+button {
+  border: none;
+  outline: none;
+  border-radius: 30px;
+  font-size: 1.1em;
+}
+
+input {
+  width: 100%;
+  background: white;
+  color:  var(--ion-color-tertiary) !important;
+  letter-spacing: 0.5px;
+  padding: 14px 64px;
+}
+
+input ~ i {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5F768F;
+  transition: color   0.4s;
+}
+
+input:focus ~ i {
+  color: var(--ion-color-secondary);
+}
+
+button.submit {
+  color: #fff;
+  padding: 14px 64px;
+  margin: 32px auto;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+  background:var(--ion-color-secondary);
+  cursor: pointer;
+  transition: opacity 0.4s;
+}
+
+button.submit:hover {
+  opacity: 0.9;
+}
+
+/* ----  Responsiveness   ----  */
+@media (max-width: 780px) {
+
+  body {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100%;
-      padding: 20px 0;
-  
-      .header {
-        flex: 1;
-        justify-content: center;
-        text-align: center;
-        padding-top: 20px;
-        .title {
-          img {
-            height: 100px;
-            width: 100px;
-          }
-        }
-  
-        h3 {
-          color: var(--ion-color-tertiary) !important;
-        }
-      }
-      .body {
-        flex: 2;
-  
-        ion-list {
-          --background: none;
-          background: none;
-          margin-bottom: 0 !important;
-  
-          ion-item {
-            --border-color: transparent !important;
-            --highlight-height: 0;
-            --background: none;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 4px;
-            margin-bottom: 10px;
-  
-            ion-icon {
-              color: var(--ion-color-secondary) !important;
-            }
-  
-            ion-input {
-              --color: var(--ion-color-tertiary) !important;
-            }
-          }
-        }
-      }
-      .footer {
-        display: flex;
-  
-        a {
-          color: var(--ion-color-secondary) !important;
-          font-weight: 600;
-          text-decoration: none;
-        }
-  
-        button{
-          background-color: transparent;
-          font-size: 14px;
-          font-weight: 600;
-          padding-left: 3px;
-          color: var(--ion-color-secondary) 
-     
-       }
-       button:hover{
-        color: var(--ion-color-tertiary) 
-      }
-  
-      }
-    }
   }
+
+  .side {
+      display: none;
+  }
+}
+
+.registrar{
+  display: flex;
   
-  
+  a {
+    color: var(--ion-color-secondary) !important;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  button{
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 3px;
+    color: var(--ion-color-secondary) 
+
+ }
+ button:hover{
+  color: var(--ion-color-tertiary) 
+}
+}

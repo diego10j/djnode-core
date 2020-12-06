@@ -4,11 +4,11 @@ export default class Columna {
     orden: number;
     requerida = false;
     tipo: string;
-    private _longitud: number;
+    longitud: number;
     anchoColumna: number;
     configCombo: any;
     decimales: number;
-    campoPrimario = false;
+    //campoPrimario = false;
     visible = true;
     lectura = false;
     nombreVisual: string;
@@ -26,18 +26,19 @@ export default class Columna {
     total: number;
     alinear?: 'izquierda' | 'derecha' | 'centro' = 'izquierda';
     nullCombo = true;
+    textoFiltro: string;
 
 
     //Eventos
     onMetodoChange?: (event?: any) => void;
 
-    set longitud(_longitud: number) {
+    setLongitud(_longitud: number) {
 
 
         if (_longitud === null) {
             _longitud = 10;
         }
-        this._longitud = _longitud;
+        this.longitud = _longitud;
         //Calcula la longitud 
         //console.log(this.nombreVisual + '  ' +_longitud);
         if (_longitud > 0 && _longitud < 20) {
@@ -76,9 +77,6 @@ export default class Columna {
         this.anchoColumna = _longitud;
     }
 
-    get longitud(): number {
-        return this._longitud;
-    }
 
     setAlinerar(_alinear: 'izquierda' | 'derecha' | 'centro') {
         this.alinear = _alinear;
@@ -115,7 +113,12 @@ export default class Columna {
 
     setUpload() {
         this.componente = 'Upload';
-        this.anchoColumna = 20;
+        if(this.lectura){
+            this.anchoColumna = 10;
+        }
+        else{
+            this.anchoColumna = 20;
+        }
     }
 
     get isCombo(): boolean {
@@ -129,8 +132,21 @@ export default class Columna {
         this.nombreVisual = _nombre.toUpperCase();
     }
 
-    setVisible(visible: boolean) {
-        this.visible = visible;
+    setVisible(_visible: boolean) {
+        this.visible = _visible;
+    }
+
+    setFiltro(_filtro: boolean) {
+        this.filtro = _filtro;
+    }
+
+    setOrden(_orden: number) {
+        this.orden = _orden;
+    }
+
+    setLectura(_lectura: boolean) {
+        this.lectura = _lectura;
+        this.componente='Etiqueta';
     }
 
 }

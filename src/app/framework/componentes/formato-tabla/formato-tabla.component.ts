@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import Columna from '../../clases/columna';
 import { ModalController } from '@ionic/angular';
+import { UtilitarioService } from '../../../services/utilitario.service';
+import { SistemaService } from '../../servicios/sistema.service';
+import Tabla from '../../clases/tabla';
 
 @Component({
   selector: 'app-formato-tabla',
@@ -10,6 +13,10 @@ import { ModalController } from '@ionic/angular';
 export class FormatoTablaComponent implements OnInit {
 
   @Input() columnas: Columna[];
+  @Input() tabla: Tabla;
+  cargando=false;
+  columnasVisibles: Columna[];
+
   isOrden = true;
   seleccionada: Columna = new Columna();
   slideOpts = {
@@ -19,10 +26,13 @@ export class FormatoTablaComponent implements OnInit {
   };
 
 
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController,
+    private sistemaService: SistemaService,
+    private utilitario: UtilitarioService) { }
 
   ngOnInit() {
-    this.seleccionada = this.columnas[0];
+    this.columnasVisibles = this.columnas.filter(col => col.visible === true);
+    this.seleccionada = this.columnasVisibles[0];
   }
 
   closeModal() {
@@ -34,15 +44,28 @@ export class FormatoTablaComponent implements OnInit {
   }
 
   guardar() {
+    this.cargando=true;
+    let ide_opci = this.utilitario.getIdeOpci();
     let orden = 1;
-    for (const columna of this.columnas) {
-      columna.orden = orden;
+    //Ordena
+    for (const columna of this.columnasVisibles) {
+      const colV=this.columnas.find(col => col.nombre === columna.nombre);
+      colV.orden = orden;
       orden++;
     }
-    this.modalController.dismiss({
-      columnas: this.columnas
+    this.sistemaService.configurarTabla(ide_opci, this.tabla, this.columnas).subscribe(resp => {
+      this.modalController.dismiss({
+        columnas: this.columnas
+      });
+      this.cargando=false;
+    }, (err) => {
+      this.cargando=false;
+      this.utilitario.agregarMensajeError(err.error.mensaje);
     });
   }
 
+  ordenarColumnas() {
+    this.columnas.sort((a, b) => (a.orden < b.orden ? -1 : 1));
+  }
 
 }

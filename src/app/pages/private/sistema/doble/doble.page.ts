@@ -9,7 +9,7 @@ import Condicion from '../../../../framework/interfaces/condicion';
   templateUrl: './doble.page.html',
   styleUrls: ['./doble.page.scss'],
 })
-export class DoblePage extends Pantalla{
+export class DoblePage extends Pantalla {
 
 
   @ViewChild('tab_tabla1', { static: false }) tabTabla1: TablaComponent;
@@ -34,7 +34,7 @@ export class DoblePage extends Pantalla{
     this.tabTabla1.setFilasPorPagina(5);
     this.tabTabla1.setLectura(false);
     //this.tabTabla1.setTipoFormulario();
-    const condiciones: Condicion={ condicion: 'nombre LIKE ? AND cantidad >= ?', valores: ['%XXX%',0] };
+    const condiciones: Condicion = { condicion: 'nombre LIKE ? AND cantidad >= ?', valores: ['%XXX%', 0] };
     this.tabTabla1.setCondiciones(condiciones);
     this.tabTabla1.agregarRelacion(this.tabTabla2);
     this.tabTabla1.dibujar(); // última
@@ -45,15 +45,16 @@ export class DoblePage extends Pantalla{
     this.tabTabla2.setTitulo('Detalles');
     this.tabTabla2.getColumna('cod_deta').visible = false;
     this.tabTabla2.setLectura(false);
-    const condiciones2: Condicion={ condicion: 'cod_deta>= ?', valores: [0] };
+    const condiciones2: Condicion = { condicion: 'cod_deta>= ?', valores: [0] };
     this.tabTabla2.setCondiciones(condiciones2);
 
     this.tabTabla2.dibujar(); // última 
+    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
 
   insertar(): void {
-    
+
     if (this.tabTabla1.isFocus()) {
       this.tabTabla1.insertar();
     }
@@ -79,7 +80,7 @@ export class DoblePage extends Pantalla{
     }
 
   }
-  otro(){
+  otro() {
     console.log('ccccc');
   }
 

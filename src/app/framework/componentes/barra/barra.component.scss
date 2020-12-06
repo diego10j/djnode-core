@@ -1,0 +1,16 @@
+:host ::ng-deep .p-button {
+  font-size: 10px;
+  margin-right: 0.7rem;
+  border: 0;
+}
+ion-fab-button {
+  ion-icon {
+    --font-size: 1.3rem;
+    font-size: 1.3rem;
+  }
+}
+
+:host ::ng-deep .fab-button-small {
+  width:32px;
+  height: 32px;
+}

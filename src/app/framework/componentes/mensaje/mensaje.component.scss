@@ -1,0 +1,12 @@
+:host ::ng-deep {
+  .p-toast-message {
+    width: 22rem;
+    position: fixed;
+    top: 0;
+    right: 5px;
+
+  }
+  .p-toast-message-text {
+    font-size: 0.9rem;
+  }
+}

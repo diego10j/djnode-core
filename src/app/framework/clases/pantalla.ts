@@ -1,18 +1,21 @@
 import { UtilitarioService } from '../../services/utilitario.service';
 import { Component, ViewChild } from '@angular/core';
 import { BarraComponent } from '../componentes/barra/barra.component';
+import { MensajeComponent } from '../componentes/mensaje/mensaje.component';
 
 @Component({
   selector: 'pantalla',
-  template: ''
+  template: '',
 })
-export abstract class Pantalla {
+export abstract class Pantalla{
 
   @ViewChild('barra') barra: BarraComponent;
+  @ViewChild('mensaje') mensaje: MensajeComponent;
 
 
 
   constructor(public utilitario: UtilitarioService) {
+    this.utilitario.abrirLoading();
   }
 
   ionViewDidEnter() {
@@ -22,7 +25,6 @@ export abstract class Pantalla {
       this.barra.onEliminar = () => { this.eliminar(); };
       this.barra.onGuardar = () => { this.guardar(); };
     }
-
   }
 
 

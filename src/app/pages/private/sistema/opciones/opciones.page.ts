@@ -51,12 +51,12 @@ export class OpcionesPage extends Pantalla {
     this.tabTabla3.dibujar(); // última
 
 
-    await this.tabTabla4.setTabla('sis_objeto_opcion', 'ide_obop', 3);
+    await this.tabTabla4.setTabla('sis_objeto_opcion', 'ide_obop', 4);
     this.tabTabla4.setCampoOrden('nom_obop');
     this.tabTabla4.setFilasPorPagina(5);
     this.tabTabla4.setLectura(false);
     this.tabTabla4.dibujar(); // última
-
+    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
   insertar(): void {
