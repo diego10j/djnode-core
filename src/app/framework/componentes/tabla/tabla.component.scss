@@ -14,6 +14,10 @@
   padding-right: 10px;
 }
 
+.botones{
+  padding: 5px 10px;
+}
+
 .componente {
   width: 100% !important;
   font-size: 0.85rem !important;
@@ -38,7 +42,7 @@ ion-card {
   }
 
   .p-tooltip{
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
   }
   .tituloTabla {
     font-size: 1.1rem;

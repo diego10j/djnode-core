@@ -88,6 +88,10 @@ ion-buttons:focus {
   outline: none !important;
 }
 
+ion-button{
+  font-size: 0.9rem !important;
+}
+
 /*
    * textos colores fondo
    */
@@ -252,13 +256,17 @@ ion-buttons:focus {
 .font {
   font-size: 0.9rem !important;
 }
-
+.bg-celeste{
+  background-color: #E0F2FE !important;
+  --background: #E0F2FE !important;
+}
 .bg-gray {
   color: #000;
   background-color: #d2d6de !important;
 }
 .bg-gray-light {
   background-color: #f7f7f7;
+  --background: #f7f7f7 !important;
 }
 .bg-black {
   background-color: #111111 !important;

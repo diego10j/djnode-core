@@ -1,5 +1,6 @@
-<ion-button *ngIf="modo === 'ionic'" size="small" [color]="color" [class]="class" [title]="valor ? valor.toUpperCase(): ''"
-  [fill]="soloIcono ? 'clear': soloBorde ?'outline':'solid'"  (click)="onClickButton($event)">
+<ion-button mode="ios" *ngIf="modo === 'ionic'" size="small" [color]="color" [class]="class" 
+  [fill]="soloIcono ? 'clear': soloBorde ?'outline':'solid'"  (click)="onClickButton($event)"
+  [pTooltip]="valor ? valor: ''" tooltipPosition="bottom" [disabled]="disabled">
   <span *ngIf="valor && !soloIcono" style="padding-right: 3px;"> {{valor}}</span>
   <ion-icon *ngIf="icono" [slot]="soloIcono ? 'icon-only':'start'" [name]="icono" name="add-circle-outline"></ion-icon>
 </ion-button>

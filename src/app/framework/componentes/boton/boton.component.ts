@@ -12,6 +12,7 @@ export class BotonComponent implements OnInit {
   @Input() class: string;
   @Input() icono: string;
   @Input() modo = 'ionic';  //ionic -prime
+  @Input() disabled = false; 
   @Input() soloIcono = false;
   @Input() soloBorde = false;
   @Output() onClick = new EventEmitter<any>();
