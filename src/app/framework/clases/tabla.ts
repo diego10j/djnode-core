@@ -13,7 +13,7 @@ export default class Tabla {
     campoOrden: string;
     condiciones: Condicion;
     numeroFilas = 1000; // Número de filas que recupera del sw
-    filasPorPagina = 15;
+    filasPorPagina = 10;
     pagina: number = 1;
     filaActual: number = 0;
     seleccionada: any;

@@ -12,47 +12,56 @@
                 <div class="separator"></div>
 
                 <form autocomplete="off" class="login-form" [formGroup]="registrarForm" (ngSubmit)="registrar()">
-                    <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('identificacion')">
-                        El campo debe contener 10 o 13 digitos
-                    </ion-text>
+
                     <div class="form-control">
-                        <input type="text" formControlName="identificacion" placeholder="Cédula o RUC" maxlength="13">
+                        <input type="text" formControlName="identificacion" placeholder="Cédula o RUC" maxlength="13"
+                            style="padding-left: 45px;">
                         <i class="far fa-id-card"></i>
                     </div>
+                    <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('identificacion')">
+                        El campo debe contener 10 o 13 digitos.
+                    </ion-text>
 
 
+
+                    <div class="form-control">
+                        <input type="text" formControlName="nombre" placeholder="Nombre Completo"
+                            style="padding-left: 45px;padding-right: 15px;">
+                        <i class="fas fa-user"></i>
+                    </div>
                     <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('nombre')">
                         El campo no puede estar vacío.
                     </ion-text>
-                    <div class="form-control">
-                        <input type="text" formControlName="nombre" placeholder="Nombre Completo">
-                        <i class="far fa-user"></i>
-                    </div>
 
-                    <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('email')">
-                        El correo no es válido
-                    </ion-text>
+
                     <div class="form-control">
                         <input type="email" formControlName="email"
-                            pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" placeholder="Email">
-                        <i class="far fa-envelope"></i>
+                            pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" placeholder="Email"
+                            style="padding-left: 45px;padding-right: 15px;">
+                        <i class="fas fa-envelope"></i>
                     </div>
+                    <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('email')">
+                        El correo no es válido.
+                    </ion-text>
 
+
+                    <div class="form-control">
+                        <input type="password" formControlName="clave" placeholder="Contraseña"
+                            style="padding-left: 45px;">
+                        <i class="fas fa-lock"></i>
+                    </div>
                     <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('clave')">
-                        La contraseña debe contener mínimo 6 caracteres
+                        La contraseña debe contener mínimo 6 caracteres.
                     </ion-text>
-                    <div class="form-control">
-                        <input type="password" formControlName="clave" placeholder="Contraseña">
-                        <i class="fas fa-lock"></i>
-                    </div>
 
-                    <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('clave2')">
-                        Las contraseñas deben de ser iguales
-                    </ion-text>
                     <div class="form-control">
-                        <input type="password" formControlName="clave2" placeholder="Confirmar Contraseña">
+                        <input type="password" formControlName="clave2" placeholder="Confirmar Contraseña"
+                            style="padding-left: 45px;">
                         <i class="fas fa-lock"></i>
                     </div>
+                    <ion-text class="text-10pt text-red paddingleft" *ngIf="campoNoValido('clave2')">
+                        Las contraseñas deben de ser iguales.
+                    </ion-text>
 
                     <button class="submit">Aceptar</button>
 

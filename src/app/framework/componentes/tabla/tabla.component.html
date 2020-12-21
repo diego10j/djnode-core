@@ -1,36 +1,250 @@
-<p-contextMenu #mnCtx appendTo="body" [target]="cardTabla" [model]="menuContextual" *ngIf="!lectura"></p-contextMenu>
-
-<div #cardTabla (mousedown)="onFocusTabla()" style="min-height: 100px;">
+<p-contextMenu #mnCtx appendTo="body" [target]="cardTabla" [model]="menuContextual"></p-contextMenu>
+<div #cardTabla (mousedown)="onFocusTabla()" [style]="{'min-height': tabla.filasPorPagina * 30 + 'px'}">
     <ion-card *ngIf="isDibujar">
-        <ion-item lines="none" class="ion-no-padding">
-
-            <ion-label *ngIf="titulo" class="tituloTabla">{{titulo}}</ion-label>
-            <div slot="end">
-                <ion-icon *ngIf="textoFiltroGlobal!==''" (click)="borrarFiltros()" class="cursor" name="filter-circle"
-                    color="primary">
-                </ion-icon>
-                <ion-icon class="ion-padding-horizontal cursor" *ngIf="!tipoFormulario" color="primary"
-                    (click)="busqueda.toggle($event)" name="search"></ion-icon>
-                <ion-icon color="primary" class="cursor" (click)="opcionesTabla.toggle($event)"
-                    ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-            </div>
-        </ion-item>
+        <ion-card-header *ngIf="titulo" class="ion-no-padding">
+            <ion-card-title class="tituloTabla">{{titulo}}</ion-card-title>
+        </ion-card-header>
 
 
-
+        <ion-grid>
+            <ion-row>
+              <ion-col class="ion-float-left">
+                <div>
+                    <ng-container>
+                        <ng-template [ngTemplateOutlet]="barra"></ng-template>
+                      </ng-container>
+                </div>
+              </ion-col>
+              <ion-col class="ion-float-right">
+                <div class="ion-text-right">
+                    <button pButton pRipple *ngIf="!tipoFormulario && isBotonFiltro" icon="pi pi-filter"
+                        (click)="busqueda.toggle($event)" pTooltip="Filtrar" tooltipPosition="bottom"
+                        class="p-button-outlined p-button-info p-mr-2 p-button-sm"></button>
+                    <button pButton pRipple *ngIf="isBotonInsertar" icon="pi pi-plus" pTooltip="Insertar"
+                        tooltipPosition="bottom" class="p-button-success bg-success p-mr-2  p-button-sm"
+                        (click)="onInsertarClick()"></button>
+                    <button pButton pRipple icon="pi pi-trash" *ngIf="isBotonEliminar" pTooltip="Eliminar"
+                        tooltipPosition="bottom" class="p-button-danger bg-danger p-mr-2 p-button-sm"
+                        (click)="onEliminarClick()"></button>
+                    <button pButton pRipple icon="pi pi-ellipsis-v" *ngIf="isBotonOpciones"
+                        (click)="opcionesTabla.toggle($event)" pTooltip="Opciones" tooltipPosition="bottom"
+                        class="p-button-secondary bg-medium no-borde p-mr-2 p-button-sm"></button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         <ion-card-content class="ion-no-padding ion-padding-horizontal ion-padding-bottom">
             <ng-container *ngIf="!tipoFormulario">
+
                 <!--  TABLA DE SOLO LECTURA [lazy]="true" (onLazyLoad)="onCargarLazy($event)"-->
                 <ng-container *ngIf="lectura">
                     <p-table #djtabla *ngIf="tabla" [columns]="columnas" [value]="tabla.datos"
-                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-responsive-demo"
-                        [loading]="buscando" [resizableColumns]="true" sortMode="multiple" [paginator]="paginacion"
-                        [rows]="tabla.filasPorPagina" [totalRecords]="tabla.datos.length" [scrollable]="true"
-                        [style]="{'width': '100%','min-height': '100%','font-size': '0.8rem'}" paginatorPosition="top"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [resizableColumns]="true"
+                        sortMode="multiple" [paginator]="paginacion" [rows]="tabla.filasPorPagina"
+                        [totalRecords]="tabla.datos.length" [scrollable]="true" [loading]="buscando"
+                        [style]="{'width': '100%','min-height': tabla.filasPorPagina * 30 + 'px','font-size': '0.8rem'}"
+                        paginatorPosition="top" [metaKeySelection]="true" [sortField]="campoOrden"
                         alwaysShowPaginator="true" showJumpToPageDropdown="true" [showPageLinks]="false"
-                        currentPageReportTemplate="Página {currentPage} de {totalPages}" [responsive]="true"
-                        [autoLayout]="true" selectionMode="single" [(selection)]="tabla.seleccionada"
-                        [dataKey]="tabla.campoPrimario" [metaKeySelection]="true" [sortField]="campoOrden"
+                        currentPageReportTemplate="Página {currentPage} de {totalPages}" [autoLayout]="true"
+                        selectionMode="single" [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario"
+                        (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
+
+                        <ng-template pTemplate="paginatorleft" let-state>
+                            Registros ({{state.totalRecords}})
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td [attr.colspan]="columns.length">
+                                    <span class="text-muted">No se encontraron registros</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="colgroup">
+                            <colgroup>
+                                <col *ngIf="expandible" [style]="{'width':'3rem'}">
+                                <ng-container *ngFor="let columna of columnas">
+                                    <col *ngIf="columna.visible && !columna.expandible"
+                                        [style]="{'width': columna.anchoColumna+'em'}">
+                                </ng-container>
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th *ngIf="expandible"></th>
+                                <ng-container *ngFor="let columna of columnas">
+                                    <th pResizableColumn *ngIf="columna.visible && !columna.expandible"
+                                        pSortableColumn="{{columna.nombre}}" class="centrar width100">
+                                        <div style="white-space:pre-line;text-align: center;vertical-align: middle;">
+                                            <ng-container [ngSwitch]="columna.componente" *ngIf="columna.filtro">
+                                                <p-columnFilter #colFiltro *ngSwitchCase="'Combo'"
+                                                    [type]="columna.tipoFiltro" [field]="columna.nombre" matchMode="in"
+                                                    display="menu" [showMatchModes]="false" [showOperator]="false"
+                                                    [showAddButton]="false">
+                                                    <ng-template pTemplate="header">
+                                                        <span class="negrilla ion-padding-horizontal">
+                                                            {{columna.nombreVisual | uppercase}}
+                                                        </span>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="filter" let-value
+                                                        let-filter="filterCallback">
+
+                                                        <p-multiSelect *ngIf="columna.isCombo"
+                                                            [options]="columna.listaCombo" placeholder="Todos"
+                                                            [panelStyle]="{'font-size':'0.7rem'}"
+                                                            (onChange)="filter($event.value)"
+                                                            [style]="{'width':'20rem', 'font-size':'0.7rem','background':'white','text-align':'left'}">
+                                                            <ng-template let-item pTemplate="selectedItem">
+                                                                <span *ngIf="item.label !=='|'"> {{item.label}}</span>
+                                                                <span *ngIf="item.label =='|'"
+                                                                    style="visibility: hidden">
+                                                                    {{item.label}}</span>
+                                                            </ng-template>
+                                                            <ng-template let-opciones pTemplate="item">
+                                                                <div class="p-multiselect-representative-option">
+                                                                    <span
+                                                                        style="font-size: 0.8rem;padding-right: 15px;min-width:100%;">
+                                                                        {{opciones.label}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                        </p-multiSelect>
+                                                    </ng-template>
+                                                </p-columnFilter>
+
+                                                <p-columnFilter *ngSwitchDefault [type]="columna.tipoFiltro"
+                                                    [field]="columna.nombre" matchMode="contains" [showOperator]="false"
+                                                    [maxConstraints]="1" display="menu">
+                                                </p-columnFilter>
+
+                                            </ng-container>
+                                            {{columna.nombreVisual | uppercase}}
+                                            <p-sortIcon *ngIf="columna.ordenable" field="{{columna.nombre}}">
+                                            </p-sortIcon>
+                                        </div>
+                                    </th>
+                                </ng-container>
+                            </tr>
+
+                        </ng-template>
+                        <!--FILA EXPANSIBLE-->
+                        <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex" let-expanded="expanded">
+
+                            <tr [pSelectableRow]="fila" *ngIf="fila.visible === undefined">
+                                <td *ngIf="expandible">
+                                    <button type="button" pButton pRipple [pRowToggler]="fila"
+                                        class="p-button-text p-button-plain" (click)="onClickComponente(fila)"
+                                        [icon]="expanded ? 'pi pi-angle-down' : 'pi pi-angle-right'"></button>
+                                </td>
+                                <ng-container *ngFor="let columna of columnas">
+                                    <td *ngIf="columna.visible && !columna.expandible">
+
+                                        <ng-container [ngSwitch]="columna.componente">
+                                            <div *ngSwitchCase="['Calendario', 'Hora','CalendarioHora'].includes(columna.componente) ? columna.componente : !columna.componente"
+                                                class="componenteTexto centrar">
+                                                {{fila[columna.nombre]}}
+                                            </div>
+                                            <div *ngSwitchCase="['TextoNumero', 'TextoEntero'].includes(columna.componente) ? columna.componente : !columna.componente"
+                                                class="componenteNumero">
+                                                {{fila[columna.nombre]}}
+                                            </div>
+                                            <div *ngSwitchCase="'TextoMoneda'" class="componenteNumero">
+                                                {{fila[columna.nombre] | currency}}
+                                            </div>
+                                            <div *ngSwitchCase="'Check'"
+                                                style="text-align: center;vertical-align: middle;">
+                                                <p-checkbox [(ngModel)]="fila[columna.nombre]"
+                                                    [style]="{'width':'100%'}" binary="true" inputId="binary"
+                                                    [disabled]="true"></p-checkbox>
+                                            </div>
+                                            <div *ngSwitchCase="'Upload'"
+                                                style="text-align: center; width:100%;display:block;">
+                                                <ion-thumbnail class="cursor" [style]="{'margin-left':'30%'}"
+                                                    slot="start"
+                                                    (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
+                                                    <img [src]="(fila[columna.nombre]  | imagen)">
+                                                </ion-thumbnail>
+                                            </div>
+                                            <div *ngSwitchCase="'Combo'" class="componenteTexto">
+                                                {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
+                                            </div>
+                                            <div *ngSwitchDefault class="componenteTexto">
+                                                {{fila[columna.nombre]}}
+                                            </div>
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </ng-template>
+                        <ng-template *ngIf="expandible" pTemplate="rowexpansion" let-fila>
+                            <tr>
+                                <td colspan="4">
+                                    <table width="100%">
+                                        <tr>
+                                            <ng-container *ngFor="let columna of columnas">
+                                                <th *ngIf="columna.visible && columna.expandible" class="centrar">
+                                                    {{columna.nombreVisual | uppercase}}
+                                                </th>
+                                            </ng-container>
+                                        </tr>
+                                        <ng-container *ngFor="let columna of columnas">
+                                            <td *ngIf="columna.visible && columna.expandible"
+                                                style="vertical-align: middle">
+                                                <ng-container [ngSwitch]="columna.componente">
+                                                    <div *ngSwitchCase="['Calendario', 'Hora','CalendarioHora'].includes(columna.componente) ? columna.componente : !columna.componente"
+                                                        class="componenteTexto centrar">
+                                                        {{fila[columna.nombre]}}
+                                                    </div>
+                                                    <div *ngSwitchCase="['TextoNumero', 'TextoEntero'].includes(columna.componente) ? columna.componente : !columna.componente"
+                                                        class="componenteNumero">
+                                                        {{fila[columna.nombre]}}
+                                                    </div>
+                                                    <div *ngSwitchCase="'TextoMoneda'" class="componenteNumero">
+                                                        {{fila[columna.nombre] | currency}}
+                                                    </div>
+                                                    <div *ngSwitchCase="'Check'"
+                                                        style="text-align: center;vertical-align: middle;">
+                                                        <p-checkbox [(ngModel)]="fila[columna.nombre]"
+                                                            [style]="{'width':'100%'}" binary="true" inputId="binary"
+                                                            [disabled]="true"></p-checkbox>
+                                                    </div>
+                                                    <div *ngSwitchCase="'Upload'"
+                                                        style="text-align: center; width:100%">
+                                                        <ion-thumbnail class="cursor" [style]="{'margin-left':'30%'}"
+                                                            slot="start"
+                                                            (click)="abrirVisualizarImagen(columna.nombre,indiceFilaActual)">
+                                                            <img [src]="(fila[columna.nombre]  | imagen)">
+                                                        </ion-thumbnail>
+                                                    </div>
+                                                    <div *ngSwitchCase="'Combo'" class="componenteTexto">
+                                                        {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
+                                                    </div>
+                                                    <div *ngSwitchDefault class="componenteTexto">
+                                                        {{fila[columna.nombre]}}
+                                                    </div>
+                                                </ng-container>
+                                            </td>
+                                        </ng-container>
+                                    </table>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </ng-container>
+
+
+
+                <!--  TABLA EDITABLE  [lazy]="true" (onLazyLoad)="onCargarLazy($event)" -->
+                <ng-container *ngIf="!lectura">
+                    <p-table #djtabla *ngIf="tabla" [columns]="columnas" [value]="tabla.datos" name="djtablaEditable"
+                        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [loading]="buscando"
+                        [resizableColumns]="true" [paginator]="paginacion" [rows]="tabla.filasPorPagina"
+                        [totalRecords]="tabla.datos.length" [scrollable]="true" focus="false" [dir]="numeroTabla"
+                        [style]="{'width': '100%','min-height': tabla.filasPorPagina * 30 + 'px','font-size': '0.8rem'}"
+                        showJumpToPageDropdown="true" [showPageLinks]="false" [autoLayout]="true" selectionMode="single"
+                        [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario" [metaKeySelection]="true"
+                        (sortFunction)="onOrdenarTablaEditable($event)" [customSort]="true" [sortField]="campoOrden"
+                        currentPageReportTemplate="Página {currentPage} de {totalPages}" paginatorPosition="top"
                         (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
 
                         <ng-template pTemplate="paginatorleft" let-state>
@@ -58,664 +272,609 @@
                                     <th pResizableColumn *ngIf="columna.visible" pSortableColumn="{{columna.nombre}}"
                                         class="centrar;width100">
                                         <div style="white-space:pre-line;text-align: center;">
-                                            {{columna.nombreVisual | uppercase}} <p-sortIcon field="{{columna.nombre}}">
+                                            <ng-container [ngSwitch]="columna.componente" *ngIf="columna.filtro">
+                                                <p-columnFilter #colFiltro *ngSwitchCase="'Combo'"
+                                                    [type]="columna.tipoFiltro" [field]="columna.nombre" matchMode="in"
+                                                    display="menu" [showMatchModes]="false" [showOperator]="false"
+                                                    [showAddButton]="false">
+                                                    <ng-template pTemplate="header">
+                                                        <span class="negrilla ion-padding-horizontal">
+                                                            {{columna.nombreVisual | uppercase}}
+                                                        </span>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="filter" let-value
+                                                        let-filter="filterCallback">
+
+                                                        <p-multiSelect *ngIf="columna.isCombo"
+                                                            [options]="columna.listaCombo" placeholder="Todos"
+                                                            [panelStyle]="{'font-size':'0.7rem'}"
+                                                            (onChange)="filter($event.value)"
+                                                            [style]="{'width':'20rem', 'font-size':'0.7rem','background':'white','text-align':'left'}">
+                                                            <ng-template let-item pTemplate="selectedItem">
+                                                                <span *ngIf="item.label !=='|'"> {{item.label}}</span>
+                                                                <span *ngIf="item.label =='|'"
+                                                                    style="visibility: hidden">
+                                                                    {{item.label}}</span>
+                                                            </ng-template>
+                                                            <ng-template let-opciones pTemplate="item">
+                                                                <div class="p-multiselect-representative-option">
+                                                                    <span
+                                                                        style="font-size: 0.8rem;padding-right: 15px;min-width:100%;">
+                                                                        {{opciones.label}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                        </p-multiSelect>
+                                                    </ng-template>
+                                                </p-columnFilter>
+
+                                                <p-columnFilter *ngSwitchDefault [type]="columna.tipoFiltro"
+                                                    [field]="columna.nombre" matchMode="contains" [showOperator]="false"
+                                                    [maxConstraints]="1" display="menu">
+                                                </p-columnFilter>
+
+                                            </ng-container>
+                                            {{columna.nombreVisual | uppercase}}
+                                            <p-sortIcon *ngIf="columna.ordenable" field="{{columna.nombre}}">
                                             </p-sortIcon>
                                         </div>
                                     </th>
                                 </ng-container>
                             </tr>
-                            <tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="fila" [pEditableRow]="fila" *ngIf="fila.visible === undefined ">
                                 <ng-container *ngFor="let columna of columnas">
-                                    <th *ngIf="columna.visible" class="ion-text-center">
-                                        <ng-container *ngIf="columna.filtro">
 
-                                            <input pInputText *ngIf="columna.componente !== 'Combo'" type="text"
-                                                (input)="djtabla.filter($event.target.value, columna.nombre, 'contains')"
-                                                placeholder="Buscar..." class="componenteFiltro ion-padding-horizontal"
-                                                [(ngModel)]="columna.textoFiltro">
-                                            <p-multiSelect appendTo="body" *ngIf="columna.isCombo"
-                                                [options]="columna.listaCombo" placeholder="Buscar..."
-                                                [panelStyle]="{'font-size':'0.7rem'}" [(ngModel)]="columna.textoFiltro"
-                                                (onChange)="onFiltrarColumnaCombo($event,columna.nombre)"
-                                                [style]="{'width':'90%', 'font-size':'0.7rem','background':'white','text-align':'left'}">
+                                    <td *ngIf="columna.visible">
+
+                                        <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <input pInputText type="text" [(ngModel)]="fila[columna.nombre]"
+                                                class="componente" (change)="onMetodoChange($event,columna.nombre,fila)"
+                                                [maxlength]="columna.longitud" (mousedown)="onClickComponente(fila)"
+                                                [disabled]="columna.lectura">
+                                        </div>
+                                        <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+
+                                            <dp-date-picker
+                                                class="componente p-inputtext p-component p-filled ng-untouched ng-pristine ng-valid"
+                                                (mousedown)="onClickComponente(fila)"
+                                                (change)="onMetodoChange($event,columna.nombre,fila)"
+                                                [config]="fechaPickerConfig" mode="day" theme="dp-material"
+                                                (onSelect)="onMetodoChange($event,columna.nombre,fila)"
+                                                [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
+                                                [placeholder]="formatoFecha"></dp-date-picker>
+                                        </div>
+
+                                        <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <dp-date-picker
+                                                class="componente p-inputtext p-component p-filled ng-untouched ng-pristine ng-valid"
+                                                (mousedown)="onClickComponente(fila)"
+                                                (change)="onMetodoChange($event,columna.nombre,fila)"
+                                                [config]="horaPickerConfig" mode="time" theme="dp-material"
+                                                [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
+                                                placeholder="HH:MM:SS">
+                                            </dp-date-picker>
+
+                                        </div>
+
+                                        <div *ngIf="columna.componente === 'Mascara'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <p-inputMask [mask]="columna.mascara" [style]="{'width':'99%'}"
+                                                styleClass="componente centrar" (mousedown)="onClickComponente(fila)"
+                                                (change)="onMetodoChange($event,columna.nombre,fila)"
+                                                (onComplete)="onMetodoChange($event,columna.nombre,fila)"
+                                                [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura">
+                                            </p-inputMask>
+
+                                        </div>
+
+
+                                        <div *ngIf="columna.componente === 'CalendarioHora'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+
+                                            <dp-date-picker
+                                                class="componente p-inputtext p-component p-filled ng-untouched ng-pristine ng-valid"
+                                                (mousedown)="onClickComponente(fila)"
+                                                (change)="onMetodoChange($event,columna.nombre,fila)"
+                                                [config]="fechaHoraPickerConfig" mode="daytime" theme="dp-material"
+                                                (onSelect)="onMetodoChange($event,columna.nombre,fila)"
+                                                [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
+                                                [placeholder]="formatoFechaHora"></dp-date-picker>
+                                        </div>
+                                        <div *ngIf="columna.componente === 'Check'"
+                                            style="text-align: center;vertical-align: middle;">
+                                            <p-checkbox [(ngModel)]="fila[columna.nombre]" [style]="{'width':'100%'}"
+                                                binary="true" inputId="binary"
+                                                (onChange)="onMetodoChange($event,columna.nombre,fila)"
+                                                [disabled]="columna.lectura" (mousedown)="onClickComponente(fila)">
+                                            </p-checkbox>
+                                        </div>
+                                        <div *ngIf="columna.componente === 'Combo'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <p-dropdown appendTo="body" [filter]="true"
+                                                (onChange)="onMetodoChange($event,columna.nombre,fila)"
+                                                (mousedown)="onClickComponenteDropDown(fila)"
+                                                emptyFilterMessage="No existen registros"
+                                                [(ngModel)]="fila[columna.nombre]" styleClass="componente"
+                                                [style]="{'width':'100%'}" [options]="columna.listaCombo"
+                                                [disabled]="columna.lectura">
                                                 <ng-template let-item pTemplate="selectedItem">
-                                                    <span *ngIf="item.label !=='|'"> {{item.label}}</span>
+                                                    <span *ngIf="item.label !=='|'">
+                                                        <span *ngFor="let valor  of item.label.split('|')">
+                                                            <span style="font-size: 0.9rem;padding-right: 10px;">
+                                                                {{valor}}</span>
+                                                        </span>
+                                                    </span>
                                                     <span *ngIf="item.label =='|'" style="visibility: hidden">
                                                         {{item.label}}</span>
                                                 </ng-template>
                                                 <ng-template let-opciones pTemplate="item">
-                            <tr style="padding: 0;margin: 0;">
-                                <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                    *ngFor="let valor  of opciones.label.split('|')">
-                                    <span style="font-size: 0.8rem;padding-right: 15px;min-width:100%;">
-                                        {{valor}}</span>
-                                </td>
+
+                                                    <div style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                        *ngFor="let valor  of opciones.label.split('|')">
+                                                        <span
+                                                            style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                            {{valor}}</span>
+                                                    </div>
+
+                                                </ng-template>
+                                            </p-dropdown>
+                                        </div>
+                                        <div *ngIf="columna.componente === 'TextoEntero'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <p-inputNumber [useGrouping]="false" (mousedown)="onClickComponente(fila)"
+                                                (onInput)="onMetodoChange($event,columna.nombre,fila)"
+                                                [(ngModel)]="fila[columna.nombre]"
+                                                [style]="{'width':'100%','min-width':'100%'}"
+                                                inputStyleClass="alinear-derecha" size="10"
+                                                [disabled]="columna.lectura">
+                                            </p-inputNumber>
+                                        </div>
+                                        <div *ngIf="columna.componente === 'TextoNumero'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <p-inputNumber [(ngModel)]="fila[columna.nombre]"
+                                                (mousedown)="onClickComponente(fila)"
+                                                (onInput)="onMetodoChange($event,columna.nombre,fila)"
+                                                [style]="{'width':'100%','min-width':'100%'}"
+                                                inputStyleClass="alinear-derecha" size="10" mode="decimal"
+                                                [minFractionDigits]="columna.decimales"
+                                                [maxFractionDigits]="columna.decimales" [disabled]="columna.lectura">
+                                            </p-inputNumber>
+                                        </div>
+                                        <div *ngIf="columna.componente === 'TextoMoneda'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <p-inputNumber [(ngModel)]="fila[columna.nombre]"
+                                                (mousedown)="onClickComponente(fila)"
+                                                (onInput)="onMetodoChange($event,columna.nombre,fila)"
+                                                [style]="{'width':'100%','min-width':'100%'}"
+                                                inputStyleClass="alinear-derecha" size="10" mode="currency"
+                                                currency="USD" locale="en-US" [disabled]="columna.lectura">
+                                            </p-inputNumber>
+                                        </div>
+
+                                        <div *ngIf="columna.componente === 'Autocompletar'" class="p-inputtext-sm"
+                                            style="white-space:pre-line;">
+                                            <p-autoComplete appendTo="body" [inputStyle]="{'width':'100%'}"
+                                                [(ngModel)]="fila[columna.nombre]"
+                                                (ngModelChange)="onMetodoChange($event,columna.nombre,fila)"
+                                                (mousedown)="onClickComponente(fila)"
+                                                [suggestions]="resultadoAutocompletar" [style]="{'width':'100%'}"
+                                                [forceSelection]="true"
+                                                (completeMethod)="onAutocompletar($event,columna.nombre)" field="label">
+                                                <ng-template let-opciones pTemplate="item">
+                                                    <div style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                        *ngFor="let valor  of opciones.label.split('|')">
+                                                        <span
+                                                            style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                            {{valor}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                        </div>
+
+                                        <div *ngIf="columna.componente === 'Etiqueta'" style="white-space:pre-line;"
+                                            class="componenteTexto">
+                                            {{fila[columna.nombre]}}
+                                        </div>
+
+
+                                        <div *ngIf="columna.componente === 'Upload'">
+
+                                            <ion-item lines="none" class="bg-transparente">
+                                                <ion-thumbnail class="cursor" slot="start"
+                                                    (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
+                                                    <img [src]="(fila[columna.nombre]  | imagen)">
+                                                </ion-thumbnail>
+
+                                                <ion-buttons slot="end">
+                                                    <p-fileUpload #fileUpload mode="basic" accept="image/*" auto="auto"
+                                                        maxFileSize="5000000" chooseLabel="Seleccionar"
+                                                        uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
+                                                        cancelLabel="Descartar" customUpload="true" class="componente"
+                                                        (uploadHandler)="seleccionarImagen($event,columna.nombre,indiceFilaActual,fileUpload)">
+                                                    </p-fileUpload>
+                                                </ion-buttons>
+                                            </ion-item>
+                                        </div>
+
+                                    </td>
+                                </ng-container>
                             </tr>
                         </ng-template>
 
-                        </p-multiSelect>
-
+                    </p-table>
 
                 </ng-container>
 
-                </th>
-            </ng-container>
-            </tr>
 
-            </ng-template>
-            <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex">
-                <tr [pSelectableRow]="fila" *ngIf="fila.visible === undefined ">
-                    <ng-container *ngFor="let columna of columnas">
-                        <td *ngIf="columna.visible">
-                            <span class="p-column-title">{{columna.nombreVisual}}</span> <!--  Responsive-->
-                            <div *ngIf="columna.componente === 'Texto' || columna.componente === 'Etiqueta'"
-                                class="componenteTexto">
-                                {{fila[columna.nombre]}}
-                            </div>
-                            <div *ngIf="columna.componente === 'Calendario' || columna.componente === 'Hora' || columna.componente === 'CalendarioHora'"
-                                class="componenteTexto centrar">
-                                {{fila[columna.nombre]}}
-                            </div>
-                            <div *ngIf="columna.componente === 'TextoNumero' || columna.componente === 'TextoEntero' "
-                                class="componenteNumero">
-                                {{fila[columna.nombre]}}
-                            </div>
-                            <div *ngIf="columna.componente === 'TextoMoneda'" class="componenteNumero">
-                                {{fila[columna.nombre] | currency}}
-                            </div>
-                            <div *ngIf="columna.componente === 'Check'" style="text-align: center;vertical-align: middle;">
-                                <p-checkbox [(ngModel)]="fila[columna.nombre]" [style]="{'width':'100%'}" binary="true"
-                                    inputId="binary" 
-                                    [disabled]="true" ></p-checkbox>
-                            </div>
 
-                            <div *ngIf="columna.componente === 'Upload'" style="text-align: center; width:100%;display:block;">
-                                    <ion-thumbnail class="cursor"  [style]="{'margin-left':'30%'}"   slot="start" (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
-                                        <img [src]="(fila[columna.nombre]  | imagen)">
-                                    </ion-thumbnail>                       
-                            </div>
-                            <div *ngIf="columna.componente === 'Combo'" class="componenteTexto">
-                                {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
-                            </div>
-                        </td>
-                    </ng-container>
-                </tr>
-            </ng-template>
-            </p-table>
             </ng-container>
 
+            <p-overlayPanel #busqueda appendTo="body">
+                <ng-template pTemplate>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" placeholder="Busqueda General"
+                            autofocus="true" />
+                    </span>
 
+                    <div class="p-column-filter-buttonbar ion-margin-top">
+                        <button type="button" pButton class="p-button-outlined" (click)="onClearFiltroGlobal()"
+                            label="Limpiar" pRipple></button>
+                        <button type="button" pButton (click)="onFiltroGlobal(textoFiltroGlobal)" label="Aplicar"
+                            pRipple></button>
+                    </div>
+                </ng-template>
+            </p-overlayPanel>
 
+            <p-tieredMenu appendTo="body" #opcionesTabla [model]="menuOpciones" [popup]="true"></p-tieredMenu>
 
-
-            <!--  TABLA EDITABLE  [lazy]="true" (onLazyLoad)="onCargarLazy($event)" -->
-            <ng-container *ngIf="!lectura">
-                <p-table #djtabla *ngIf="tabla" [columns]="columnas" [value]="tabla.datos" name="djtablaEditable"
-                    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-responsive-demo"
-                    [loading]="buscando" [resizableColumns]="true" [paginator]="paginacion"
-                    [rows]="tabla.filasPorPagina" [totalRecords]="tabla.datos.length" [scrollable]="true" focus="false"
-                    [dir]="numeroTabla" [style]="{'width': '100%','font-size': '0.9rem' }" paginatorPosition="top"
-                    showJumpToPageDropdown="true" [showPageLinks]="false" [responsive]="true" [autoLayout]="true"
-                    selectionMode="single" [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario"
-                    [metaKeySelection]="true" (sortFunction)="onOrdenarTablaEditable($event)" [customSort]="true"
-                    [sortField]="campoOrden" currentPageReportTemplate="Página {currentPage} de {totalPages}"
-                    (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
-
-                    <ng-template pTemplate="paginatorleft" let-state>
-                        Registros ({{state.totalRecords}})
-                    </ng-template>
-
-                    <ng-template pTemplate="emptymessage" let-columns>
-                        <tr>
-                            <td [attr.colspan]="columns.length">
-                                <span class="text-muted">No se encontraron registros</span>
-                            </td>
-                        </tr>
-                    </ng-template>
-
-                    <ng-template pTemplate="colgroup">
-                        <colgroup>
-                            <ng-container *ngFor="let columna of columnas">
-                                <col *ngIf="columna.visible" [style]="{'width': columna.anchoColumna+'em'}">
-                            </ng-container>
-                        </colgroup>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <ng-container *ngFor="let columna of columnas">
-                                <th pResizableColumn *ngIf="columna.visible" pSortableColumn="{{columna.nombre}}"
-                                    class="centrar;width100">
-                                    <div style="white-space:pre-line;text-align: center;">
-                                        {{columna.nombreVisual | uppercase}} <p-sortIcon field="{{columna.nombre}}">
-                                        </p-sortIcon>
-                                        <span *ngIf="columna.requerida" class="text-red"> *</span>
-                                    </div>
-                                </th>
-                            </ng-container>
-                        </tr>
-                        <tr>
-                            <ng-container *ngFor="let columna of columnas">
-                                <th *ngIf="columna.visible" class="ion-text-center">
-                                    <ng-container *ngIf="columna.filtro">
-
-                                        <input pInputText *ngIf="columna.componente !== 'Combo'" type="text"
-                                            (input)="djtabla.filter($event.target.value, columna.nombre, 'contains')"
-                                            placeholder="Buscar..." class="componenteFiltro ion-padding-horizontal"
-                                            [(ngModel)]="columna.textoFiltro">
-                                        <p-multiSelect appendTo="body" *ngIf="columna.isCombo"
-                                            [options]="columna.listaCombo" placeholder="Buscar..."
-                                            [panelStyle]="{'font-size':'0.7rem'}" [(ngModel)]="columna.textoFiltro"
-                                            (onChange)="onFiltrarColumnaCombo($event,columna.nombre)"
-                                            [style]="{'width':'90%', 'font-size':'0.7rem','background':'white','text-align':'left'}">
-                                            <ng-template let-item pTemplate="selectedItem">
-                                                <span *ngIf="item.label !=='|'"> {{item.label}}</span>
-                                                <span *ngIf="item.label =='|'" style="visibility: hidden">
-                                                    {{item.label}}</span>
-                                            </ng-template>
-                                            <ng-template let-opciones pTemplate="item">
-                        <tr style="padding: 0;margin: 0;">
-                            <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                *ngFor="let valor  of opciones.label.split('|')">
-                                <span style="font-size: 0.8rem;padding-right: 15px;min-width:100%;">
-                                    {{valor}}</span>
-                            </td>
-                        </tr>
-                    </ng-template>
-                    </p-multiSelect>
-            </ng-container>
-            </th>
-            </ng-container>
-            </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-fila let-rowIndex="rowIndex">
-                <tr [pSelectableRow]="fila" [pEditableRow]="fila" *ngIf="fila.visible === undefined ">
-                    <ng-container *ngFor="let columna of columnas">
-
-                        <td *ngIf="columna.visible">
-                            <span class="p-column-title">{{columna.nombreVisual}}</span> <!--  Responsive-->
-                            <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
-                                style="white-space:pre-line;">
-                                <input pInputText type="text" [(ngModel)]="fila[columna.nombre]" class="componente"
-                                    (change)="onMetodoChange($event,columna.nombre,fila)" [maxlength]="columna.longitud"
-                                    (mousedown)="onClickComponente(fila)" [disabled]="columna.lectura">
-                            </div>
-                            <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
-                                style="white-space:pre-line;">
-
-                                <dp-date-picker
-                                    class="componente p-inputtext p-component p-filled ng-untouched ng-pristine ng-valid"
-                                    (mousedown)="onClickComponente(fila)"
-                                    (change)="onMetodoChange($event,columna.nombre,fila)" [config]="fechaPickerConfig"
-                                    mode="day" theme="dp-material"
-                                    (onSelect)="onMetodoChange($event,columna.nombre,fila)"
-                                    [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
-                                    [placeholder]="formatoFecha"></dp-date-picker>
-                            </div>
-
-                            <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
-                                style="white-space:pre-line;">
-                                <dp-date-picker
-                                    class="componente p-inputtext p-component p-filled ng-untouched ng-pristine ng-valid"
-                                    (mousedown)="onClickComponente(fila)"
-                                    (change)="onMetodoChange($event,columna.nombre,fila)" [config]="horaPickerConfig"
-                                    mode="time" theme="dp-material" [(ngModel)]="fila[columna.nombre]"
-                                    [disabled]="columna.lectura" placeholder="HH:MM:SS">
-                                </dp-date-picker>
-
-                            </div>
-
-                            <div *ngIf="columna.componente === 'Mascara'" class="p-inputtext-sm"
-                                style="white-space:pre-line;">
-                                <p-inputMask [mask]="columna.mascara" [style]="{'width':'99%'}"
-                                    styleClass="componente centrar" (mousedown)="onClickComponente(fila)"
-                                    (change)="onMetodoChange($event,columna.nombre,fila)"
-                                    (onComplete)="onMetodoChange($event,columna.nombre,fila)"
-                                    [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura">
-                                </p-inputMask>
-
-                            </div>
-
-
-                            <div *ngIf="columna.componente === 'CalendarioHora'" class="p-inputtext-sm"
-                                style="white-space:pre-line;">
-
-                                <dp-date-picker
-                                    class="componente p-inputtext p-component p-filled ng-untouched ng-pristine ng-valid"
-                                    (mousedown)="onClickComponente(fila)"
-                                    (change)="onMetodoChange($event,columna.nombre,fila)"
-                                    [config]="fechaHoraPickerConfig" mode="daytime" theme="dp-material"
-                                    (onSelect)="onMetodoChange($event,columna.nombre,fila)"
-                                    [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
-                                    [placeholder]="formatoFechaHora"></dp-date-picker>
-                            </div>
-                            <div *ngIf="columna.componente === 'Check'"
-                                style="text-align: center;vertical-align: middle;">
-                                <p-checkbox [(ngModel)]="fila[columna.nombre]" [style]="{'width':'100%'}" binary="true"
-                                    inputId="binary" (onChange)="onMetodoChange($event,columna.nombre,fila)"
-                                    [disabled]="columna.lectura" (mousedown)="onClickComponente(fila)"></p-checkbox>
-                            </div>
-                            <div *ngIf="columna.componente === 'Combo'" class="p-inputtext-sm"
-                                style="white-space:pre-line;">
-                                <p-dropdown appendTo="body" [filter]="true"
-                                    (onChange)="onMetodoChange($event,columna.nombre,fila)"
-                                    (mousedown)="onClickComponenteDropDown(fila)"
-                                    emptyFilterMessage="No existen registros" [(ngModel)]="fila[columna.nombre]"
-                                    styleClass="componente" [style]="{'width':'100%'}" [options]="columna.listaCombo"
-                                    [disabled]="columna.lectura">
-                                    <ng-template let-item pTemplate="selectedItem">
-                                        <span *ngIf="item.label !=='|'">
-                                            <span *ngFor="let valor  of item.label.split('|')">
-                                                <span style="font-size: 0.9rem;padding-right: 10px;">
-                                                    {{valor}}</span>
-                                            </span>
-                                        </span>
-                                        <span *ngIf="item.label =='|'" style="visibility: hidden">
-                                            {{item.label}}</span>
-                                    </ng-template>
-                                    <ng-template let-opciones pTemplate="item">
-
-                        <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                            *ngFor="let valor  of opciones.label.split('|')">
-                            <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;"> {{valor}}</span>
-                        </td>
-
-            </ng-template>
-            </p-dropdown>
-</div>
-<div *ngIf="columna.componente === 'TextoEntero'" class="p-inputtext-sm" style="white-space:pre-line;">
-    <p-inputNumber [useGrouping]="false" (mousedown)="onClickComponente(fila)"
-        (onInput)="onMetodoChange($event,columna.nombre,fila)" [(ngModel)]="fila[columna.nombre]"
-        [style]="{'width':'100%','min-width':'100%'}" inputStyleClass="alinear-derecha" size="10"
-        [disabled]="columna.lectura"></p-inputNumber>
-</div>
-<div *ngIf="columna.componente === 'TextoNumero'" class="p-inputtext-sm" style="white-space:pre-line;">
-    <p-inputNumber [(ngModel)]="fila[columna.nombre]" (mousedown)="onClickComponente(fila)"
-        (onInput)="onMetodoChange($event,columna.nombre,fila)" [style]="{'width':'100%','min-width':'100%'}"
-        inputStyleClass="alinear-derecha" size="10" mode="decimal" [minFractionDigits]="columna.decimales"
-        [maxFractionDigits]="columna.decimales" [disabled]="columna.lectura">
-    </p-inputNumber>
-</div>
-<div *ngIf="columna.componente === 'TextoMoneda'" class="p-inputtext-sm" style="white-space:pre-line;">
-    <p-inputNumber [(ngModel)]="fila[columna.nombre]" (mousedown)="onClickComponente(fila)"
-        (onInput)="onMetodoChange($event,columna.nombre,fila)" [style]="{'width':'100%','min-width':'100%'}"
-        inputStyleClass="alinear-derecha" size="10" mode="currency" currency="USD" locale="en-US"
-        [disabled]="columna.lectura">
-    </p-inputNumber>
-</div>
-
-<div *ngIf="columna.componente === 'Autocompletar'" class="p-inputtext-sm" style="white-space:pre-line;">
-    <p-autoComplete appendTo="body" [inputStyle]="{'width':'100%'}" [(ngModel)]="fila[columna.nombre]"
-        (ngModelChange)="onMetodoChange($event,columna.nombre,fila)" (mousedown)="onClickComponente(fila)"
-        [suggestions]="resultadoAutocompletar" [style]="{'width':'100%'}" [forceSelection]="true"
-        (completeMethod)="onAutocompletar($event,columna.nombre)" field="label">
-        <ng-template let-opciones pTemplate="item">
-            <td style="width: 100%;height: 100%;padding: 0;margin: 0;" *ngFor="let valor  of opciones.label.split('|')">
-                <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;"> {{valor}}</span>
-            </td>
-        </ng-template>
-    </p-autoComplete>
-</div>
-
-
-<div *ngIf="columna.componente === 'Etiqueta'" style="white-space:pre-line;" class="componenteTexto">
-    {{fila[columna.nombre]}}
-</div>
-
-
-<div *ngIf="columna.componente === 'Upload'">
-
-    <ion-item lines="none" class="bg-transparente">
-        <ion-thumbnail class="cursor" slot="start" (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
-            <img [src]="(fila[columna.nombre]  | imagen)">
-        </ion-thumbnail>
-
-        <ion-buttons slot="end">
-            <p-fileUpload mode="basic" accept="image/*" auto="auto" maxFileSize="5000000" chooseLabel="Seleccionar"
-                uploadLabel="Seleccionar" chooseIcon="pi pi-upload" cancelLabel="Descartar" customUpload="true"
-                class="componente" (uploadHandler)="seleccionarImagen($event,columna.nombre,rowIndex)">
-            </p-fileUpload>
-        </ion-buttons>
-    </ion-item>
-</div>
-
-</td>
-</ng-container>
-</tr>
-</ng-template>
-
-</p-table>
-
-</ng-container>
-
-
-
-</ng-container>
-
-<p-overlayPanel #busqueda appendTo="body">
-    <ng-template pTemplate>
-        <span class="p-input-icon-left">
-            <i class="pi pi-search"></i>
-            <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" (input)="onFiltroGlobal($event.target.value)"
-                placeholder="Busqueda General" autofocus="true" />
-        </span>
-    </ng-template>
-</p-overlayPanel>
-
-<p-tieredMenu appendTo="body" #opcionesTabla [model]="menuOpciones" [popup]="true"></p-tieredMenu>
-
-<ng-container *ngIf="tipoFormulario">
-    <!--  TIPO FORMULARIO-->
-    <div *ngIf="isUnico()===false">
-        <!--Muestra el paginador si no es unico-->
-        <div *ngIf="mostrarPaginadorFormulario">
-            <p-paginator [rows]="1" [first]="indiceFilaActual" [totalRecords]="tabla.datos.length"
-                [showJumpToPageDropdown]="true" [showPageLinks]="false"
-                currentPageReportTemplate="Registro {currentPage} de {totalPages}"
-                (onPageChange)="onPaginadorFormulario($event)">
-            </p-paginator>
-        </div>
-    </div>
-
-    <ion-row *ngIf="!seleccionada">
-        <ng-container *ngFor="let columna of columnas">
-            <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
-                size-sm="12" size-xs="12">
-                <ion-label>
-                    <ion-skeleton-text animated style="width: 30%;height: 20px"></ion-skeleton-text>
-                </ion-label>
-                <div class="p-inputtext-sm" style="white-space:pre-line;">
-                    <ion-skeleton-text animated style="width: 99%; height: 35px"></ion-skeleton-text>
+            <ng-container *ngIf="tipoFormulario">
+                <!--  TIPO FORMULARIO-->
+                <div *ngIf="isUnico()===false">
+                    <!--Muestra el paginador si no es unico-->
+                    <div *ngIf="mostrarPaginadorFormulario">
+                        <p-paginator [rows]="1" [first]="indiceFilaActual" [totalRecords]="tabla.datos.length"
+                            [showJumpToPageDropdown]="true" [showPageLinks]="false"
+                            currentPageReportTemplate="Registro {currentPage} de {totalPages}"
+                            (onPageChange)="onPaginadorFormulario($event)">
+                        </p-paginator>
+                    </div>
                 </div>
-            </ion-col>
-        </ng-container>
-    </ion-row>
 
-
-    <ion-row *ngIf="seleccionada" name="djtablaEditable" focus="false" [dir]="numeroTabla"
-        class="p-fluid p-formgrid p-grid">
-        <ng-container *ngFor="let columna of columnas">
-            <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
-                size-sm="12" size-xs="12">
-                <!--  FORMULARIO COMPONENTES WEB PRIMENG-->
-                <ng-container *ngIf="modoFormulario==='web'">
-                    <ion-label position="stacked" class="text-muted">{{columna.nombreVisual | uppercase}}
-                    </ion-label> <span *ngIf="columna.requerida" class="text-red"> *</span>
-
-                    <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm" style="white-space:pre-line;">
-                        <input pInputText type="text" [(ngModel)]="seleccionada[columna.nombre]" class="componente"
-                            (change)="onMetodoChange($event,columna.nombre,seleccionada)" [disabled]="columna.lectura"
-                            [maxlength]="columna.longitud">
-                    </div>
-                    <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
-                        style="white-space:pre-line;">
-                        <p-calendar appendTo="body" inputStyleClass="componente" [style]="{'width':'100%'}"
-                            [locale]="es" (onSelect)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            (onTodayClick)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            (onClearClick)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            (change)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [(ngModel)]="seleccionada[columna.nombre]" dateFormat="yy-mm-dd" showButtonBar="true"
-                            [disabled]="columna.lectura">
-                        </p-calendar>
-                    </div>
-                    <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm" style="white-space:pre-line;">
-                        <p-inputMask mask="99:99:99" [style]="{'width':'99%'}" styleClass="componente"
-                            (change)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [(ngModel)]="seleccionada[columna.nombre]" placeholder="hh:mm:ss"
-                            [disabled]="columna.lectura">
-                        </p-inputMask>
-                    </div>
-                    <div *ngIf="columna.componente === 'CalendarioHora'" class="p-inputtext-sm"
-                        style="white-space:pre-line;">
-                        <p-inputMask mask="9999-99-99 99:99:99" [style]="{'width':'99%'}" styleClass="componente"
-                            (change)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [(ngModel)]="seleccionada[columna.nombre]" placeholder="yyyy-mm-dd hh:mm:ss"
-                            [disabled]="columna.lectura">
-                        </p-inputMask>
-                    </div>
-                    <div *ngIf="columna.componente === 'Check'" style="vertical-align: middle;">
-                        <p-checkbox [(ngModel)]="seleccionada[columna.nombre]" [style]="{'width':'100%'}" binary="true"
-                            inputId="binary" (onChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [disabled]="columna.lectura"></p-checkbox>
-                    </div>
-                    <div *ngIf="columna.componente === 'Combo'" class="p-inputtext-sm" style="white-space:pre-line;">
-                        <p-dropdown appendTo="body" [filter]="true"
-                            (onChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            emptyFilterMessage="No existen registros" [(ngModel)]="seleccionada[columna.nombre]"
-                            styleClass="componente" [style]="{'width':'100%'}" [options]="columna.listaCombo"
-                            [disabled]="columna.lectura">
-                            <ng-template let-item pTemplate="selectedItem">
-                                <span *ngIf="item.label !=='|'">
-                                    <span *ngFor="let valor  of item.label.split('|')">
-                                        <span style="font-size: 0.9rem;padding-right: 10px;"> {{valor}}</span>
-                                    </span>
-                                </span>
-                                <span *ngIf="item.label =='|'" style="visibility: hidden"> {{item.label}}</span>
-                            </ng-template>
-                            <ng-template let-opciones pTemplate="item">
-
-                                <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                    *ngFor="let valor  of opciones.label.split('|')">
-                                    <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
-                                        {{valor}}</span>
-                                </td>
-
-                            </ng-template>
-                        </p-dropdown>
-                    </div>
-                    <div *ngIf="columna.componente === 'TextoEntero'" class="p-inputtext-sm"
-                        style="white-space:pre-line;">
-                        <p-inputNumber [useGrouping]="false"
-                            (onInput)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [(ngModel)]="seleccionada[columna.nombre]" [style]="{'width':'100%','min-width':'100%'}"
-                            size="10" [disabled]="columna.lectura"></p-inputNumber>
-                    </div>
-                    <div *ngIf="columna.componente === 'TextoNumero'" class="p-inputtext-sm"
-                        style="white-space:pre-line;">
-                        <p-inputNumber [(ngModel)]="seleccionada[columna.nombre]"
-                            (onInput)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [style]="{'width':'100%','min-width':'100%'}" size="10" mode="decimal"
-                            [minFractionDigits]="columna.decimales" [maxFractionDigits]="columna.decimales"
-                            [disabled]="columna.lectura">
-                        </p-inputNumber>
-                    </div>
-                    <div *ngIf="columna.componente === 'TextoMoneda'" class="p-inputtext-sm"
-                        style="white-space:pre-line;">
-                        <p-inputNumber [(ngModel)]="seleccionada[columna.nombre]"
-                            (onInput)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [style]="{'width':'100%','min-width':'100%'}" size="10" mode="currency" currency="USD"
-                            locale="en-US" [disabled]="columna.lectura">
-                        </p-inputNumber>
-                    </div>
-                    <div *ngIf="columna.componente === 'Autocompletar'" class="p-inputtext-sm"
-                        style="white-space:pre-line;">
-                        <p-autoComplete appendTo="body" [inputStyle]="{'width':'100%'}"
-                            [(ngModel)]="seleccionada[columna.nombre]"
-                            (ngModelChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                            [suggestions]="resultadoAutocompletar" [style]="{'width':'100%'}" [forceSelection]="true"
-                            (completeMethod)="onAutocompletar($event,columna.nombre)" field="label" [type]="'search'">
-                            <ng-template let-opciones pTemplate="item">
-                                <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                    *ngFor="let valor  of opciones.label.split('|')">
-                                    <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
-                                        {{valor}}</span>
-                                </td>
-                            </ng-template>
-                        </p-autoComplete>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'Upload'">
-
-                        <ion-item lines="none">
-                            <ion-thumbnail class="cursor" slot="start"
-                                (click)="abrirVisualizarImagen(columna.nombre,getRowIndex())">
-                                <img [src]="(seleccionada[columna.nombre]  | imagen)">
-                            </ion-thumbnail>
-
-                            <ion-buttons slot="end">
-                                <p-fileUpload mode="basic" accept="image/*" auto="auto" maxFileSize="5000000"
-                                    chooseLabel="Seleccionar" uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
-                                    cancelLabel="Descartar" customUpload="true" class="componente"
-                                    (uploadHandler)="seleccionarImagen($event,columna.nombre,getRowIndex())">
-                                </p-fileUpload>
-                            </ion-buttons>
-                        </ion-item>
-                    </div>
-
-                </ng-container>
-
-                <!--  FORMULARIO COMPONENTES IONIC-->
-                <ng-container *ngIf="modoFormulario ==='ionic'">
-                    <div *ngIf="columna.componente === 'Texto'">
-                        <ion-item lines="full">
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                <ion-row *ngIf="!seleccionada">
+                    <ng-container *ngFor="let columna of columnas">
+                        <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
+                            size-sm="12" size-xs="12">
+                            <ion-label>
+                                <ion-skeleton-text animated style="width: 30%;height: 20px"></ion-skeleton-text>
                             </ion-label>
-                            <ion-input type="text" [(ngModel)]="seleccionada[columna.nombre]" class="componente"
-                                (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                [disabled]="columna.lectura" [maxlength]="columna.longitud"></ion-input>
-                        </ion-item>
-                    </div>
-
-                    <div
-                        *ngIf="columna.componente === 'TextoEntero' || columna.componente === 'TextoNumero' || columna.componente === 'TextoMoneda'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-input type="number" [(ngModel)]="seleccionada[columna.nombre]" class="componente"
-                                (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                [disabled]="columna.lectura"></ion-input>
-                        </ion-item>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'Calendario'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="seleccionada[columna.nombre]"
-                                class="componente" (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
-                                cancelText="Cancelar"></ion-datetime>
-                        </ion-item>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'Hora'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-datetime displayFormat="HH:mm:ss" [(ngModel)]="seleccionada[columna.nombre]"
-                                class="componente" (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
-                                cancelText="Cancelar"></ion-datetime>
-                        </ion-item>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'CalendarioHora'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" [(ngModel)]="seleccionada[columna.nombre]"
-                                class="componente" (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
-                                cancelText="Cancelar"></ion-datetime>
-                        </ion-item>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'Check'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-checkbox [(ngModel)]="seleccionada[columna.nombre]"
-                                style="margin-top: 9px;margin-bottom: 8px;"
-                                (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)">
-                            </ion-checkbox>
-                        </ion-item>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'Etiqueta'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-label>{{seleccionada[columna.nombre]}}</ion-label>
-                        </ion-item>
-                    </div>
-                    <div *ngIf="columna.componente === 'Combo'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-select interface="popover" [(ngModel)]="seleccionada[columna.nombre]"
-                                (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)">
-                                <ion-select-option *ngFor="let opciones of columna.listaCombo" [value]="opciones.value">
-                                    <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                        *ngFor="let valor  of opciones.label.split('|')">
-                                        <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
-                                            {{valor}}</span>
-                                    </td>
-                                </ion-select-option>
-                            </ion-select>
-                        </ion-item>
-                    </div>
-
-                    <div *ngIf="columna.componente === 'Autocompletar'">
-                        <ion-item>
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                            <ion-select interface="popover" [(ngModel)]="seleccionada[columna.nombre]"
-                                (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)">
-
-                                <ion-select-option *ngFor="let opciones of columna.listaCombo" [value]="opciones">
-                                    <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                        *ngFor="let valor  of opciones.label.split('|')">
-                                        <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
-                                            {{valor}}</span>
-                                    </td>
-                                </ion-select-option>
+                            <div class="p-inputtext-sm" style="white-space:pre-line;">
+                                <ion-skeleton-text animated style="width: 99%; height: 35px"></ion-skeleton-text>
+                            </div>
+                        </ion-col>
+                    </ng-container>
+                </ion-row>
 
 
-                            </ion-select>
-                        </ion-item>
-                    </div>
+                <ion-row *ngIf="seleccionada" name="djtablaEditable" focus="false" [dir]="numeroTabla"
+                    class="p-fluid p-formgrid p-grid">
+                    <ng-container *ngFor="let columna of columnas">
+                        <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
+                            size-sm="12" size-xs="12">
+                            <!--  FORMULARIO COMPONENTES WEB PRIMENG-->
+                            <ng-container *ngIf="modoFormulario==='web'">
+                                <ion-label position="stacked" class="text-muted">{{columna.nombreVisual | uppercase}}
+                                </ion-label> <span *ngIf="columna.requerida" class="text-red"> *</span>
 
-                    <div *ngIf="columna.componente === 'Upload'">
-                        <ion-item lines="none">
-                            <ion-label class="text-muted" position="stacked">{{columna.nombreVisual | uppercase}}
-                                <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
-                            </ion-label>
-                        </ion-item>
-                        <ion-item lines="none">
-                            <ion-thumbnail class="cursor" slot="start"
-                                (click)="abrirVisualizarImagen(columna.nombre,getRowIndex())">
-                                <img [src]="(seleccionada[columna.nombre]  | imagen)">
-                            </ion-thumbnail>
+                                <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <input pInputText type="text" [(ngModel)]="seleccionada[columna.nombre]"
+                                        class="componente" (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [disabled]="columna.lectura" [maxlength]="columna.longitud">
+                                </div>
+                                <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-calendar appendTo="body" inputStyleClass="componente" [style]="{'width':'100%'}"
+                                        (onSelect)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        (onTodayClick)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        (onClearClick)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [(ngModel)]="seleccionada[columna.nombre]" dateFormat="yy-mm-dd"
+                                        showButtonBar="true" [disabled]="columna.lectura">
+                                    </p-calendar>
+                                </div>
+                                <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-inputMask mask="99:99:99" [style]="{'width':'99%'}" styleClass="componente"
+                                        (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [(ngModel)]="seleccionada[columna.nombre]" placeholder="hh:mm:ss"
+                                        [disabled]="columna.lectura">
+                                    </p-inputMask>
+                                </div>
+                                <div *ngIf="columna.componente === 'CalendarioHora'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-inputMask mask="9999-99-99 99:99:99" [style]="{'width':'99%'}"
+                                        styleClass="componente"
+                                        (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [(ngModel)]="seleccionada[columna.nombre]" placeholder="yyyy-mm-dd hh:mm:ss"
+                                        [disabled]="columna.lectura">
+                                    </p-inputMask>
+                                </div>
+                                <div *ngIf="columna.componente === 'Check'" style="vertical-align: middle;">
+                                    <p-checkbox [(ngModel)]="seleccionada[columna.nombre]" [style]="{'width':'100%'}"
+                                        binary="true" inputId="binary"
+                                        (onChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [disabled]="columna.lectura"></p-checkbox>
+                                </div>
+                                <div *ngIf="columna.componente === 'Combo'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-dropdown appendTo="body" [filter]="true"
+                                        (onChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        emptyFilterMessage="No existen registros"
+                                        [(ngModel)]="seleccionada[columna.nombre]" styleClass="componente"
+                                        [style]="{'width':'100%'}" [options]="columna.listaCombo"
+                                        [disabled]="columna.lectura">
+                                        <ng-template let-item pTemplate="selectedItem">
+                                            <span *ngIf="item.label !=='|'">
+                                                <span *ngFor="let valor  of item.label.split('|')">
+                                                    <span style="font-size: 0.9rem;padding-right: 10px;">
+                                                        {{valor}}</span>
+                                                </span>
+                                            </span>
+                                            <span *ngIf="item.label =='|'" style="visibility: hidden">
+                                                {{item.label}}</span>
+                                        </ng-template>
+                                        <ng-template let-opciones pTemplate="item">
 
-                            <ion-buttons slot="end">
-                                <p-fileUpload mode="basic" accept="image/*" auto="auto" maxFileSize="5000000"
-                                    chooseLabel="Seleccionar" uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
-                                    cancelLabel="Descartar" customUpload="true" class="componente"
-                                    (uploadHandler)="seleccionarImagen($event,columna.nombre,getRowIndex())">
-                                </p-fileUpload>
-                            </ion-buttons>
-                        </ion-item>
-                    </div>
+                                            <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                *ngFor="let valor  of opciones.label.split('|')">
+                                                <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                    {{valor}}</span>
+                                            </td>
 
-                </ng-container>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                                <div *ngIf="columna.componente === 'TextoEntero'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-inputNumber [useGrouping]="false"
+                                        (onInput)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [(ngModel)]="seleccionada[columna.nombre]"
+                                        [style]="{'width':'100%','min-width':'100%'}" size="10"
+                                        [disabled]="columna.lectura"></p-inputNumber>
+                                </div>
+                                <div *ngIf="columna.componente === 'TextoNumero'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-inputNumber [(ngModel)]="seleccionada[columna.nombre]"
+                                        (onInput)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [style]="{'width':'100%','min-width':'100%'}" size="10" mode="decimal"
+                                        [minFractionDigits]="columna.decimales" [maxFractionDigits]="columna.decimales"
+                                        [disabled]="columna.lectura">
+                                    </p-inputNumber>
+                                </div>
+                                <div *ngIf="columna.componente === 'TextoMoneda'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-inputNumber [(ngModel)]="seleccionada[columna.nombre]"
+                                        (onInput)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [style]="{'width':'100%','min-width':'100%'}" size="10" mode="currency"
+                                        currency="USD" locale="en-US" [disabled]="columna.lectura">
+                                    </p-inputNumber>
+                                </div>
+                                <div *ngIf="columna.componente === 'Autocompletar'" class="p-inputtext-sm"
+                                    style="white-space:pre-line;">
+                                    <p-autoComplete appendTo="body" [inputStyle]="{'width':'100%'}"
+                                        [(ngModel)]="seleccionada[columna.nombre]"
+                                        (ngModelChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        [suggestions]="resultadoAutocompletar" [style]="{'width':'100%'}"
+                                        [forceSelection]="true"
+                                        (completeMethod)="onAutocompletar($event,columna.nombre)" field="label"
+                                        [type]="'search'">
+                                        <ng-template let-opciones pTemplate="item">
+                                            <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                *ngFor="let valor  of opciones.label.split('|')">
+                                                <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                    {{valor}}</span>
+                                            </td>
+                                        </ng-template>
+                                    </p-autoComplete>
+                                </div>
 
-            </ion-col>
-        </ng-container>
-    </ion-row>
+                                <div *ngIf="columna.componente === 'Upload'">
+
+                                    <ion-item lines="none">
+                                        <ion-thumbnail class="cursor" slot="start"
+                                            (click)="abrirVisualizarImagen(columna.nombre,getRowIndex())">
+                                            <img [src]="(seleccionada[columna.nombre]  | imagen)">
+                                        </ion-thumbnail>
+
+                                        <ion-buttons slot="end">
+                                            <p-fileUpload mode="basic" accept="image/*" auto="auto"
+                                                maxFileSize="5000000" chooseLabel="Seleccionar"
+                                                uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
+                                                cancelLabel="Descartar" customUpload="true" class="componente"
+                                                (uploadHandler)="seleccionarImagen($event,columna.nombre,indiceFilaActual,fileUpload)">
+                                            </p-fileUpload>
+                                        </ion-buttons>
+                                    </ion-item>
+                                </div>
+
+                            </ng-container>
+
+                            <!--  FORMULARIO COMPONENTES IONIC-->
+                            <ng-container *ngIf="modoFormulario ==='ionic'">
+                                <div *ngIf="columna.componente === 'Texto'">
+                                    <ion-item lines="full">
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-input type="text" [(ngModel)]="seleccionada[columna.nombre]"
+                                            class="componente"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            [disabled]="columna.lectura" [maxlength]="columna.longitud"></ion-input>
+                                    </ion-item>
+                                </div>
+
+                                <div
+                                    *ngIf="columna.componente === 'TextoEntero' || columna.componente === 'TextoNumero' || columna.componente === 'TextoMoneda'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-input type="number" [(ngModel)]="seleccionada[columna.nombre]"
+                                            class="componente"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            [disabled]="columna.lectura"></ion-input>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'Calendario'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-datetime displayFormat="YYYY-MM-DD"
+                                            [(ngModel)]="seleccionada[columna.nombre]" class="componente"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
+                                            cancelText="Cancelar"></ion-datetime>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'Hora'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-datetime displayFormat="HH:mm:ss"
+                                            [(ngModel)]="seleccionada[columna.nombre]" class="componente"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
+                                            cancelText="Cancelar"></ion-datetime>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'CalendarioHora'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss"
+                                            [(ngModel)]="seleccionada[columna.nombre]" class="componente"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
+                                            cancelText="Cancelar"></ion-datetime>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'Check'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-checkbox [(ngModel)]="seleccionada[columna.nombre]"
+                                            style="margin-top: 9px;margin-bottom: 8px;"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)">
+                                        </ion-checkbox>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'Etiqueta'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-label>{{seleccionada[columna.nombre]}}</ion-label>
+                                    </ion-item>
+                                </div>
+                                <div *ngIf="columna.componente === 'Combo'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-select interface="popover" [(ngModel)]="seleccionada[columna.nombre]"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)">
+                                            <ion-select-option *ngFor="let opciones of columna.listaCombo"
+                                                [value]="opciones.value">
+                                                <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                    *ngFor="let valor  of opciones.label.split('|')">
+                                                    <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                        {{valor}}</span>
+                                                </td>
+                                            </ion-select-option>
+                                        </ion-select>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'Autocompletar'">
+                                    <ion-item>
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                        <ion-select interface="popover" [(ngModel)]="seleccionada[columna.nombre]"
+                                            (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)">
+
+                                            <ion-select-option *ngFor="let opciones of columna.listaCombo"
+                                                [value]="opciones">
+                                                <td style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                    *ngFor="let valor  of opciones.label.split('|')">
+                                                    <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                        {{valor}}</span>
+                                                </td>
+                                            </ion-select-option>
+
+
+                                        </ion-select>
+                                    </ion-item>
+                                </div>
+
+                                <div *ngIf="columna.componente === 'Upload'">
+                                    <ion-item lines="none">
+                                        <ion-label class="text-muted" position="stacked">
+                                            {{columna.nombreVisual | uppercase}}
+                                            <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
+                                        </ion-label>
+                                    </ion-item>
+                                    <ion-item lines="none">
+                                        <ion-thumbnail class="cursor" slot="start"
+                                            (click)="abrirVisualizarImagen(columna.nombre,getRowIndex())">
+                                            <img [src]="(seleccionada[columna.nombre]  | imagen)">
+                                        </ion-thumbnail>
+
+                                        <ion-buttons slot="end">
+                                            <p-fileUpload mode="basic" accept="image/*" auto="auto"
+                                                maxFileSize="5000000" chooseLabel="Seleccionar"
+                                                uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
+                                                cancelLabel="Descartar" customUpload="true" class="componente"
+                                                (uploadHandler)="seleccionarImagen($event,columna.nombre,indiceFilaActual,fileUpload)">
+                                            </p-fileUpload>
+                                        </ion-buttons>
+                                    </ion-item>
+                                </div>
+
+                            </ng-container>
+
+                        </ion-col>
+                    </ng-container>
+                </ion-row>
 
 
 
-</ng-container>
-</ion-card-content>
+            </ng-container>
+        </ion-card-content>
 
-</ion-card>
+    </ion-card>
 
 </div>

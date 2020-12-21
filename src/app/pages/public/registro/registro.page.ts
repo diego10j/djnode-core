@@ -48,16 +48,18 @@ export class RegistroPage implements OnInit {
       return;
     }
     // Realizar el posteo
+    this.utilitario.abrirLoading();
     this.seguridad.registrar(this.registrarForm.value)
       .subscribe(resp => {
         let respuesta:any=resp;
         // Navegar al Login
         this.utilitario.agregarMensajeExito(respuesta.mensaje);
         this.abrirLogin();
-
+        this.utilitario.cerrarLoading();
       }, (err) => {
         // Si sucede un error
         this.utilitario.agregarMensajeError(err.error.mensaje);
+        this.utilitario.cerrarLoading();
       });
 
 

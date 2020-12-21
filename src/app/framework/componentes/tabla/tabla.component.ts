@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
 import Tabla from '../../clases/tabla';
 import { SistemaService } from '../../servicios/sistema.service';
 import Columna from '../../clases/columna';
 import { LazyLoadEvent, MenuItem, SortEvent } from 'primeng/api';
 import { UtilitarioService } from '../../../services/utilitario.service';
 import { environment } from '../../../../environments/environment.prod';
-import { Table } from 'primeng/table';
+import { ColumnFilter, Table } from 'primeng/table';
 import { TieredMenu } from 'primeng/tieredmenu';
 import Condicion from '../../interfaces/condicion';
 import { UploadService } from '../../servicios/upload.service';
@@ -13,6 +13,7 @@ import { ModalController } from '@ionic/angular';
 import { VisualizadorImagenComponent } from '../visualizador-imagen/visualizador-imagen.component';
 import { FormatoTablaComponent } from '../formato-tabla/formato-tabla.component';
 import { ArbolComponent } from '../arbol/arbol.component';
+import { MensajeComponent } from '../mensaje/mensaje.component';
 
 @Component({
   selector: 'app-tabla',
@@ -105,14 +106,18 @@ export class TablaComponent implements OnInit {
     return this.tabla.numeroTabla;
   }
 
+  //Templates
+  @ContentChild('barra') barra: TemplateRef<any>;
+
   @ViewChild('djtabla', { static: false }) djtabla: Table;
   @ViewChild('opcionesTabla', { static: false }) opcionesTabla: TieredMenu;
-
+  @ViewChildren(ColumnFilter) colFiltro: QueryList<ColumnFilter>;
   public tabla: Tabla;
   indiceFilaActual = 0;
   //por defecto tabla 1
   public buscando = false;
   public textoFiltroGlobal = '';
+  public filtroGlobal = false;
   public titulo: string;
   public resultadoAutocompletar: any[];
   public eliminadas: any[] = []; //almacena filas eliminadas
@@ -139,8 +144,17 @@ export class TablaComponent implements OnInit {
   private metodoServicio: string;
   private bodyServicio: any;
 
+  //Botones Tabla
+  isBotonInsertar = true;
+  isBotonEliminar = true;
+  isBotonFiltro = true;
+  isBotonOpciones = true;
+
+  //Filas Row Expansion
+  expandible = false;
+
   //Calendario - Fechas
-  es: any;
+
   formatoFecha: string;
   formatoFechaHora: string;
   mascaraFecha: string;
@@ -184,11 +198,11 @@ export class TablaComponent implements OnInit {
   };
 
 
-  private onInsertarClick() {
+  public onInsertarClick() {
     const botInsertar = document.getElementById('botInsertar');
     botInsertar.click();
   }
-  private onEliminarClick() {
+  public onEliminarClick() {
     const botEliminar = document.getElementById('botEliminar');
     botEliminar.click();
   }
@@ -199,7 +213,7 @@ export class TablaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.es = this.utilitario.getCalendarioEsp();
+
     this.formatoFecha = environment.FORMATO_FECHA;
     this.formatoFechaHora = environment.FORMATO_FECHAHORA;
     this.mascaraFecha = environment.MASCARA_FECHA;
@@ -254,7 +268,7 @@ export class TablaComponent implements OnInit {
     };
 
     this.itemSeparadorVista = {
-      separator:true
+      separator: true
     }
     this.menuOpciones.push(this.itemActualizar);
     this.menuOpciones.push(this.itemExportarExcel);
@@ -269,38 +283,29 @@ export class TablaComponent implements OnInit {
   //Forma el menu contextual
   formarMenuContextual() {
     this.menuContextual = [];
-    let disBotInsertar = true;
-    let disBotEliminar = true;
     let disBotGuardar = true;
-    const botInsertar = (document.getElementById('botInsertar') as HTMLButtonElement);
-    const botEliminar = (document.getElementById('botEliminar') as HTMLButtonElement);
     const botGuardar = (document.getElementById('botGuardar') as HTMLButtonElement);
 
-    if (botInsertar && !botInsertar.hidden) {
-
-      disBotInsertar = botInsertar.disabled;
       this.itemInsertar = {
         label: 'Insertar',
         icon: 'pi pi-plus-circle',
-        disabled: disBotInsertar,
+        visible: this.isBotonInsertar,
         command: () => {
           this.onInsertarClick();
         }
       };
       this.menuContextual.push(this.itemInsertar);
-    }
-    if (botEliminar && !botEliminar.hidden) {
-      disBotEliminar = botEliminar.disabled;
+
       this.itemEliminar = {
         label: 'Eliminar',
         icon: 'pi pi-trash',
-        disabled: disBotEliminar,
+        visible: this.isBotonEliminar,
         command: () => {
           this.onEliminarClick();
         }
       };
       this.menuContextual.push(this.itemEliminar);
-    }
+    
     if (botGuardar && !botGuardar.hidden) {
       disBotGuardar = botGuardar.disabled;
       this.itemGuardar = {
@@ -318,9 +323,9 @@ export class TablaComponent implements OnInit {
 
 
     //Menu Opciones
-    this.itemSeparadorVista.visible=!this.lectura;
-    this.itemVistaFormulario.visible=!this.lectura;
-    this.itemVistaTabla.visible=!this.lectura;
+    this.itemSeparadorVista.visible = !this.lectura;
+    this.itemVistaFormulario.visible = !this.lectura;
+    this.itemVistaTabla.visible = !this.lectura;
 
 
   }
@@ -353,6 +358,7 @@ export class TablaComponent implements OnInit {
             col.nombreVisual = colActual.nombrevisual;
             col.orden = colActual.orden;
             col.anchoColumna = colActual.anchocolumna;
+            col.tipo = colActual.tipo;
             col.visible = colActual.visible;
             col.lectura = true;
             col.componente = colActual.componente;
@@ -464,30 +470,6 @@ export class TablaComponent implements OnInit {
     }
   }
 
-  private cargarConfiguracionTabla() {
-
-    let ide_opci = this.utilitario.getIdeOpci();
-    //Configuracion inicial de la tabla
-    this.sistemaService.getConfiguracionTabla(ide_opci, this.tabla.numeroTabla).subscribe(resp => {
-      const respuesta: any = resp;
-      if (respuesta.tabla) {
-        this.tabla.campoPrimario = respuesta.tabla.primaria_tabl;
-        this.tabla.nombreTabla = respuesta.tabla.tabla_tabl;
-        this.tabla.campoNombre = respuesta.tabla.nombre_tabl;
-        this.tabla.campoForanea = respuesta.tabla.foranea_tabl;
-        this.tabla.campoPadre = respuesta.tabla.padre_tabl;
-        this.tabla.campoOrden = respuesta.tabla.orden_tabl;
-        this.tabla.filasPorPagina = respuesta.tabla.filas_tabl;
-        this.tabla.tipoFormulario = respuesta.tabla.formulario_tabl;
-        this.tabla.calculaPrimaria = respuesta.tabla.genera_primaria_tabl;
-      }
-    }, (err) => {
-      this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
-      this.buscando = false;
-    });
-  }
-
-
 
   /**
    * Consultaren el servicio web
@@ -581,9 +563,11 @@ export class TablaComponent implements OnInit {
    * @param value 
    */
   public getObjetoCombo(nombreColumna: string, value): any {
-    if (this.getColumna(nombreColumna).listaCombo.length > 0 && value !== null) {
-      const obj = this.getColumna(nombreColumna).listaCombo.find(x => x.value === value);
-      return obj;
+    if (this.utilitario.isDefined(this.getColumna(nombreColumna).listaCombo)) {
+      if (this.getColumna(nombreColumna).listaCombo.length > 0 && value !== null) {
+        const obj = this.getColumna(nombreColumna).listaCombo.find(x => x.value === value);
+        return obj;
+      }
     }
     // return { value: null, label: '' };
     return null;
@@ -749,7 +733,7 @@ export class TablaComponent implements OnInit {
         }
       }
     }, (err) => {
-      this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+      this.utilitario.agregarMensajeErrorServicioWeb(err);
       this.buscando = false;
     }
     );
@@ -824,17 +808,14 @@ export class TablaComponent implements OnInit {
       // si solo hay una tabla por defecto le asigna el foco
       if (numTablasEditablre === 1) {
         el.setAttribute('focus', 'true');
-        el.parentElement.parentElement.classList.add('tablaFocus');
         return;
       }
 
       if (numTabla === this.tabla.numeroTabla) {
         el.setAttribute('focus', 'true');
-        el.parentElement.parentElement.classList.add('tablaFocus');
       }
       else {
         el.setAttribute('focus', 'false');
-        el.parentElement.parentElement.classList.remove('tablaFocus');
       }
 
     }
@@ -873,11 +854,9 @@ export class TablaComponent implements OnInit {
       const numTabla = el.getAttribute('dir');
       if (numTabla === this.tabla.numeroTabla) {
         el.setAttribute('focus', 'true');
-        el.parentElement.parentElement.classList.add('tablaFocus');
       }
       else {
         el.setAttribute('focus', 'false');
-        el.parentElement.parentElement.classList.remove('tablaFocus');
       }
     };
   }
@@ -1021,7 +1000,6 @@ export class TablaComponent implements OnInit {
    * @param value 
    */
   onFiltroGlobal(value: any): void {
-
     if (!this.utilitario.isDefined(this.djtabla.globalFilterFields)) {
       //filtroGlobal
       this.djtabla.globalFilterFields = [];
@@ -1029,8 +1007,16 @@ export class TablaComponent implements OnInit {
         this.djtabla.globalFilterFields.push(colActual.nombre);
       }
     }
-
     this.djtabla.filterGlobal(value, 'contains');
+    if (value !== '') {
+      this.filtroGlobal = true;
+    }
+  }
+
+  onClearFiltroGlobal() {
+    this.textoFiltroGlobal = '';
+    this.onFiltroGlobal('');
+    this.filtroGlobal = false;
   }
 
   /**
@@ -1508,6 +1494,7 @@ export class TablaComponent implements OnInit {
     this.borrarFiltros();
     this.eliminadas = [];
     this.textoFiltroGlobal = '';
+    this.filtroGlobal = false;
     this.consultar();
     this.formarCombos();
   }
@@ -1564,8 +1551,6 @@ export class TablaComponent implements OnInit {
       const objModifica = {};
       objModifica['tipo'] = 'modificar';
       objModifica['nombreTabla'] = this.tabla.nombreTabla.toLowerCase();
-      objModifica['campoPrimario'] = this.tabla.campoPrimario.toLowerCase();
-      objModifica['valorCampoPrimario'] = filaActual[this.tabla.campoPrimario.toLowerCase()];
       //valores en blanco to null Fechas
       for (const colActual of colFecha) {
         filaActual = this.validarFila(colActual, filaActual);
@@ -1589,6 +1574,8 @@ export class TablaComponent implements OnInit {
         valoresModifica[colM] = filaActual[colM.toLowerCase()];
       }
       objModifica['valores'] = valoresModifica;
+      const condicionModifica: Condicion = { condicion: this.campoPrimario + ' = ?', valores: [filaActual[this.tabla.campoPrimario.toLowerCase()]] };
+      objModifica['condiciones'] = [condicionModifica];
       listaSQL.push(objModifica);
     }
 
@@ -1678,6 +1665,16 @@ export class TablaComponent implements OnInit {
     this.tipoFormulario = true;
     this.validarInsertar = true;
   }
+
+
+  setExpandible(nombresColumnas: string) {
+    let colArray = nombresColumnas.split(',');
+    for (let colActual of colArray) {
+      this.getColumna(colActual).expandible = true;
+    }
+    this.expandible = true;
+  }
+
   /**
    * Tipo Formulario Ionic
    */
@@ -1711,6 +1708,10 @@ export class TablaComponent implements OnInit {
 
   setLectura(_lectura: boolean) {
     this.tabla.lectura = _lectura;
+    if(_lectura===true){
+      this.isBotonEliminar= false;
+      this.isBotonInsertar= false;
+    }
   }
 
   setCampoOrden(_campoOrden: string) {
@@ -1798,7 +1799,7 @@ export class TablaComponent implements OnInit {
   //Upload
 
 
-  seleccionarImagen(data: { files: File }, nombreColumna, rowIndex) {
+  seleccionarImagen(data: { files: File }, nombreColumna, rowIndex, fileUpload) {
     let imagenSubir: File = data.files[0]; //solo una imagen
     //sube
     this.uploadService
@@ -1815,10 +1816,11 @@ export class TablaComponent implements OnInit {
           colModificadas.indexOf(nombreColumna) === -1 ? colModificadas.push(nombreColumna) : colModificadas.indexOf(nombreColumna);
           this.seleccionada['colModificadas'] = colModificadas;
         }
-
+        fileUpload.clear();
       }).catch(err => {
+        fileUpload.clear();
         this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
-      })
+      });
   }
 
   async abrirVisualizarImagen(nombreColumna, rowIndex) {
@@ -1865,10 +1867,47 @@ export class TablaComponent implements OnInit {
   borrarFiltros() {
     if (!this.tipoFormulario) {
       this.djtabla.clear();
+      this.colFiltro.forEach(function (colF) {
+        colF.clearFilter();
+      });
     }
     this.textoFiltroGlobal = '';
-    for (const colActual of this.columnas) {
-      colActual.textoFiltro = null;
-    }
+    this.filtroGlobal = false;
   }
+
+  mostrarBotonInsertar() {
+    this.isBotonInsertar = true;
+  }
+
+  mostrarBotonEliminar() {
+    this.isBotonEliminar = true;
+  }
+
+  mostrarBotonFiltro() {
+    this.isBotonFiltro = true;
+  }
+
+  ocultarBotonInsertar() {
+    this.isBotonInsertar = false;
+  }
+
+  ocultarBotonEliminar() {
+    this.isBotonEliminar = false;
+  }
+
+  ocultarBotonFiltro() {
+    this.isBotonFiltro = false;
+  }
+
+  ocultarBotonOpciones() {
+    this.isBotonOpciones = false;
+  }
+
+  ocultarBotones() {
+    this.isBotonInsertar = false;
+    this.isBotonEliminar = false;
+    this.isBotonFiltro = false;
+    this.isBotonOpciones = false;
+  }
+
 }

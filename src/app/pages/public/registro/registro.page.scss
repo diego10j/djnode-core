@@ -1,5 +1,5 @@
 ion-content {
-  --background: url("../../../../assets/img/fondo.jpg") #DCE1E4 no-repeat !important;
+  --background: url("../../../../assets/img/fondo.jpg") #ECEDEF no-repeat !important;
   --background-size: cover !important;
 }
 
@@ -76,19 +76,20 @@ section.side {
 .form-control {
   width: 100%;
   position: relative;
-  margin-bottom: 24px;
+  margin-top: 20px;
 }
 
 .paddingleft{
-  padding-left: 20px;
+  display: flex;
+  padding-left: 23px;
 }
 
 input,
 button {
   border: none;
   outline: none;
-  border-radius: 30px;
-  font-size: 1.1em;
+  border-radius: 10px;
+  font-size: 1em;
 }
 
 input {
@@ -97,15 +98,16 @@ input {
   color:  var(--ion-color-tertiary) !important;
   letter-spacing: 0.5px;
   padding: 14px 64px;
+
 }
 
 input ~ i {
   position: absolute;
-  left: 32px;
+  left: 15px;
   top: 50%;
   transform: translateY(-50%);
   transition: color   0.4s;
-  color: #5F768F;
+  color: #8594a3;
 }
 
 input:focus ~ i {

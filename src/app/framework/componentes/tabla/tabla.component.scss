@@ -20,7 +20,6 @@
 }
 
 ion-card {
-  --background: white;
   box-shadow: none;
   border-radius: 0;
   ion-item {
@@ -29,15 +28,17 @@ ion-card {
   }
 }
 
-.card-loading{
-  --background: transparent!important;
-  box-shadow: none;
-  border-radius: 0;
-}
 
 :host ::ng-deep {
-  .tablaFocus {
-    box-shadow: 0px 0px 1.5px 0px var(--ion-color-secondary) inset;
+
+  .p-button {
+    height: 30px;
+    font-size: 0.85rem;
+    margin-left: 5px;
+  }
+
+  .p-tooltip{
+    font-size: 0.9rem;
   }
   .tituloTabla {
     font-size: 1.1rem;
@@ -46,7 +47,7 @@ ion-card {
     padding-left: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    color: var(--ion-color-tertiary);
+    color: var(--ion-color-secondary);
   }
 
   .p-fluid .p-fileupload .p-button {
@@ -81,13 +82,23 @@ ion-card {
     background: white;
   }
 
-  .p-datatable-responsive-demo .p-datatable-tbody > tr > td .p-column-title {
-    display: none;
-  }
-
   .p-datatable {
     .p-component {
       background: none;
+    }
+
+    .pi-sort-alt::before{
+      font-size: 11px;
+    }
+    .pi-sort-amount-up-alt::before{
+      font-size: 11px;
+    }
+    .pi-sort-amount-down::before{
+      font-size: 11px;
+    }
+
+    .pi-filter::before{
+      font-size: 11px;
     }
 
     .p-datatable-thead > tr > th,
@@ -157,39 +168,5 @@ ion-card {
 
   .p-datatable .p-datatable-thead > tr > th {
     padding: 0.5px;
-  }
-}
-
-@media screen and (max-width: 40rem) {
-  :host ::ng-deep {
-    .p-datatable {
-      &.p-datatable-responsive-demo {
-        .p-datatable-thead > tr > th,
-        .p-datatable-tfoot > tr > td {
-          display: none !important;
-        }
-
-        .p-datatable-tbody > tr > td {
-          text-align: left;
-          display: block;
-          width: 100%;
-          float: left;
-          clear: left;
-          border: 0 none;
-
-          .p-column-title {
-            padding: 0.4rem;
-            min-width: 30%;
-            display: inline-block;
-            margin: -0.4em 1em -0.4em -0.4rem;
-            font-weight: bold;
-          }
-
-          &:last-child {
-            border-bottom: 1px solid var(--surface-d);
-          }
-        }
-      }
-    }
   }
 }

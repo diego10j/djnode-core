@@ -30,7 +30,15 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
+//@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
+
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url(assets/fonts/DM_Sans/DMSans-Regular.ttf) format("truetype");
+  font-weight:400;
+}
 
 body :not(ion-icon):not(i):not(.pi) {
   font-family: "DM Sans" !important;
@@ -64,6 +72,20 @@ ion-card {
   --background: white;
   box-shadow: none;
   border-radius: 3px;
+}
+
+// Removing iOS and Android Header line for entire app
+ion-toolbar {
+  --border-width: 0 !important;
+}
+
+// Removing ion-button focus outline
+ion-button:focus {
+  outline: none !important;
+}
+
+ion-buttons:focus {
+  outline: none !important;
 }
 
 /*
@@ -181,6 +203,11 @@ ion-card {
 .text-dark {
   color: var(--ion-color-dark) !important;
 }
+.text-success {
+  color: var(--ion-color-success) !important;
+}
+
+
 /*Tamaño de letra*/
 .text-8pt {
   font-size: 8pt;
@@ -312,18 +339,41 @@ ion-content {
 }
 
 .bg-primary {
-  background-color: var(--ion-color-primary);
+  background-color: var(--ion-color-primary)!important;
+  //color:  var(--ion-color-primary-contrast) ;
 }
 .bg-secondary {
-  background-color: var(--ion-color-secondary);
+  background-color: var(--ion-color-secondary)!important;
+  //color:  var(--ion-color-secondary-contrast) ;
 }
 .bg-tertiary {
-  background-color: var(--ion-color-tertiary);
+  background-color: var(--ion-color-tertiary)!important;
+ // color:  var(--ion-color-tertiary-contrast) ;
 }
 .bg-light {
-  background-color: var(--ion-color-light);
+  background-color: var(--ion-color-light)!important;
+ // color:  var(--ion-color-light-contrast) ;
+}
+.bg-success {
+  background-color: var(--ion-color-success) !important;
+ // color:  var(--ion-color-success-contrast) ;
+}
+.bg-danger {
+  background-color: var(--ion-color-danger)!important;
+ // color:  var(--ion-color-danger-contrast) ;
+}
+.bg-warning {
+  background-color: var(--ion-color-warning)!important;
+ // color:  var(--ion-color-warning-contrast) ;
+}
+.bg-medium {
+  background-color: var(--ion-color-medium)!important;
+  color:  var(--ion-color-medium-contrast) !important;
 }
 
+.no-borde{
+  border:0 !important;
+}
 .border-bottom {
   border-bottom: 1px solid #cecece !important;
 }
@@ -333,7 +383,6 @@ ion-content {
 .border-top {
   border-top: 1px solid #cecece !important;
 }
-
 .border-danger {
   border-color: var(--ion-color-danger) !important;
 }

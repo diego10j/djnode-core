@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Usuario } from '../clases/usuario';
 import { of, Observable } from 'rxjs';
 import { ServicioBase } from '../clases/servicio-base';
+import { UtilitarioService } from '../../services/utilitario.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +21,15 @@ export class SeguridadService extends ServicioBase {
 
   constructor(public http: HttpClient,
     private router: Router,
-    private ngZone: NgZone) {
+    private utilitario: UtilitarioService) {
     super(http);
     this.llamarServicioIpPublic();
   }
 
 
-  login(formData: any, dispositivo: string) {
+  login(formData: any) {
     formData['ip'] = localStorage.getItem('ip') || '127.0.0.1';
-    formData['dispositivo'] = dispositivo;
+    formData['dispositivo'] = this.utilitario.getPlataforma();
     const url = `${environment.API_REST}/api/seguridad/login`;
     return this.http.post(url, formData)
       .pipe(
@@ -43,7 +44,7 @@ export class SeguridadService extends ServicioBase {
     localStorage.setItem('token', resp.token);
     localStorage.setItem('menu', JSON.stringify(resp.datos.menu));
     localStorage.setItem('ide_usua', resp.datos.ide_usua);
-
+    localStorage.setItem('avatar', resp.datos.avatar);
   }
 
 
@@ -55,11 +56,10 @@ export class SeguridadService extends ServicioBase {
     localStorage.removeItem('ip');
     localStorage.removeItem('ultimaFecha');
     localStorage.removeItem('identificacion');
+    localStorage.removeItem('avatar');
     this.llamarServicioIpPublic();
-
-    this.ngZone.run(() => {
-      this.router.navigateByUrl('/login');
-    });
+    this.usuario=null;
+    this.router.navigateByUrl('/login');
   }
 
 
@@ -84,6 +84,8 @@ export class SeguridadService extends ServicioBase {
       nombre: formData.nombre,
       email: formData.email,
       clave: formData.clave,
+      ip: localStorage.getItem('ip') || '127.0.0.1',
+      dispositivo: this.utilitario.getPlataforma()
     };
     return this.llamarServicioPost('api/seguridad/registrar', body);
   }
@@ -157,9 +159,16 @@ export class SeguridadService extends ServicioBase {
   }
 
 
-
   private isDefined($variable: any): boolean {
     return typeof $variable !== 'undefined' && $variable !== null;
+  }
+
+  
+  getActividadAuditoria() {
+    const body = {
+      ide_usua:localStorage.getItem('ide_usua')
+    };
+    return this.llamarServicioPost('api/seguridad/getActividadAuditoria', body);
   }
 
 

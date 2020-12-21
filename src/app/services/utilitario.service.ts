@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment.prod';
 import { SistemaService } from '../framework/servicios/sistema.service';
 import { TablaComponent } from '../framework/componentes/tabla/tabla.component';
 import { LoadingController, Platform } from '@ionic/angular';
+import Condicion from '../framework/interfaces/condicion';
 @Injectable({
     providedIn: 'root',
 })
@@ -55,6 +56,10 @@ export class UtilitarioService {
             heightAuto: false,
         });
         this.cerrarLoading();//
+    }
+
+    agregarMensajeErrorServicioWeb(err) {
+        this.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
     }
 
     /**
@@ -297,23 +302,6 @@ export class UtilitarioService {
         } else {
             this.router.navigate([path]);
         }
-    }
-
-    getCalendarioEsp() {
-        const es = {
-            firstDayOfWeek: 0,
-            dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
-            dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-            monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
-            monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
-            today: 'Hoy',
-            clear: 'Borrar',
-            dateFormat: `${environment.FORMATO_FECHA}`,
-            weekHeader: 'Sem'
-        };
-
-        return es;
     }
 
     guardarPantalla(...tablas: TablaComponent[]): boolean {
@@ -576,9 +564,28 @@ export class UtilitarioService {
     }
 
     cerrarLoading() {
-        this.loadingController.dismiss();
+        try {
+            this.loadingController.dismiss();
+        } catch (err) {
+        }
     }
 
 
-    
+    getObjSqlModificar(nombreTabla: string, valores: any, condiciones: Condicion[]): any {
+        return {
+            tipo: 'modificar',
+            nombreTabla,
+            valores,
+            condiciones
+        };
+    }
+
+    ejecutarListaSQL(listaSQL: any[]) {
+        this.sistemaService.ejecutarListaSQL(listaSQL).subscribe(resp => {
+            this.agregarMensajeExito('Datos guardados exitosamente');
+        }, (err) => {
+            this.agregarMensajeError(err.error.mensaje);
+        });
+    }
+
 }

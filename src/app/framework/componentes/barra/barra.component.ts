@@ -1,6 +1,5 @@
 
 import { Component, ContentChild, TemplateRef, OnInit } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-barra',
@@ -11,8 +10,6 @@ export class BarraComponent implements OnInit {
 
   @ContentChild(TemplateRef) derecha;
 
-  isBotonInsertar = true;
-  isBotonEliminar = true;
   isBotonGuardar = true;
 
   get botonInsertar(): HTMLButtonElement {
@@ -30,14 +27,13 @@ export class BarraComponent implements OnInit {
   onEliminar?: (event?: any) => void;
   onGuardar?: (event?: any) => void;
 
-  constructor(private primengConfig: PrimeNGConfig) {
-    this.isBotonInsertar = true;
-    this.isBotonEliminar = true;
+  constructor() {
     this.isBotonGuardar = true;
   }
 
   ngOnInit() {
-    this.primengConfig.ripple = true;
+    this.botonInsertar.hidden = true;
+    this.botonEliminar.hidden = true;
   }
 
   onClickInsertar(event) {
@@ -64,30 +60,11 @@ export class BarraComponent implements OnInit {
     }
   }
 
-  ocultarBotonInsertar() {
-    this.botonInsertar.hidden = true;
-    this.isBotonInsertar = false;
-  }
-
+ 
   ocultarBotonGuardar() {
     this.botonGuardar.hidden = true;
     this.isBotonGuardar = false;
   }
-
-  ocultarBotonEliminar() {
-    this.botonEliminar.hidden = true;
-    this.isBotonEliminar = false;
-  }
-
-  ocultarBotones() {
-    this.botonInsertar.hidden = true;
-    this.botonGuardar.hidden = true;
-    this.botonEliminar.hidden = true;
-    this.isBotonInsertar = false;
-    this.isBotonGuardar = false;
-    this.isBotonEliminar = false;
-  }
-
 
 
 }

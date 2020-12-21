@@ -14,11 +14,10 @@ export class EmpresaPage extends Pantalla{
   @ViewChild('tabTabla1', { static: false }) tabTabla1: TablaComponent;
 
   async ionViewWillEnter(){
-    this.barra.ocultarBotonInsertar();
-    this.barra.ocultarBotonEliminar();
-
     // Configura la tabla
     await this.tabTabla1.setTabla('sis_empresa', 'ide_empr', 1);
+    this.tabTabla1.ocultarBotonInsertar();
+    this.tabTabla1.ocultarBotonEliminar();
     this.tabTabla1.setTitulo('Datos de la Empresa');
     this.tabTabla1.getColumna('logo_empr').setUpload();
     this.tabTabla1.setLectura(false);

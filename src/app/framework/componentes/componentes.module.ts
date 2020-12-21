@@ -39,6 +39,7 @@ import { MenuComponent } from './menu/menu.component';
 import { PopoverUsuarioComponent } from './popover-usuario/popover-usuario.component';
 import { LoadingComponent } from './loading/loading.component';
 import {DialogModule} from 'primeng/dialog';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import {DialogModule} from 'primeng/dialog';
     ToastModule,
     RippleModule,
     DialogModule,
+    TooltipModule,
     ReactiveFormsModule,
     AngularSplitModule.forRoot(),
   ]

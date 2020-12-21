@@ -1,5 +1,5 @@
 ion-content {
-  --background: url("../../../../assets/img/fondo.jpg") #DCE1E4 no-repeat !important;
+  --background: url("../../../../assets/img/fondo.jpg") #ECEDEF no-repeat !important;
   --background-size: cover !important;
 }
 
@@ -7,11 +7,11 @@ ion-content {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--ion-color-tertiary);
+  color: var(--ion-color-dark);
 }
 
 body {
-  color: var(--ion-color-tertiary);
+  color: var(--ion-color-dark);
   min-height: 100vh;
   width: 100%;
   display: grid;
@@ -83,14 +83,14 @@ input,
 button {
   border: none;
   outline: none;
-  border-radius: 30px;
+  border-radius: 10px;
   font-size: 1.1em;
 }
 
 input {
   width: 100%;
   background: white;
-  color:  var(--ion-color-tertiary) !important;
+  color:  var(--ion-color-dark) !important;
   letter-spacing: 0.5px;
   padding: 14px 64px;
 }
@@ -100,7 +100,7 @@ input ~ i {
   left: 32px;
   top: 50%;
   transform: translateY(-50%);
-  color: #5F768F;
+  color: #8594a3;
   transition: color   0.4s;
 }
 

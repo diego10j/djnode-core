@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { UtilitarioService } from '../../../services/utilitario.service';
 import { SeguridadService } from '../../servicios/seguridad.service';
 import { Usuario } from '../../clases/usuario';
@@ -12,7 +12,7 @@ import { createAnimation, Animation } from '@ionic/core';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
 
   @Input() titulo = 'Menú de Opciones';
   @Input() tituloPaginaInicio = 'Dashboard';
@@ -25,9 +25,22 @@ export class MenuComponent implements OnInit {
   constructor(private seguridad: SeguridadService,
     private menuCtrl: MenuController,
     private utilitario: UtilitarioService,) {
+    this.cargarMenu();
+  }
+
+  ngOnInit() {
+    this.cargarMenu();
+  }
+  ngOnDestroy() {
+    this.menus = [];
+    this.selected = '';
+  }
+
+
+  private cargarMenu() {
     this.menus = [];
     this.getMenuList();
-    this.usuario = seguridad.usuario;
+    this.usuario = this.seguridad.usuario;
     //Agrega cabecera del menu y pagina principal
     const itemDashboard: any = {
       label: this.tituloPaginaInicio,
@@ -40,17 +53,15 @@ export class MenuComponent implements OnInit {
     this.selected = this.utilitario.getRuta();
   }
 
-  ngOnInit() {
-
-  }
-
   abrirPagina(opcion) {
     if (opcion.ruta) {
       this.selected = opcion.ruta;
       if (this.utilitario.isDefined(opcion.ruta)) {
         this.utilitario.abrirPagina(opcion.ruta);
+        if (this.utilitario.isDefined(opcion.data)) {
+          this.seguridad.auditoriaAccesoPantalla(opcion.data, this.utilitario.getPlataforma());
+        }
       }
-
       this.menuCtrl.close();
     }
   }

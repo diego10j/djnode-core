@@ -9,6 +9,11 @@ ion-slides {
   --bullet-background: var(--ion-color-secondary) !important;
 }
 
+ion-slide {
+  display: block;
+}
+
+
 .swiper-slide {
   display: block;
 }
@@ -41,4 +46,13 @@ p b {
 
 .img {
   height: calc(100% - 350px);
+}
+
+.navigator {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
 }

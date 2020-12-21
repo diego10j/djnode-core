@@ -34,25 +34,25 @@ export class PerfilesPage extends Pantalla {
     + 'from SIS_OPCION a left join ( '
     + 'select DISTINCT sis_ide_opci   from SIS_OPCION  where sis_ide_opci  in (  '
     + 'select ide_opci from SIS_OPCION ) ) b on a.IDE_OPCI=b.SIS_IDE_OPCI order by a.NOM_OPCI');
-    this.tabTabla2.setFilasPorPagina(20);
+    this.tabTabla2.setFilasPorPagina(15);
     this.tabTabla2.getColumna('ide_opci').setAutocompletar();
     this.tabTabla2.setLectura(false);
     this.tabTabla2.dibujar(); // última
 
     await this.tabTabla3.setTabla('sis_perfil_reporte', 'ide_pere', 3);
-    this.tabTabla3.setFilasPorPagina(20);
+    this.tabTabla3.setFilasPorPagina(15);
     this.tabTabla3.setLectura(false);
     this.tabTabla3.dibujar(); // última
 
 
     await this.tabTabla4.setTabla('sis_perfil_objeto', 'ide_peob', 4);
-    this.tabTabla4.setFilasPorPagina(20);
+    this.tabTabla4.setFilasPorPagina(15);
     this.tabTabla4.setLectura(false);
     this.tabTabla4.dibujar(); // última
 
 
     await this.tabTabla5.setTabla('sis_perfil_campo', 'ide_peca', 5);
-    this.tabTabla5.setFilasPorPagina(20);
+    this.tabTabla5.setFilasPorPagina(15);
     this.tabTabla5.setLectura(false);
     this.tabTabla5.dibujar(); // última
     

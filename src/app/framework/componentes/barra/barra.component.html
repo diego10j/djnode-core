@@ -1,5 +1,5 @@
-  <ion-toolbar id="barra" class="bg-white">
-    <!--
+<ion-toolbar id="barra" class="bg-white">
+  <!--
   <ion-item lines="none" class="bg-transparente">
     <ion-button slot="start" color="primary">
       Insertar
@@ -14,33 +14,36 @@
       Guardar
     </ion-button>
   </ion-item>
+  <ion-fab-button  class="ocultar" size="small" #botEliminar  id="botEliminar" (click)="onClickEliminar($event)" color="danger"> 
+        <ion-icon  name="trash-outline"></ion-icon>
+      </ion-fab-button>
 -->
 
 
-<!-- Fixed Floating Action Button that does not scroll with the content -->
+  <!-- Fixed Floating Action Button that does not scroll with the content -->
 
 
 
 
-    <ion-buttons slot="start">
+  <ion-buttons slot="start">
 
 
-      <ion-fab-button mode="ios" size="small" #botInsertar *ngIf="isBotonInsertar" id="botInsertar" (click)="onClickInsertar($event)" title="INSERTAR" color="primary"> 
-        <ion-icon   name="add-outline"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button  mode="ios" size="small" #botEliminar *ngIf="isBotonEliminar" id="botEliminar" (click)="onClickEliminar($event)" title="ELIMINAR"color="danger"> 
-        <ion-icon  name="trash-outline"></ion-icon>
-      </ion-fab-button>
-      <ion-fab-button mode="ios" size="small" #botGuardar *ngIf="isBotonGuardar" id="botGuardar" (click)="onClickGuardar($event)" title="GUARDAR" color="success"> 
-        <ion-icon  name="save-outline"></ion-icon>
-      </ion-fab-button>
-      <ng-content></ng-content>
+    <button class="ocultar" #botInsertar id="botInsertar" (click)="onClickInsertar($event)">
+    </button>
+    <button class="ocultar" #botEliminar id="botEliminar" (click)="onClickEliminar($event)">
+    </button>
+    <ion-button size="small" #botGuardar *ngIf="isBotonGuardar" id="botGuardar" fill="solid"
+      (click)="onClickGuardar($event)" color="primary">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      Guardar
+    </ion-button>
+    <ng-content></ng-content>
 
-    </ion-buttons>
-    <ion-buttons slot="end" style="padding-right: 5px;">
-      <ng-container>
-        <ng-template [ngTemplateOutlet]="derecha"></ng-template>
-      </ng-container>
-    </ion-buttons>
+  </ion-buttons>
+  <ion-buttons slot="end" style="padding-right: 5px;">
+    <ng-container>
+      <ng-template [ngTemplateOutlet]="derecha"></ng-template>
+    </ng-container>
+  </ion-buttons>
 
-  </ion-toolbar>
+</ion-toolbar>

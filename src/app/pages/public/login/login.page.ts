@@ -2,27 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UtilitarioService } from '../../../services/utilitario.service';
 import { SeguridadService } from '../../../framework/servicios/seguridad.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
 
 
   public loginForm = this.fb.group({
     identificacion: ['', Validators.required],
     clave: ['', Validators.required],
-    recordar: [true],
+    recordar: [false],
   });
 
   constructor(private fb: FormBuilder,
     private utilitario: UtilitarioService,
+    private router: Router,
     private seguridad: SeguridadService) { }
 
-  ngOnInit() { 
+    ionViewWillEnter() { 
+    this.loginForm.reset();
   }
 
   abrirRegistrar() {
@@ -31,7 +34,7 @@ export class LoginPage implements OnInit {
 
   validarLogin() {
     this.utilitario.abrirLoading();
-    this.seguridad.login(this.loginForm.value,this.utilitario.getPlataforma())
+    this.seguridad.login(this.loginForm.value)
       .subscribe(resp => {
         if (this.loginForm.get('recordar').value) {
           localStorage.setItem('identificacion', this.loginForm.get('identificacion').value);
@@ -39,9 +42,9 @@ export class LoginPage implements OnInit {
           localStorage.removeItem('identificacion');
         }
         // Navegar al Dashboard
-        //this.router.navigateByUrl('/');
-        this.utilitario.abrirPagina('dashboard');
-        this.utilitario.cerrarLoading();
+        this.router.navigateByUrl('/private/dashboard');
+       // this.utilitario.abrirPagina('dashboard');
+       this.utilitario.cerrarLoading();
       }, (err) => {
         // Si sucede un error
         this.utilitario.cerrarLoading();

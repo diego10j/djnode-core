@@ -2,7 +2,9 @@
   <ion-toolbar mode="ios" color="tertiary">
 
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button>
+     <!--    <img src="../../assets/svg/menu_bar.svg" />-->
+      </ion-menu-button>
       <!-- ANTES
       <ion-button (click)="toggleMenu()">
         <ion-icon name="menu" slot="icon-only"></ion-icon>
@@ -11,7 +13,18 @@
 
 
     <ion-buttons slot="end">
-      <ion-avatar (click)="abrirPopoverUsuario( $event )" class="cursor">
+
+
+
+      <ion-button>
+        <ion-icon slot="icon-only" name="apps-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button>
+        <ion-icon  slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+
+      <ion-avatar  (click)="abrirPopoverUsuario( $event )" class="cursor" style="margin-left: 10px;">
         <div class="u-text-avatar">{{ firstLetter }}</div>
       </ion-avatar>
     </ion-buttons>

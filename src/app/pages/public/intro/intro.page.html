@@ -11,16 +11,20 @@
           <img src="../../../../../assets/svg/caja.svg">
           <h2>Hey there!</h2>
           <p>The <b>ionic conference app</b> is a practical preview of the ionic framework in action, and a demonstration of proper code use.</p>
-          <ion-button fill="outline" color="secondary">Next</ion-button>
         </div>
       </ion-slide>
+
+      <div class="navigator">
+        <ion-button color="primary" fill="clear" (click)="skip()">SKIP</ion-button>
+        <ion-button color="primary" fill="clear" (click)="next()">NEXT</ion-button>
+      </div>
 
     </ion-slide>
  
     <!-- Slide 2 -->
     <ion-slide>
       <div class="swiper-slide">
-        <img src="../../../../../assets/svg/herramientas.svg">
+        <img src="../../../../../assets/svg/caja.svg">
         <h2>It's Ionic!</h2>
         <p>... it shows all the basics you need!</p>
         <ion-button  fill="outline" color="secondary">Start</ion-button>

@@ -10,11 +10,15 @@
                     <img *ngIf="imgTemp" [src]="imgTemp" class="avatar">
 
 
-                    <p-fileUpload mode="basic" accept="image/*" auto="auto" maxFileSize="5000000"
+                    <p-fileUpload *ngIf="!imgTemp" #fileUpload mode="basic" accept="image/*" [auto]="true" maxFileSize="5000000"
                         chooseLabel="Seleccionar" uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
-                        cancelLabel="Descartar" customUpload="true" class="componente" class="bt-upload"
-                        (uploadHandler)="cambiarImagen($event)">
+                        cancelLabel="Descartar"  class="bt-upload"
+                        (uploadHandler)="cambiarImagen($event,fileUpload)" customUpload="true">
                     </p-fileUpload> 
+
+                    <p-button *ngIf="imgTemp" class="bt-upload" label="Aceptar" icon="pi pi-check" 
+                    (click)="actualizarImagen()" iconPos="left"></p-button>
+
                 </div>
                 <div class="user-profile-data">
                     <h1 class="ion-padding-horizontal negrilla">{{usuario.nombre | titlecase}}</h1>

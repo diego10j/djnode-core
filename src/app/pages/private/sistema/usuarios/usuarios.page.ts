@@ -21,10 +21,9 @@ export class UsuariosPage extends Pantalla {
     this.tabTabla1.getColumna('avatar_usua').setUpload();
     this.tabTabla1.getColumna('nick_usua').setFiltro(true);
     this.tabTabla1.getColumna('nom_usua').setFiltro(true);
-    this.tabTabla1.getColumna('mail_usua').setFiltro(true);
     this.tabTabla1.getColumna('activo_usua').setFiltro(true);
-    this.tabTabla1.getColumna('nom_perf').setFiltro(true);
     this.tabTabla1.setFilasPorPagina(20);
+    this.tabTabla1.setExpandible('mail_usua,avatar_usua,fecha_reg_usua,nom_perf');
     this.tabTabla1.dibujar();
     this.utilitario.cerrarLoading(); //Cierra el loading
 

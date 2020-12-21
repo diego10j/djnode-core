@@ -1,6 +1,6 @@
 <ion-row class="fondo">
    <div class="profile-pic ion-no-padding clear">
-    <img src="assets/img/user.jpg" class="rounded-circle" alt="user" width="150">
+    <img [src]="usuario.imagenUrl" class="rounded-circle" alt="user" width="150">
     <p class="ion-text-wrap text-light">
       {{usuario.nombre | titlecase}}
     </p>

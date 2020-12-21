@@ -80,7 +80,7 @@ export class SistemaService extends ServicioBase {
     const body = {
       listaSQL
     };
-    return this.llamarServicioPost('api/sistema/ejecutarListaSQL', body);
+    return this.llamarServicioPost('api/sistema/ejecutarLista', body);
   }
 
 
@@ -144,13 +144,6 @@ export class SistemaService extends ServicioBase {
     return this.llamarServicioPost('api/sistema/configurarTabla', body);
   }
 
-  getConfiguracionTabla(ide_opci: string, numero_tabl: string) {
-    const body = {
-      ide_opci,
-      numero_tabl
-    };
-    return this.llamarServicioPost('api/sistema/getConfiguracionTabla', body);
-  }
 
   eliminarConfiguracionTabla(ide_tabl: string) {
     const body = {

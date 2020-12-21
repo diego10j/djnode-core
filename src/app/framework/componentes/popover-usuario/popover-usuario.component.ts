@@ -20,6 +20,7 @@ export class PopoverUsuarioComponent implements OnInit {
 
 
   logout() {
+    this.currentPopover.dismiss();
     this.seguridad.logout(this.utilitario.getPlataforma());
   }
 

@@ -1,11 +1,12 @@
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
+import { ServicioBase } from '../clases/servicio-base';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UploadService {
-  constructor() { }
+export class UploadService extends ServicioBase {
+
 
   async subirFoto(
     archivo: File
@@ -69,6 +70,16 @@ export class UploadService {
       return false;
     }
 
+  }
+
+
+  eliminarArchivo(nombreArchivo: string) {
+    if (nombreArchivo) {
+      const body = {
+        nombreArchivo
+      };
+      return this.llamarServicioPost('api/upload/eliminarArchivo', body);
+    }
   }
 
 

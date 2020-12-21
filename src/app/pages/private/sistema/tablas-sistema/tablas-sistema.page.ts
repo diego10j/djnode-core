@@ -36,6 +36,8 @@ export class TablasSistemaPage extends Pantalla {
 
 
     await this.tabTabla2.setTabla('sis_campo', 'ide_camp', 2);
+    this.tabTabla2.ocultarBotonInsertar();
+    this.tabTabla2.ocultarBotonEliminar();
     this.tabTabla2.setCampoOrden('orden_camp');
     this.tabTabla2.getColumna('nom_camp').setLectura(true);
     this.tabTabla2.getColumna('nom_camp').setFiltro(true);
@@ -46,7 +48,7 @@ export class TablasSistemaPage extends Pantalla {
     this.tabTabla2.itemInsertar.disabled = true;
 
     await this.tabTabla3.setTabla('sis_combo', 'ide_comb', 3);
-    this.tabTabla3.setFilasPorPagina(5);
+    this.tabTabla3.setFilasPorPagina(10);
     this.tabTabla3.setLectura(false);
     this.tabTabla3.dibujar(); // última
     this.utilitario.cerrarLoading(); //Cierra el loading

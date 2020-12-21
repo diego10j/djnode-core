@@ -12,7 +12,7 @@ export default class Columna {
     visible = true;
     lectura = false;
     nombreVisual: string;
-    componente?: 'Texto' | 'Calendario' | 'Calendario' | 'Hora' | 'CalendarioHora' | 'Check' | 'Combo' |
+    componente?: 'Texto' | 'Calendario' | 'Hora' | 'CalendarioHora' | 'Check' | 'Combo' |
         'TextoEntero' | 'TextoNumero' | 'TextoMoneda' | 'Autocompletar' | 'Radio' | 'Etiqueta' | 'Upload';
     valorDefecto: any = null;
     mascara: string;
@@ -27,7 +27,9 @@ export default class Columna {
     alinear?: 'izquierda' | 'derecha' | 'centro' = 'izquierda';
     nullCombo = true;
     textoFiltro: string;
-
+    tipoFiltro?: 'text' | 'numeric' | 'date' | 'boolean' = 'text';
+    ordenable=true;
+    expandible=false;
 
     //Eventos
     onMetodoChange?: (event?: any) => void;
@@ -113,6 +115,7 @@ export default class Columna {
 
     setUpload() {
         this.componente = 'Upload';
+        this.ordenable=false;
         if(this.lectura){
             this.anchoColumna = 10;
         }
@@ -137,7 +140,19 @@ export default class Columna {
     }
 
     setFiltro(_filtro: boolean) {
-        this.filtro = _filtro;
+        this.filtro = true;
+        this.tipoFiltro='text';
+        if(_filtro){
+            if(this.tipo === 'numeric' || this.tipo ===  'decimal' || this.tipo === 'int' || this.tipo === 'bigint' || this.tipo === 'integer' || this.tipo === 'money'){
+                this.tipoFiltro='numeric';
+            }
+            else if(this.tipo === 'date'){
+                this.tipoFiltro='date';
+            }
+            else if(this.tipo === 'boolean'){
+                this.tipoFiltro='boolean';
+            }
+        }
     }
 
     setOrden(_orden: number) {
