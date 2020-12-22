@@ -286,26 +286,26 @@ export class TablaComponent implements OnInit {
     let disBotGuardar = true;
     const botGuardar = (document.getElementById('botGuardar') as HTMLButtonElement);
 
-      this.itemInsertar = {
-        label: 'Insertar',
-        icon: 'pi pi-plus-circle',
-        visible: this.isBotonInsertar,
-        command: () => {
-          this.onInsertarClick();
-        }
-      };
-      this.menuContextual.push(this.itemInsertar);
+    this.itemInsertar = {
+      label: 'Insertar',
+      icon: 'pi pi-plus-circle',
+      visible: this.isBotonInsertar,
+      command: () => {
+        this.onInsertarClick();
+      }
+    };
+    this.menuContextual.push(this.itemInsertar);
 
-      this.itemEliminar = {
-        label: 'Eliminar',
-        icon: 'pi pi-trash',
-        visible: this.isBotonEliminar,
-        command: () => {
-          this.onEliminarClick();
-        }
-      };
-      this.menuContextual.push(this.itemEliminar);
-    
+    this.itemEliminar = {
+      label: 'Eliminar',
+      icon: 'pi pi-trash',
+      visible: this.isBotonEliminar,
+      command: () => {
+        this.onEliminarClick();
+      }
+    };
+    this.menuContextual.push(this.itemEliminar);
+
     if (botGuardar && !botGuardar.hidden) {
       disBotGuardar = botGuardar.disabled;
       this.itemGuardar = {
@@ -330,8 +330,57 @@ export class TablaComponent implements OnInit {
 
   }
 
+  public async setTablaConfiguracion(numeroTabla: number): Promise<Columna[]> {
+    this.tabla.numeroTabla = numeroTabla + '';
+    this.tabla.columnas = new Array<Columna>();
+    this.tabla.datos = [];
+    const ide_opci = this.utilitario.getIdeOpci();
+    //Configuración de la tabla
+    await new Promise(resolve => {
+      // Si es obj autocompletar
+      this.sistemaService.getConfiguracion(ide_opci, this.tabla.numeroTabla).subscribe(resp => {
+        const respuesta: any = resp;
+        if (this.utilitario.isDefined(respuesta.datos)) {
+          this.tabla.nombreTabla = respuesta.datos.tabla_tabl.toLowerCase();
+          this.tabla.campoPrimario = respuesta.datos.primaria_tabl.toLowerCase();
+          this.tabla.campoOrden = respuesta.datos.primaria_tabl.toLowerCase();// por defecto
+          this.tipoFormulario = false; // por defecto
+          if (this.utilitario.isDefined(respuesta.datos.nombre_tabl)) {
+            this.tabla.campoNombre = respuesta.datos.nombre_tabl.toLowerCase();
+          }
+          if (this.utilitario.isDefined(respuesta.datos.foranea_tabl)) {
+            this.tabla.campoForanea = respuesta.datos.foranea_tabl.toLowerCase();
+          }
+          if (this.utilitario.isDefined(respuesta.datos.padre_tabl)) {
+            this.tabla.campoPadre = respuesta.datos.padre_tabl.toLowerCase();
+          }
+          if (this.utilitario.isDefined(respuesta.datos.orden_tabl)) {
+            this.tabla.campoOrden = respuesta.datos.orden_tabl.toLowerCase();
+          }
+          if (this.utilitario.isDefined(respuesta.datos.formulario_tabl)) {
+            this.tipoFormulario = respuesta.datos.formulario_tabl;
+          }
+          if (this.utilitario.isDefined(respuesta.datos.filas_tabl)) {
+            this.tabla.filasPorPagina = respuesta.datos.filas_tabl;
+          }
+        }
+        else{
+          this.utilitario.agregarMensajeError('No existe configuración'); return
+        }
+        resolve(true);
+      }, (err) => {
+        this.utilitario.agregarMensajeErrorServicioWeb(err);
+        this.buscando = false;
+        resolve(false);
+      });
+    });
+    //Forma Columnas
+    return this.formarColumnas();
 
-  public setTablaServicio(metodoServicio: string, bodyServicio: {}, numeroTabla: number) {
+
+  }
+
+  public setTablaServicio(metodoServicio: string, bodyServicio: {}, numeroTabla: number): Promise<Columna[]> {
     this.tabla.numeroTabla = numeroTabla + '';
     this.metodoServicio = metodoServicio;
     this.bodyServicio = bodyServicio;
@@ -379,7 +428,7 @@ export class TablaComponent implements OnInit {
         }
         resolve(this.tabla.columnas);
       }, (err) => {
-        this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        this.utilitario.agregarMensajeErrorServicioWeb(err);
         this.buscando = false;
       });
     });
@@ -400,11 +449,16 @@ export class TablaComponent implements OnInit {
     this.tabla.numeroTabla = numeroTabla + '';
     this.tabla.nombreTabla = nombreTabla.toLowerCase();
     this.tabla.campoPrimario = campoPrimario.toLowerCase();;
-    this.campoOrden = campoPrimario.toLowerCase();; //Por defecto ordena por campo primario
+    this.campoOrden = campoPrimario.toLowerCase();//Por defecto ordena por campo primario
     this.tabla.columnas = new Array<Columna>();
     this.tabla.datos = [];
-    const ide_opci = this.utilitario.getIdeOpci();
     //Forma Columnas
+    return this.formarColumnas();
+
+  }
+
+  private formarColumnas(): Promise<Columna[]> {
+    const ide_opci = this.utilitario.getIdeOpci();
     return new Promise(resolve => {
       this.sistemaService.getColumnasTabla(this.tabla.nombreTabla, ide_opci, this.numeroTabla).subscribe(async resp => {
         const respuesta: any = resp;
@@ -441,11 +495,10 @@ export class TablaComponent implements OnInit {
         }
         resolve(this.tabla.columnas);
       }, (err) => {
-        this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        this.utilitario.agregarMensajeErrorServicioWeb(err);
         this.buscando = false;
       });
     });
-
   }
 
   /**
@@ -519,7 +572,7 @@ export class TablaComponent implements OnInit {
             }
           }
         }, (err) => {
-          this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+          this.utilitario.agregarMensajeErrorServicioWeb(err);
         });
       }
       else {
@@ -535,7 +588,7 @@ export class TablaComponent implements OnInit {
               }
             }
           }, (err) => {
-            this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+            this.utilitario.agregarMensajeErrorServicioWeb(err);
           });
       }
 
@@ -683,7 +736,7 @@ export class TablaComponent implements OnInit {
 
         }
       }, (err) => {
-        this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        this.utilitario.agregarMensajeErrorServicioWeb(err);
         this.buscando = false;
       }
       );
@@ -1407,8 +1460,7 @@ export class TablaComponent implements OnInit {
               const respuesta: any = resp;
               resolve(respuesta.datos);
             }, (err) => {
-              this.utilitario.agregarMensajeError('<p>' + err.error.mensaje +
-                '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+              this.utilitario.agregarMensajeErrorServicioWeb(err);
               this.buscando = false;
             });
         });
@@ -1483,7 +1535,7 @@ export class TablaComponent implements OnInit {
           resolve(true);
         }
       }, (err) => {
-        this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        this.utilitario.agregarMensajeErrorServicioWeb(err);
         this.buscando = false;
         resolve(false);
       });
@@ -1708,9 +1760,9 @@ export class TablaComponent implements OnInit {
 
   setLectura(_lectura: boolean) {
     this.tabla.lectura = _lectura;
-    if(_lectura===true){
-      this.isBotonEliminar= false;
-      this.isBotonInsertar= false;
+    if (_lectura === true) {
+      this.isBotonEliminar = false;
+      this.isBotonInsertar = false;
     }
   }
 
@@ -1819,7 +1871,7 @@ export class TablaComponent implements OnInit {
         fileUpload.clear();
       }).catch(err => {
         fileUpload.clear();
-        this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        this.utilitario.agregarMensajeErrorServicioWeb(err);
       });
   }
 

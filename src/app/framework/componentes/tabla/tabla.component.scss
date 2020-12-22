@@ -14,7 +14,7 @@
   padding-right: 10px;
 }
 
-.botones{
+.botones {
   padding: 5px 10px;
 }
 
@@ -32,16 +32,14 @@ ion-card {
   }
 }
 
-
 :host ::ng-deep {
-
   .p-button {
     height: 30px;
     font-size: 0.85rem;
     margin-left: 5px;
   }
 
-  .p-tooltip{
+  .p-tooltip {
     font-size: 0.9rem !important;
   }
   .tituloTabla {
@@ -91,17 +89,17 @@ ion-card {
       background: none;
     }
 
-    .pi-sort-alt::before{
+    .pi-sort-alt::before {
       font-size: 11px;
     }
-    .pi-sort-amount-up-alt::before{
+    .pi-sort-amount-up-alt::before {
       font-size: 11px;
     }
-    .pi-sort-amount-down::before{
+    .pi-sort-amount-down::before {
       font-size: 11px;
     }
 
-    .pi-filter::before{
+    .pi-filter::before {
       font-size: 11px;
     }
 

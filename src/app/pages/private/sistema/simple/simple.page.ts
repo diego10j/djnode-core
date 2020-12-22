@@ -21,11 +21,8 @@ export class SimplePage extends Pantalla{
 
   async ionViewWillEnter(){
     // Configura la tabla
-    await this.tabTabla1.setTabla('sri_microempresas', 'ruc', 1);
-    this.tabTabla1.setTitulo('Microempresas');
-    this.tabTabla1.setCampoOrden('razon_social');
-    this.tabTabla1.setFilasPorPagina(15);
-    this.tabTabla1.setLectura(true);
+    await this.tabTabla1.setTablaConfiguracion(1);
+    this.tabTabla1.setLectura(false);
     //this.tabTabla1.setTipoFormularioIonic();
     this.tabTabla1.dibujar(); // última
     this.utilitario.cerrarLoading(); //Cierra el loading

@@ -1,40 +1,34 @@
 ion-content {
-    --background: #ffffff;
-  }
-
+  --background: #ffffff;
+}
 
 ion-spinner {
-    transform: scale(0.1);
+  transform: scale(0.1);
 }
 
 :host ::ng-deep {
-    font-family: 'Montserrat' !important;
-    .p-orderlist .p-orderlist-controls .p-button{
-        height: 30px;
-        background: var(--ion-color-medium) !important;
-        color:black;
-        border: 0;
-        font-size: 10px;
+  font-family: "Montserrat" !important;
+  .p-orderlist .p-orderlist-controls .p-button {
+    height: 30px;
+    background: var(--ion-color-medium) !important;
+    color: black;
+    border: 0;
+    font-size: 10px;
+  }
+
+  .p-orderlist-droppoint {
+    height: 0;
+  }
+
+  .p-orderlist .p-orderlist-list {
+    margin-left: 15px;
+    width: 98%;
+    height: 100%;
+    display: block;
+
+    .p-orderlist-item {
+      padding: 0;
+      padding-left: 0.5rem;
     }
-
-    .p-orderlist-droppoint{
-        height: 0;
-    }
-
-    .p-orderlist .p-orderlist-list{
-        margin-left: 15px;
-        width: 98%;
-        height: 100%;
-        display: block;
-
-        .p-orderlist-item{
-            padding: 0;
-            padding-left:0.5rem;
-        }
-    }
-
-
-
+  }
 }
-
-

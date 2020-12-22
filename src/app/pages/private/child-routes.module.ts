@@ -9,11 +9,11 @@ const childRoutes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
   },
   {
-    path: 'simple', canActivate: [SeguridadGuard],
+    path: 'simple/:id', canActivate: [SeguridadGuard],
     loadChildren: () => import('./sistema/simple/simple.module').then(m => m.SimplePageModule)
   },
   {
-    path: 'doble', canActivate: [SeguridadGuard],
+    path: 'doble/:id', canActivate: [SeguridadGuard],
     loadChildren: () => import('./sistema/doble/doble.module').then(m => m.DoblePageModule)
   },
   {

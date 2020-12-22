@@ -14,7 +14,7 @@
 
         <!--OPCIONES SIN HIJOS-->
         <ion-item mode="ios" [class]="mn.tag" *ngIf="mn.ruta" detail="false"
-          [ngClass]="{ 'ion-no-padding':true , 'active-item' : selected === mn.ruta}" button lines="none"
+          [ngClass]="{ 'ion-no-padding':true , 'active-item' : selected === mn.data}" button lines="none"
           (click)="toggleMenu(mn)">
           <ion-label class="padding-nivel0">
             <ion-icon [name]="mn.icon"></ion-icon>
@@ -35,7 +35,7 @@
           </ion-icon>
         </ion-item>
         <ion-item mode="ios" [class]="mn.tag" detail="false"
-          [ngClass]="{ 'ion-no-padding submenu':true , 'active-item' : selected === ch.ruta}"
+          [ngClass]="{ 'ion-no-padding submenu':true , 'active-item' : selected === ch.data}"
           *ngFor="let ch of mn.items" button lines="none" (click)="abrirPagina(ch)">
           <ion-label class="padding-nivel1">
             <ion-icon [name]="ch.icon"></ion-icon>

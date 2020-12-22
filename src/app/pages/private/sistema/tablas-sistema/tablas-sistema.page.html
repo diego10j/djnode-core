@@ -1,17 +1,16 @@
 <ion-content>
   <app-mensaje #mensaje id="mensaje"></app-mensaje>
   <app-barra #barra> </app-barra>
-  <app-tabla #tabTabla1>
-    <ng-template #barra>
-      <app-boton valor="Borrar Configuracion" color="medium" (onClick)="confirmarEliminar()">
-      </app-boton>
-    </ng-template>
-
-  </app-tabla>
+  <app-tabla #tabTabla1></app-tabla>
   <ion-card class="ion-no-padding">
     <p-tabView>
       <p-tabPanel header="COLUMNAS" leftIcon="pi pi-list">
-        <app-tabla #tabTabla2></app-tabla>
+        <app-tabla #tabTabla2>
+          <ng-template #barra>
+            <app-boton valor="Borrar Configuracion" color="medium" (onClick)="confirmarEliminar()">
+            </app-boton>
+          </ng-template>
+        </app-tabla>
       </p-tabPanel>
       <p-tabPanel header="SQL COMBO" leftIcon="pi pi-sort-amount-down">
         <app-tabla #tabTabla3></app-tabla>

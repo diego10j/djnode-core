@@ -36,6 +36,7 @@ export class UtilitarioService {
             icon: 'info',
             title: $titulo,
             html: $mensaje,
+            confirmButtonText:'Ok',
             heightAuto: false,
         });
     }
@@ -53,6 +54,7 @@ export class UtilitarioService {
             icon: 'error',
             title: $titulo,
             html: $mensaje,
+            confirmButtonText:'Ok',
             heightAuto: false,
         });
         this.cerrarLoading();//
@@ -75,6 +77,7 @@ export class UtilitarioService {
             icon: 'warning',
             title: $titulo,
             html: $mensaje,
+            confirmButtonText:'Ok',
             heightAuto: false,
         });
     }
@@ -92,6 +95,7 @@ export class UtilitarioService {
             icon: 'success',
             title: $titulo,
             text: $mensaje,
+            confirmButtonText:'Ok',
             heightAuto: false,
         });
     }
@@ -106,14 +110,13 @@ export class UtilitarioService {
             html: $mensaje,
             showCancelButton: true,
             focusConfirm: false,
+            reverseButtons: true,
             confirmButtonText:
                 '<i class="fa fa-thumbs-up"></i> Si',
             confirmButtonAriaLabel: 'Si',
             cancelButtonText:
                 '<i class="fa fa-thumbs-down"></i> No',
             cancelButtonAriaLabel: 'No',
-            confirmButtonColor: '#007AE0',
-            cancelButtonColor: '#989aa2',
             heightAuto: false,
         }).then((result) => {
             if (result.isConfirmed) {
@@ -337,12 +340,19 @@ export class UtilitarioService {
             ruta = this.router.url;
             ruta = ruta.substring(ruta.lastIndexOf('/') + 1, ruta.length);
         }
-        const menus = JSON.parse(localStorage.getItem('menu')) || [];
-        //Busqueda recursiva
-        for (const opciActual of menus) {
-            const encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
-            if (encontro !== null) {
-                return encontro;
+
+        if (ruta.includes('generic_')) {
+            let data = ruta.substring(ruta.lastIndexOf('_') + 1, ruta.length);
+            return data;
+        }
+        else {
+            const menus = JSON.parse(localStorage.getItem('menu')) || [];
+            //Busqueda recursiva
+            for (const opciActual of menus) {
+                const encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
+                if (encontro !== null) {
+                    return encontro;
+                }
             }
         }
         return null;
@@ -551,6 +561,10 @@ export class UtilitarioService {
     }
 
 
+    getPantallasGenericas(): string[] {
+        return ['simple', 'doble', 'recursiva', 'triple'];
+    }
+
     async abrirLoading() {
         const loading = await this.loadingController.create({
             //message: 'Cargando...',
@@ -586,6 +600,10 @@ export class UtilitarioService {
         }, (err) => {
             this.agregarMensajeError(err.error.mensaje);
         });
+    }
+
+    cambiarSizeFuente(size: number) {
+        document.documentElement.style.fontSize = size + 'px';
     }
 
 }

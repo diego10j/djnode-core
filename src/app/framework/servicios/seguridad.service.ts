@@ -3,7 +3,7 @@ import { environment } from './../../../environments/environment';
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Usuario } from '../clases/usuario';
 import { of, Observable } from 'rxjs';
 import { ServicioBase } from '../clases/servicio-base';
@@ -58,7 +58,7 @@ export class SeguridadService extends ServicioBase {
     localStorage.removeItem('identificacion');
     localStorage.removeItem('avatar');
     this.llamarServicioIpPublic();
-    this.usuario=null;
+    this.usuario = null;
     this.router.navigateByUrl('/login');
   }
 
@@ -93,17 +93,34 @@ export class SeguridadService extends ServicioBase {
 
   isAccesoPantalla(ruta: string): boolean {
     ruta = ruta.substring(ruta.lastIndexOf('/') + 1, ruta.length);
-    if (ruta === 'dashboard') {
-      return true;
-    }
-    const menus = JSON.parse(localStorage.getItem('menu')) || [];
-    //Busqueda recursiva
-    for (const opciActual of menus) {
-      const encontro = this.busquedaRecursiva(opciActual, ruta);
-      if (encontro === true) {
-        return true;
+
+    if (ruta.includes('generic_')) {
+      //Pantalla genérica
+      let data = ruta.substring(ruta.lastIndexOf('_') + 1, ruta.length);
+      const menus = JSON.parse(localStorage.getItem('menu')) || [];
+      //Busqueda recursiva
+      for (const opciActual of menus) {
+        const encontro = this.busquedaRecursivaPorId(opciActual, data);
+        if (encontro === true) {
+          return true;
+        }
       }
     }
+    else {
+
+      if (ruta === 'dashboard') {
+        return true;
+      }
+      const menus = JSON.parse(localStorage.getItem('menu')) || [];
+      //Busqueda recursiva
+      for (const opciActual of menus) {
+        const encontro = this.busquedaRecursiva(opciActual, ruta);
+        if (encontro === true) {
+          return true;
+        }
+      }
+    }
+
     return false;
   }
 
@@ -122,6 +139,21 @@ export class SeguridadService extends ServicioBase {
     return false;
   }
 
+
+  private busquedaRecursivaPorId(opcion: any, data: string): boolean {
+    if (opcion.data === data) {
+      return true;
+    }
+    if (opcion.items) {
+      for (const opciActual of opcion.items) {
+        const encontro = this.busquedaRecursivaPorId(opciActual, data);
+        if (encontro === true) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
 
 
@@ -163,10 +195,10 @@ export class SeguridadService extends ServicioBase {
     return typeof $variable !== 'undefined' && $variable !== null;
   }
 
-  
+
   getActividadAuditoria() {
     const body = {
-      ide_usua:localStorage.getItem('ide_usua')
+      ide_usua: localStorage.getItem('ide_usua')
     };
     return this.llamarServicioPost('api/seguridad/getActividadAuditoria', body);
   }

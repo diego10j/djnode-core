@@ -1,8 +1,8 @@
 <ion-header mode="ios" class="ion-no-border">
-  <ion-toolbar color="light">
+  <ion-toolbar class="bg-white border-bottom">
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
-        <ion-icon  slot="icon-only" name="close"></ion-icon>
+        <ion-icon slot="icon-only"  name="close-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>Personalizar columnas</ion-title>
@@ -10,7 +10,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [forceOverscroll]="false" [fullscreen]="true">
+<ion-content [forceOverscroll]="false" [fullscreen]="true" class="ion-padding-top">
 
   <ion-toolbar mode="ios">
     <ion-segment mode="ios" value="orden">
@@ -62,7 +62,7 @@
 
 </ion-content>
 <ion-footer class="ion-no-border">
-  <ion-toolbar mode="ios" lines="none" class="bg-transparente">
+  <ion-toolbar mode="ios" lines="none" class="bg-transparente border-top">
 
     <ion-button size="small" slot="end" fill="outline" (click)="closeModal()">
       Cancelar

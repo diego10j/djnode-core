@@ -34,7 +34,7 @@ export class SistemaService extends ServicioBase {
   /**
    * Llama al ws getColumnasTabla
    */
-  getColumnasTabla(nombreTabla: string,ide_opci: string, numero_tabl: string) {
+  getColumnasTabla(nombreTabla: string, ide_opci: string, numero_tabl: string) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     const body = {
       nombreTabla,
@@ -141,7 +141,7 @@ export class SistemaService extends ServicioBase {
       tabla: tabConf,
       columnas
     };
-    return this.llamarServicioPost('api/sistema/configurarTabla', body);
+    return this.llamarServicioPost('api/sistema/configurar', body);
   }
 
 
@@ -149,7 +149,15 @@ export class SistemaService extends ServicioBase {
     const body = {
       ide_tabl
     };
-    return this.llamarServicioPost('api/sistema/eliminarConfiguracionTabla', body);
+    return this.llamarServicioPost('api/sistema/eliminarConfiguracion', body);
+  }
+
+  getConfiguracion(ide_opci: string, numero_tabl: string) {
+    const body = {
+      ide_opci,
+      numero_tabl
+    };
+    return this.llamarServicioPost('api/sistema/getConfiguracion', body);
   }
 
 }

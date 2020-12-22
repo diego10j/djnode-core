@@ -69,12 +69,12 @@ export class TablasSistemaPage extends Pantalla {
 
   confirmarEliminar() {
     const nombreTabla = this.tabTabla1.getValor('tabla_tabl');
-    if (!this.tabTabla1.isEmpty()) {
+    if (!this.tabTabla2.isEmpty()) {
       const mensaje = 'Está seguro de que desea eliminar la configuración de la tabla <strong> ' + nombreTabla + ' </strong>?';
       this.utilitario.confirmar(mensaje, () => this.eliminarConfiguracion());
     }
     else {
-      this.mensaje.agregarMensajeError('No existen registos');
+      this.mensaje.agregarMensajeAdvertencia('No existen registos');
     }
   }
 
