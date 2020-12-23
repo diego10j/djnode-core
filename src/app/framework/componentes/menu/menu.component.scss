@@ -1,6 +1,6 @@
 ion-content {
-//  --background:white;
---background:var(--ion-color-light);
+--background:white;
+//--background:var(--ion-color-dark);
 }
 
 ion-menu ion-content .scroll-content::-webkit-scrollbar {
@@ -16,16 +16,17 @@ ion-list {
     --ion-background-color: transparent;
     --border-radius: 10px;
     --inner-padding-start: 0px;
-    --color-hover: var(--ion-color-secondary);
+    --color-hover: var(--ion-color-dark);
     --padding: 0;
     --margin: 0;
     ion-label {
-      color: #63768d;
+      color: var(--ion-color-secondary);
+      font-size:0.9rem;
       vertical-align: middle;
       ion-icon {
         vertical-align: middle;
-        width:23px;
-        height: 23px;
+        width:18px;
+        height: 18px;
         text-align: center;
       }
     }
@@ -34,6 +35,7 @@ ion-list {
       font-size: 18px;
       padding-right: 0 !important;
       margin-right: 0 !important;
+      color: var(--ion-color-secondary);
     }
   }
 
@@ -42,7 +44,7 @@ ion-list {
     --ion-background-color: transparent;
     height: 0px;
     ion-label {
-      color: #63768d;
+      color: var(--ion-color-secondary);
     }
   }
 
@@ -66,28 +68,29 @@ ion-list {
   .active-item {
    //--background: #f4f6f7 !important;
     --border-radius: 10px;
-   // --background:rgba(255, 255, 255, 0.7)!important;
-    --background: var(--ion-color-secondary)!important;
+    //--background:rgba(7, 6, 97, 0.486)!important;
+    --background: var(--ion-color-medium)!important;
     ion-label {
-      //color: var(--ion-color-tertiary) !important;
-      color:white!important;
+      //color: var(--ion-color-primary) !important;
+      color: var(--ion-color-secondary) !important;
       ion-icon {
-        //color: var(--ion-color-primary) !important;
-        color: var(--ion-color-light) !important;
+        color:var(--ion-color-secondary) !important;
+        //color: var(--ion-color-light) !important;
       }
     }
   }
 
   .active-header {
     ion-label {
-      color: var(--ion-color-secondary) !important;
-      //font-weight: bold;
+      color:var(--ion-color-secondary);
+      font-weight: bold;
       ion-icon {
-        color: var(--ion-color-secondary) !important;
+        font-weight: bold;
+        color:var(--ion-color-secondary);
       }
     }
     ion-icon {
-      color: var(--ion-color-secondary) !important;
+      color: var(--ion-color-secondary);
     }
   }
 }

@@ -142,7 +142,7 @@ ion-toolbar {
   color: #001f3f !important;
 }
 .text-teal {
-  color: #43beac !important;
+  color: #05BAA5 !important;
 }
 .text-olive {
   color: #3d9970 !important;
@@ -283,7 +283,7 @@ ion-toolbar {
   background-color: #001f3f !important;
 }
 .bg-teal {
-  background-color: #39cccc !important;
+  background-color: #05BAA5 !important;
 }
 .bg-olive {
   background-color: #3d9970 !important;
@@ -326,10 +326,10 @@ body {
 }
 
 ion-content {
-  --background: #f2f2f2; //f9f9f9
+  --background: var(--ion-color-light);
 }
 .bg-content {
-  background: #f2f2f2;
+  background: var(--ion-color-light);
 }
 
 .bg-oscuro {
@@ -798,20 +798,11 @@ ion-button {
   font-size: 0.93rem !important;
 }
 
-.p-toast .p-toast-message .p-toast-icon-close {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  background: transparent;
-  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
-}
-
+//swal2
 .swal2-styled.swal2-cancel {
-
-  font-size: 0.93rem !important;
-  border: 1px solid var(--ion-color-primary) !important;;
+  border: 1px solid var(--ion-color-primary) !important;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  font-size: 1rem !important;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s,
     box-shadow 0.2s;
   border-radius: 4px;
@@ -820,34 +811,30 @@ ion-button {
   color: var(--ion-color-primary) !important;
 }
 .swal2-styled.swal2-cancel:hover {
-  background: rgba(33, 150, 243, 0.04)!important;
-  color: var(--ion-color-primary-tint)!important;
+  background: rgba(33, 150, 243, 0.04) !important;
+  color: var(--ion-color-primary-tint) !important;
   border: 1px solid;
-
 }
 
-
 .swal2-styled.swal2-confirm {
-
-  font-size: 0.93rem !important;
   border: 1px solid var(--ion-color-primary) !important;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  font-size: 1rem !important;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s,
     box-shadow 0.2s;
   border-radius: 4px;
   min-height: 30px;
-  background-color:var(--ion-color-primary) !important;
+  background-color: var(--ion-color-primary) !important;
   color: white !important;
 }
 .swal2-styled.swal2-confirm:hover {
-  background: var(--ion-color-primary-tint)!important;
+  background: var(--ion-color-primary-tint) !important;
   color: #ffffff;
-  border-color: var(--ion-color-primary-tint)!important;
+  border-color: var(--ion-color-primary-tint) !important;
 }
 
 .swal2-styled:focus {
-  outline: none!important;
-  background-color:none!important;
-  box-shadow:none!important;
+  outline: none !important;
+  background-color: none !important;
+  box-shadow: none !important;
 }

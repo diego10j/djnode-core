@@ -14,13 +14,14 @@
 
     <ion-buttons slot="end">
 
-      <ion-button>
-        <ion-icon  color="tertiary" slot="icon-only" name="notifications-outline"></ion-icon>
-      </ion-button>
+      <ion-fab-button mode="ios"  size="small" color="medium"> 
+        <ion-icon  name="notifications-outline"></ion-icon>
+      </ion-fab-button>
 
       <ion-avatar  (click)="abrirPopoverUsuario( $event )" class="cursor" style="margin-left: 10px;">
         <div class="u-text-avatar">{{ firstLetter }}</div>
       </ion-avatar>
+
     </ion-buttons>
 
 

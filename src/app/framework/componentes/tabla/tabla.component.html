@@ -5,17 +5,14 @@
             <ion-card-title class="tituloTabla">{{titulo}}</ion-card-title>
         </ion-card-header>
 
-
-        <ion-grid class="ion-no-padding botones">
-            <ion-row>
-                <ion-col size="5" class="ion-float-left">
-                    <div>
-                        <ng-container>
-                            <ng-template [ngTemplateOutlet]="barra"></ng-template>
-                        </ng-container>
-                    </div>
+        <ion-grid class="ion-no-padding ion-no-margin botones">
+            <ion-row class="ion-no-padding">
+                <ion-col size-xs="4" class="ion-float-left ion-no-padding ">
+                    <ng-container>
+                        <ng-template [ngTemplateOutlet]="barra"></ng-template>
+                    </ng-container>
                 </ion-col>
-                <ion-col size="7" class="ion-float-right">
+                <ion-col size-xs="8" class="ion-float-right">
                     <div class="ion-text-right">
                         <button pButton pRipple *ngIf="isBotonInsertar" icon="pi pi-plus" pTooltip="Insertar"
                             tooltipPosition="bottom" class="p-button-success p-mr-2  p-button-sm"
@@ -160,7 +157,7 @@
                                             <div *ngSwitchCase="'Upload'"
                                                 style="text-align: center; width:100%;display:block;">
                                                 <ion-thumbnail class="cursor" [style]="{'margin-left':'30%'}"
-                                                    slot="start"
+                                                    slot="start" pTooltip="Ver Imagen" tooltipPosition="bottom"
                                                     (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
                                                     <img [src]="(fila[columna.nombre]  | imagen)">
                                                 </ion-thumbnail>
@@ -211,7 +208,7 @@
                                                     <div *ngSwitchCase="'Upload'"
                                                         style="text-align: center; width:100%">
                                                         <ion-thumbnail class="cursor" [style]="{'margin-left':'30%'}"
-                                                            slot="start"
+                                                            slot="start" pTooltip="Ver Imagen" tooltipPosition="bottom"
                                                             (click)="abrirVisualizarImagen(columna.nombre,indiceFilaActual)">
                                                             <img [src]="(fila[columna.nombre]  | imagen)">
                                                         </ion-thumbnail>
@@ -484,7 +481,8 @@
                                         <div *ngIf="columna.componente === 'Upload'">
 
                                             <ion-item lines="none" class="bg-transparente">
-                                                <ion-thumbnail class="cursor" slot="start"
+                                                <ion-thumbnail class="cursor" slot="start" pTooltip="Ver Imagen"
+                                                    tooltipPosition="bottom"
                                                     (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
                                                     <img [src]="(fila[columna.nombre]  | imagen)">
                                                 </ion-thumbnail>
@@ -493,7 +491,9 @@
                                                     <p-fileUpload #fileUpload mode="basic" accept="image/*" auto="auto"
                                                         maxFileSize="5000000" chooseLabel="Seleccionar"
                                                         uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
-                                                        cancelLabel="Descartar" customUpload="true" class="componente"
+                                                        pTooltip="Seleccionar Archivo" tooltipPosition="bottom"
+                                                        cancelLabel="Descartar" customUpload="true"
+                                                        class="componente p-button-info"
                                                         (uploadHandler)="seleccionarImagen($event,columna.nombre,indiceFilaActual,fileUpload)">
                                                     </p-fileUpload>
                                                 </ion-buttons>
@@ -686,7 +686,8 @@
                                 <div *ngIf="columna.componente === 'Upload'">
 
                                     <ion-item lines="none">
-                                        <ion-thumbnail class="cursor" slot="start"
+                                        <ion-thumbnail class="cursor" slot="start" pTooltip="Ver Imagen"
+                                            tooltipPosition="bottom"
                                             (click)="abrirVisualizarImagen(columna.nombre,getRowIndex())">
                                             <img [src]="(seleccionada[columna.nombre]  | imagen)">
                                         </ion-thumbnail>
@@ -695,6 +696,7 @@
                                             <p-fileUpload mode="basic" accept="image/*" auto="auto"
                                                 maxFileSize="5000000" chooseLabel="Seleccionar"
                                                 uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
+                                                pTooltip="Seleccionar Archivo" tooltipPosition="bottom"
                                                 cancelLabel="Descartar" customUpload="true" class="componente"
                                                 (uploadHandler)="seleccionarImagen($event,columna.nombre,indiceFilaActual,fileUpload)">
                                             </p-fileUpload>
@@ -848,7 +850,8 @@
                                         </ion-label>
                                     </ion-item>
                                     <ion-item lines="none">
-                                        <ion-thumbnail class="cursor" slot="start"
+                                        <ion-thumbnail class="cursor" slot="start" pTooltip="Ver Imagen"
+                                            tooltipPosition="bottom"
                                             (click)="abrirVisualizarImagen(columna.nombre,getRowIndex())">
                                             <img [src]="(seleccionada[columna.nombre]  | imagen)">
                                         </ion-thumbnail>
@@ -857,6 +860,7 @@
                                             <p-fileUpload mode="basic" accept="image/*" auto="auto"
                                                 maxFileSize="5000000" chooseLabel="Seleccionar"
                                                 uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
+                                                pTooltip="Seleccionar Archivo" tooltipPosition="bottom"
                                                 cancelLabel="Descartar" customUpload="true" class="componente"
                                                 (uploadHandler)="seleccionarImagen($event,columna.nombre,indiceFilaActual,fileUpload)">
                                             </p-fileUpload>
