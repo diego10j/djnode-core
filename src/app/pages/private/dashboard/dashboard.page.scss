@@ -15,7 +15,7 @@
   background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%) !important;
 }
 .bg-gradient-info {
-  background: linear-gradient(87deg, #11cdef 0, #1171ef 100%) !important;
+  background: linear-gradient(87deg, #0075fb 0, #18bff1 100%) !important;
 }
 
 .icon-shape {
@@ -129,72 +129,16 @@ ion-content {
 }
 
 
-ul.ms-activity-log > li{
-  position: relative;
-  margin: 20px 0 35px;
-  padding-left: 50px;
-}
-ul.ms-activity-log > li:first-child{
-  margin-top: 0;
-}
-ul.ms-activity-log > li::before{
-  content: ' ';
-  background: rgba(0,0,0,.1);
-  display: inline-block;
-  position: absolute;
-  top: 10px;
-  left: 14px;
-  width: 1px;
-  height: 125%;
-  z-index: 400;
-}
-ul.ms-activity-log > li:last-child::before{
-  display: none;
-}
-ul.ms-activity-log h6{
-  font-size: 15px;
-  margin-bottom: 2px;
-}
-ul.ms-activity-log span{
-  font-size: 10px;
-}
-ul.ms-activity-log span i{
-  margin-right: 5px;
-}
+ion-content {
+  --background: #f7fafc;
 
-ul.ms-activity-log .icon{
-  position: absolute;
-  left: -3px;
-  top: -3px;
-  height: 35px;
-  width: 35px;
-  line-height: 35px;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 12px;
-  color: #fff;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-  z-index: 400;
-}
+  ion-card {
+    box-shadow: none;
+    border-radius: 12px;
+    box-shadow: 0px 3px 40px 0px rgba(0, 0, 0, 0.10);
 
-
-.ms-btn-icon, .ms-btn-icon-outline {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  border: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: .25rem;
-  line-height: 1.5;
-  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.btn.btn-pill, .ms-btn-icon.btn-pill, .ms-btn-icon-outline.btn-pill {
-  border-radius: 25px;
-}
-ul {
-  list-style: none;
-  padding: 0;
+    ion-card-title {
+      font-weight: 400;
+    }
+  }
 }

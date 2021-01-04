@@ -22,4 +22,5 @@ export default class Tabla {
     ideTabla:string; //pk sis_tabla
     numeroTabla:string; //numero tabla sis_tabla
     tipoFormulario = false;
+    titulo:string;
 }

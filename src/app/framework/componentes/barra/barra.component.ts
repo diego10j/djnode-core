@@ -66,5 +66,4 @@ export class BarraComponent implements OnInit {
     this.isBotonGuardar = false;
   }
 
-
 }

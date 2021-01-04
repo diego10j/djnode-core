@@ -93,6 +93,14 @@ export class TablaComponent implements OnInit {
     this.tabla.tipoFormulario = _tipoFormulario;
   }
 
+  get titulo(): string {
+    return this.tabla.titulo;
+  }
+
+  set titulo(_titulo: string) {
+    this.tabla.titulo = _titulo;
+  }
+
   get paginacion(): boolean {
     if (this.datos) {
       if (this.tabla.filasPorPagina >= this.datos.length) {
@@ -112,13 +120,13 @@ export class TablaComponent implements OnInit {
   @ViewChild('djtabla', { static: false }) djtabla: Table;
   @ViewChild('opcionesTabla', { static: false }) opcionesTabla: TieredMenu;
   @ViewChildren(ColumnFilter) colFiltro: QueryList<ColumnFilter>;
+
   public tabla: Tabla;
   indiceFilaActual = 0;
   //por defecto tabla 1
   public buscando = false;
   public textoFiltroGlobal = '';
   public filtroGlobal = false;
-  public titulo: string;
   public resultadoAutocompletar: any[];
   public eliminadas: any[] = []; //almacena filas eliminadas
   public validarInsertar = false; // validacion para permitir insertar varios registros
@@ -149,7 +157,7 @@ export class TablaComponent implements OnInit {
   isBotonEliminar = true;
   isBotonFiltro = true;
   isBotonOpciones = true;
-
+  isBotonModificar = false;
   //Filas Row Expansion
   expandible = false;
 
@@ -197,6 +205,54 @@ export class TablaComponent implements OnInit {
     closeOnSelectDelay: 0,
   };
 
+  //Tamaño de las columnas por defecto defecto
+
+  sizeColumnas = 0;
+
+  public get numeroColumnasGrid(): string {
+    let size = 'auto';
+    let anchoPantalla = this.utilitario.getWidhtPantalla();
+    if (this.sizeColumnas === 0) {
+      if (anchoPantalla < 540) {
+        size = '12'; //xm 
+      }
+      else if (anchoPantalla >= 540 && anchoPantalla < 720) {
+        size = '6'; //sm
+      }
+      else if (anchoPantalla >= 720 && anchoPantalla < 960) {
+        size = '6'; //md
+      }
+      else if (anchoPantalla >= 960 && anchoPantalla < 1140) {
+        size = '6'; //lg
+      }
+      else if (anchoPantalla >= 1140) {
+        size = '4'; //xl
+      }
+    }
+    else if (this.sizeColumnas === 1) {
+      size = '12';
+    }
+    else if (this.sizeColumnas === 2) {
+      size = '6';
+    }
+    else if (this.sizeColumnas === 3) {
+      size = '4';
+    }
+    //Para telefono
+    if (anchoPantalla < 540) {
+      size = '12'; //xm 
+    }
+    return size;
+  }
+
+  //Eventos
+  onClickModificar?: (event?: any) => void;
+
+  setNumeroColumnasGrid(numeroColumnas: number) {
+    this.sizeColumnas = numeroColumnas;
+  }
+
+
 
   public onInsertarClick() {
     const botInsertar = document.getElementById('botInsertar');
@@ -211,6 +267,13 @@ export class TablaComponent implements OnInit {
     botGuardar.click();
   }
 
+  public onModificarClick() {
+    if (this.onClickModificar) {
+      this.onClickModificar({
+        originalEvent: null
+      });
+    }
+  }
 
   ngOnInit() {
 
@@ -363,8 +426,11 @@ export class TablaComponent implements OnInit {
           if (this.utilitario.isDefined(respuesta.datos.filas_tabl)) {
             this.tabla.filasPorPagina = respuesta.datos.filas_tabl;
           }
+          if (this.utilitario.isDefined(respuesta.datos.titulo_tabl)) {
+            this.tabla.titulo = respuesta.datos.titulo_tabl;
+          }
         }
-        else{
+        else {
           this.utilitario.agregarMensajeError('No existe configuración'); return
         }
         resolve(true);
@@ -535,7 +601,7 @@ export class TablaComponent implements OnInit {
       this.ordenarColumnas();
       this.formarMenuContextual();
     }
-
+    //this.getSize();
     this.consultar();
     this.isDibujar = true;
     // this.utilitario.cerrarLoading();
@@ -1139,6 +1205,11 @@ export class TablaComponent implements OnInit {
     this.consultar();
   }
 
+  ejecutar() {
+    this.seleccionada = null;
+    this.consultar();
+  }
+
   /**
    * Retorna el valor de una columna de la fila seleccionada 
    * @param nombreColumna 
@@ -1636,8 +1707,8 @@ export class TablaComponent implements OnInit {
       const objElimina = {};
       objElimina['tipo'] = 'eliminar';
       objElimina['nombreTabla'] = this.tabla.nombreTabla.toLowerCase();
-      objElimina['campoPrimario'] = this.tabla.campoPrimario.toLowerCase();
-      objElimina['valorCampoPrimario'] = filaActual[this.tabla.campoPrimario.toLowerCase()];
+      const condicionElimina: Condicion = { condicion: this.campoPrimario + ' = ?', valores: [filaActual[this.tabla.campoPrimario.toLowerCase()]] };
+      objElimina['condiciones'] = [condicionElimina];
       listaSQL.push(objElimina);
     }
     //console.log(listaSQL);
@@ -1775,7 +1846,7 @@ export class TablaComponent implements OnInit {
   }
 
   setTitulo(_titulo: string) {
-    this.titulo = _titulo;
+    this.tabla.titulo = _titulo;
   }
 
   setCondiciones(_condiciones: Condicion) {
@@ -1868,9 +1939,14 @@ export class TablaComponent implements OnInit {
           colModificadas.indexOf(nombreColumna) === -1 ? colModificadas.push(nombreColumna) : colModificadas.indexOf(nombreColumna);
           this.seleccionada['colModificadas'] = colModificadas;
         }
-        fileUpload.clear();
+        if (this.utilitario.isDefined(fileUpload)) {
+          fileUpload.clear();
+        }
+
       }).catch(err => {
-        fileUpload.clear();
+        if (this.utilitario.isDefined(fileUpload)) {
+          fileUpload.clear();
+        }
         this.utilitario.agregarMensajeErrorServicioWeb(err);
       });
   }
@@ -1886,7 +1962,8 @@ export class TablaComponent implements OnInit {
       },
       cssClass: 'modal-fullscreen',
       keyboardClose: true,
-      showBackdrop: true
+      showBackdrop: true,
+      mode: 'md'
     });
     await modal.present();
   }
@@ -1904,7 +1981,8 @@ export class TablaComponent implements OnInit {
       cssClass: 'modal-fullscreen',
       //cssClass: 'my-custom-modal-class',
       keyboardClose: true,
-      showBackdrop: true
+      showBackdrop: true,
+      mode: 'md'
     });
     await modal.present();
 
@@ -1935,6 +2013,10 @@ export class TablaComponent implements OnInit {
     this.isBotonEliminar = true;
   }
 
+  mostrarBotonModificar() {
+    this.isBotonModificar = true;
+  }
+
   mostrarBotonFiltro() {
     this.isBotonFiltro = true;
   }
@@ -1945,6 +2027,10 @@ export class TablaComponent implements OnInit {
 
   ocultarBotonEliminar() {
     this.isBotonEliminar = false;
+  }
+
+  ocultarBotonModificar() {
+    this.isBotonModificar = false;
   }
 
   ocultarBotonFiltro() {
@@ -1959,7 +2045,8 @@ export class TablaComponent implements OnInit {
     this.isBotonInsertar = false;
     this.isBotonEliminar = false;
     this.isBotonFiltro = false;
-    this.isBotonOpciones = false;
+    this.isBotonModificar = false;
+    //this.isBotonOpciones = false;
   }
 
 }

@@ -1,4 +1,4 @@
-import { MenuItem } from 'primeng/api';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,6 +9,8 @@ import { SistemaService } from '../framework/servicios/sistema.service';
 import { TablaComponent } from '../framework/componentes/tabla/tabla.component';
 import { LoadingController, Platform } from '@ionic/angular';
 import Condicion from '../framework/interfaces/condicion';
+import * as moment from 'moment';
+import 'moment/locale/es';
 @Injectable({
     providedIn: 'root',
 })
@@ -19,7 +21,8 @@ export class UtilitarioService {
         private datePipe: DatePipe,
         public platform: Platform,
         public sistemaService: SistemaService,
-        private loadingController: LoadingController
+        private loadingController: LoadingController,
+        private geolocation: Geolocation
     ) {
     }
 
@@ -36,7 +39,7 @@ export class UtilitarioService {
             icon: 'info',
             title: $titulo,
             html: $mensaje,
-            confirmButtonText:'Ok',
+            confirmButtonText: 'Ok',
             heightAuto: false,
         });
     }
@@ -54,14 +57,19 @@ export class UtilitarioService {
             icon: 'error',
             title: $titulo,
             html: $mensaje,
-            confirmButtonText:'Ok',
+            confirmButtonText: 'Ok',
             heightAuto: false,
         });
         this.cerrarLoading();//
     }
 
     agregarMensajeErrorServicioWeb(err) {
-        this.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        if (this.isDefined(err.error)) {
+            this.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        }
+        else {
+            this.agregarMensajeError('<p>' + err.error + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+        }
     }
 
     /**
@@ -77,7 +85,7 @@ export class UtilitarioService {
             icon: 'warning',
             title: $titulo,
             html: $mensaje,
-            confirmButtonText:'Ok',
+            confirmButtonText: 'Ok',
             heightAuto: false,
         });
     }
@@ -95,7 +103,7 @@ export class UtilitarioService {
             icon: 'success',
             title: $titulo,
             text: $mensaje,
-            confirmButtonText:'Ok',
+            confirmButtonText: 'Ok',
             heightAuto: false,
         });
     }
@@ -124,8 +132,6 @@ export class UtilitarioService {
             }
         });
     }
-
-
 
     /**
      * Retorna si una variable esta definida
@@ -307,31 +313,39 @@ export class UtilitarioService {
         }
     }
 
-    guardarPantalla(...tablas: TablaComponent[]): boolean {
-        const lisAgrupa = [];
-        for (const tab of tablas) {
-            // valida que no haya errores para ejecutar todas las sentencias
-            const lista = tab.guardar();
-            if (lista.length > 0) {
-                tab.buscando = true;
-                lisAgrupa.push(...lista);
+    guardarPantalla(...tablas: TablaComponent[]): Promise<boolean> {
+
+        return new Promise(resolve => {
+            const lisAgrupa = [];
+            for (const tab of tablas) {
+                // valida que no haya errores para ejecutar todas las sentencias
+                const lista = tab.guardar();
+                if (lista.length > 0) {
+                    tab.buscando = true;
+                    lisAgrupa.push(...lista);
+                }
             }
-        }
-        if (lisAgrupa.length > 0) {
-            this.sistemaService.ejecutarListaSQL(lisAgrupa).subscribe(resp => {
-                for (const tab of tablas) {
-                    tab.onCommit();
-                    tab.buscando = false;
-                }
-                this.agregarMensajeExito('Datos guardados exitosamente');
-            }, (err) => {
-                this.agregarMensajeError(err.error.mensaje);
-                for (const tab of tablas) {
-                    tab.buscando = false;
-                }
-            });
-        }
-        return true;
+            if (lisAgrupa.length > 0) {
+                this.sistemaService.ejecutarListaSQL(lisAgrupa).subscribe(resp => {
+                    for (const tab of tablas) {
+                        tab.onCommit();
+                        tab.buscando = false;
+                    }
+                    this.agregarMensajeExito('Datos guardados exitosamente');
+                    resolve(true);
+                }, (err) => {
+                    resolve(false);
+                    this.agregarMensajeError(err.error.mensaje);
+                    for (const tab of tablas) {
+                        tab.buscando = false;
+                    }
+                });
+            }
+            else {
+                resolve(true);
+            }
+
+        });
     }
 
 
@@ -478,6 +492,31 @@ export class UtilitarioService {
         return 'desktop';
     }
 
+    getGeoLocalizacion(): Promise<any> {
+        return new Promise(resolve => {
+            this.geolocation.getCurrentPosition().then((resp) => {
+                const cordenadas = {
+                    longitud: resp.coords.longitude,
+                    latitud: resp.coords.latitude
+                }
+                resolve(cordenadas);
+            }).catch((error) => {
+                //Por defecto
+                const cordenadas = {
+                    longitud: -78.52480,
+                    latitud: -0.225219
+                }
+                resolve(cordenadas);
+                console.log('Error getGeoLocalizacion', error);
+            });
+        });
+
+    }
+
+    getWidhtPantalla() {
+        return this.platform.width();
+    }
+
 
     getSistemaOperativo(): any {
 
@@ -594,16 +633,36 @@ export class UtilitarioService {
         };
     }
 
-    ejecutarListaSQL(listaSQL: any[]) {
-        this.sistemaService.ejecutarListaSQL(listaSQL).subscribe(resp => {
-            this.agregarMensajeExito('Datos guardados exitosamente');
-        }, (err) => {
-            this.agregarMensajeError(err.error.mensaje);
+    getObjSqlEliminar(nombreTabla: string, condiciones: Condicion[]): any {
+        return {
+            tipo: 'eliminar',
+            nombreTabla,
+            condiciones
+        };
+    }
+
+    ejecutarListaSQL(listaSQL: any[], mensaje = true): Promise<boolean> {
+        return new Promise(resolve => {
+            this.sistemaService.ejecutarListaSQL(listaSQL).subscribe(resp => {
+                if (mensaje === true) {
+                    this.agregarMensajeExito('Datos guardados exitosamente');
+                }
+                resolve(true);
+            }, (err) => {
+                this.agregarMensajeError(err.error.mensaje);
+                resolve(false);
+            });
         });
     }
 
     cambiarSizeFuente(size: number) {
         document.documentElement.style.fontSize = size + 'px';
+    }
+
+
+    //Formatos Fechas
+    getFormatoFechaLarga(fecha){
+        return moment(fecha).format('LL');
     }
 
 }

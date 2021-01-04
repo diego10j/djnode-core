@@ -41,7 +41,7 @@ export class SistemaService extends ServicioBase {
       ide_opci,
       numero_tabl
     };
-    return this.llamarServicioPost('api/sistema/getColumnasTabla', body);
+    return this.llamarServicioPost('api/sistema/getColumnas', body);
   }
 
   getComboTabla(nombreTabla: string, campoPrimario: string, campoNombre: string, condicion?: string) {
@@ -54,14 +54,14 @@ export class SistemaService extends ServicioBase {
       campoNombre,
       condicion
     };
-    return this.llamarServicioPost('api/sistema/getComboTabla', body);
+    return this.llamarServicioPost('api/sistema/getCombo', body);
   }
 
   getComboSql(sql: string) {
     const body = {
       sql
     };
-    return this.llamarServicioPost('api/sistema/getComboTabla', body);
+    return this.llamarServicioPost('api/sistema/getCombo', body);
   }
 
 
@@ -158,6 +158,14 @@ export class SistemaService extends ServicioBase {
       numero_tabl
     };
     return this.llamarServicioPost('api/sistema/getConfiguracion', body);
+  }
+
+  getDatosClima(longitud: string, latitud: string) {
+    const body = {
+      longitud,
+      latitud
+    };
+    return this.llamarServicioPost('api/sistema/getDatosClima', body);
   }
 
 }

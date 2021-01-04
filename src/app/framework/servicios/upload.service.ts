@@ -45,7 +45,7 @@ export class UploadService extends ServicioBase {
   ) {
 
     try {
-      const url = `${environment.API_REST}/api/upload/uploadArchivo`;
+      const url = `${environment.API_REST}/api/uploads/uploadArchivo`;
       const formData = new FormData();
       formData.append('archivo', archivo);
 
@@ -78,7 +78,7 @@ export class UploadService extends ServicioBase {
       const body = {
         nombreArchivo
       };
-      return this.llamarServicioPost('api/upload/eliminarArchivo', body);
+      return this.llamarServicioPost('api/uploads/eliminarArchivo', body);
     }
   }
 

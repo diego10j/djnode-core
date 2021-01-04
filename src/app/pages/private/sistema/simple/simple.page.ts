@@ -14,11 +14,6 @@ export class SimplePage extends Pantalla{
   @ViewChild('tab_tabla1', { static: false }) tabTabla1: TablaComponent;
 
 
-  constructor(public utilitario: UtilitarioService) {
-    super(utilitario);
-  }
-
-
   async ionViewWillEnter(){
     // Configura la tabla
     await this.tabTabla1.setTablaConfiguracion(1);

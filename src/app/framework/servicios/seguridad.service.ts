@@ -45,6 +45,7 @@ export class SeguridadService extends ServicioBase {
     localStorage.setItem('menu', JSON.stringify(resp.datos.menu));
     localStorage.setItem('ide_usua', resp.datos.ide_usua);
     localStorage.setItem('avatar', resp.datos.avatar);
+    localStorage.setItem('identificacion', resp.datos.identificacion);
   }
 
 

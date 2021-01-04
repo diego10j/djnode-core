@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { PrivateModule } from './pages/private/private.module';
 import { PublicModule } from './pages/public/public.module';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
     StatusBar,
     SplashScreen,
     SocialSharing,
+    Geolocation,
     DatePipe,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

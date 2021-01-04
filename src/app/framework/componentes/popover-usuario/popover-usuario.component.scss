@@ -1,5 +1,5 @@
 ion-list {
-  --background: white;
+  --background: transparent;
   --ion-background-color: transparent;
   ion-item {
     --background: transparent;
@@ -9,6 +9,7 @@ ion-list {
     --color-hover: var(--ion-color-secondary);
     --padding: 0;
     --margin: 0;
+    font-size: 0.9rem!important;
     ion-label {
       color: #63768d;
       vertical-align: middle;
@@ -16,40 +17,17 @@ ion-list {
     ion-icon {
       color: #63768d;
       vertical-align: middle;
-      width: 23px;
-      height: 23px;
+      width:18px;
+      height: 18px;
       text-align: center;
     }
   }
 }
 
-.profile-pic {
-  box-sizing: border-box;
-  color: rgb(62, 85, 105);
-  font-family: "Nunito Sans", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  outline-color: rgb(62, 85, 105);
-  outline-style: none;
-  outline-width: 0px;
-  overflow-wrap: break-word;
-  text-align: center;
+.nombreUsuario{
+  font-size: 0.8rem!important;
+  font-weight: bold;
 }
-.rounded-circle {
-  height: 64px;
-  width: 64px;
-  border-radius: 50% !important;
-}
-
 .clear {
   clear: both;
-}
-
-.fondo {
-  border-bottom: 1px solid #c8c7cc !important;
-  background: url("../../../../assets/img/card-bg.png") no-repeat,linear-gradient(147deg, #252c33 0, #223E6D 100%);
-  background-size: cover !important;
 }

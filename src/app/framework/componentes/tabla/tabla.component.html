@@ -20,6 +20,9 @@
                         <button pButton pRipple icon="pi pi-trash" *ngIf="isBotonEliminar" pTooltip="Eliminar"
                             tooltipPosition="bottom" class="p-button-danger p-mr-2 p-button-sm"
                             (click)="onEliminarClick()"></button>
+                        <button pButton pRipple icon="pi pi-pencil" *ngIf="isBotonModificar" pTooltip="Modificar"
+                            tooltipPosition="bottom" class="p-button-warning p-mr-2 p-button-sm"
+                            (click)="onModificarClick()"></button>
                         <button pButton pRipple *ngIf="!tipoFormulario && isBotonFiltro" icon="pi pi-filter"
                             (click)="busqueda.toggle($event)" pTooltip="Filtrar" tooltipPosition="bottom"
                             class="p-button-secondary p-mr-2 p-button-sm"></button>
@@ -38,7 +41,8 @@
                     <p-table #djtabla *ngIf="tabla" [columns]="columnas" [value]="tabla.datos"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [resizableColumns]="true"
                         sortMode="multiple" [paginator]="paginacion" [rows]="tabla.filasPorPagina"
-                        [totalRecords]="tabla.datos.length" [scrollable]="true" [loading]="buscando"
+                        columnResizeMode="expand" [totalRecords]="tabla.datos.length" [scrollable]="true"
+                        [loading]="buscando"
                         [style]="{'width': '100%','min-height': tabla.filasPorPagina * 30 + 'px','font-size': '0.8rem'}"
                         paginatorPosition="top" [metaKeySelection]="true" [sortField]="campoOrden"
                         alwaysShowPaginator="true" showJumpToPageDropdown="true" [showPageLinks]="false"
@@ -71,8 +75,10 @@
                             <tr>
                                 <th *ngIf="expandible"></th>
                                 <ng-container *ngFor="let columna of columnas">
-                                    <th pResizableColumn *ngIf="columna.visible && !columna.expandible"
-                                        pSortableColumn="{{columna.nombre}}" class="centrar width100">
+                                    <th [pResizableColumnDisabled]="!columna.resizable" pResizableColumn
+                                        *ngIf="columna.visible && !columna.expandible"
+                                        [pSortableColumn]="columna.ordenable ? columna.nombre : null"
+                                        class="centrar width100">
                                         <div style="white-space:pre-line;text-align: center;vertical-align: middle;">
                                             <ng-container [ngSwitch]="columna.componente" *ngIf="columna.filtro">
                                                 <p-columnFilter #colFiltro *ngSwitchCase="'Combo'"
@@ -154,14 +160,17 @@
                                                     [style]="{'width':'100%'}" binary="true" inputId="binary"
                                                     [disabled]="true"></p-checkbox>
                                             </div>
-                                            <div *ngSwitchCase="'Upload'"
-                                                style="text-align: center; width:100%;display:block;">
-                                                <ion-thumbnail class="cursor" [style]="{'margin-left':'30%'}"
-                                                    slot="start" pTooltip="Ver Imagen" tooltipPosition="bottom"
+                                            <ion-row *ngSwitchCase="'Upload'" class="ion-justify-content-center">
+                                                <ion-thumbnail class="cursor" slot="start" pTooltip="Ver Imagen"
+                                                    tooltipPosition="bottom"
                                                     (click)="abrirVisualizarImagen(columna.nombre,rowIndex)">
                                                     <img [src]="(fila[columna.nombre]  | imagen)">
                                                 </ion-thumbnail>
-                                            </div>
+                                            </ion-row>
+                                            <ion-row *ngSwitchCase="'Avatar'" class="ion-justify-content-center">
+                                                <app-avatar [nombre]="fila[columna.campoNombreAvatar]"
+                                                    [imagen]="fila[columna.nombre]"> </app-avatar>
+                                            </ion-row>
                                             <div *ngSwitchCase="'Combo'" class="componenteTexto">
                                                 {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
                                             </div>
@@ -236,7 +245,8 @@
                     <p-table #djtabla *ngIf="tabla" [columns]="columnas" [value]="tabla.datos" name="djtablaEditable"
                         styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [loading]="buscando"
                         [resizableColumns]="true" [paginator]="paginacion" [rows]="tabla.filasPorPagina"
-                        [totalRecords]="tabla.datos.length" [scrollable]="true" focus="false" [dir]="numeroTabla"
+                        columnResizeMode="expand" [totalRecords]="tabla.datos.length" [scrollable]="true" focus="false"
+                        [dir]="numeroTabla"
                         [style]="{'width': '100%','min-height': tabla.filasPorPagina * 30 + 'px','font-size': '0.8rem'}"
                         showJumpToPageDropdown="true" [showPageLinks]="false" [autoLayout]="true" selectionMode="single"
                         [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario" [metaKeySelection]="true"
@@ -266,7 +276,8 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <ng-container *ngFor="let columna of columnas">
-                                    <th pResizableColumn *ngIf="columna.visible" pSortableColumn="{{columna.nombre}}"
+                                    <th pResizableColumn *ngIf="columna.visible"
+                                        [pSortableColumn]="columna.ordenable ? columna.nombre : null"
                                         class="centrar;width100">
                                         <div style="white-space:pre-line;text-align: center;">
                                             <ng-container [ngSwitch]="columna.componente" *ngIf="columna.filtro">
@@ -391,7 +402,7 @@
                                         </div>
                                         <div *ngIf="columna.componente === 'Combo'" class="p-inputtext-sm"
                                             style="white-space:pre-line;">
-                                            <p-dropdown appendTo="body" [filter]="true"
+                                            <p-dropdown appendTo="body" [filter]="columna.listaCombo.length >= 10"
                                                 (onChange)="onMetodoChange($event,columna.nombre,fila)"
                                                 (mousedown)="onClickComponenteDropDown(fila)"
                                                 emptyFilterMessage="No existen registros"
@@ -547,8 +558,7 @@
 
                 <ion-row *ngIf="!seleccionada">
                     <ng-container *ngFor="let columna of columnas">
-                        <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
-                            size-sm="12" size-xs="12">
+                        <ion-col *ngIf="columna.visible" class="p-field" [size]="numeroColumnasGrid">
                             <ion-label>
                                 <ion-skeleton-text animated style="width: 30%;height: 20px"></ion-skeleton-text>
                             </ion-label>
@@ -563,8 +573,7 @@
                 <ion-row *ngIf="seleccionada" name="djtablaEditable" focus="false" [dir]="numeroTabla"
                     class="p-fluid p-formgrid p-grid">
                     <ng-container *ngFor="let columna of columnas">
-                        <ion-col *ngIf="columna.visible" class="p-field" size-xl="4" size-lg="6" size-xs="6" size-md="6"
-                            size-sm="12" size-xs="12">
+                        <ion-col *ngIf="columna.visible" class="p-field" [size]="numeroColumnasGrid">
                             <!--  FORMULARIO COMPONENTES WEB PRIMENG-->
                             <ng-container *ngIf="modoFormulario==='web'">
                                 <ion-label position="stacked" class="text-muted">{{columna.nombreVisual | uppercase}}
@@ -612,7 +621,7 @@
                                 </div>
                                 <div *ngIf="columna.componente === 'Combo'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
-                                    <p-dropdown appendTo="body" [filter]="true"
+                                    <p-dropdown appendTo="body" [filter]="columna.listaCombo.length >= 10"
                                         (onChange)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         emptyFilterMessage="No existen registros"
                                         [(ngModel)]="seleccionada[columna.nombre]" styleClass="componente"
@@ -693,7 +702,7 @@
                                         </ion-thumbnail>
 
                                         <ion-buttons slot="end">
-                                            <p-fileUpload mode="basic" accept="image/*" auto="auto"
+                                            <p-fileUpload #fileUpload mode="basic" accept="image/*" auto="auto"
                                                 maxFileSize="5000000" chooseLabel="Seleccionar"
                                                 uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
                                                 pTooltip="Seleccionar Archivo" tooltipPosition="bottom"
@@ -857,7 +866,7 @@
                                         </ion-thumbnail>
 
                                         <ion-buttons slot="end">
-                                            <p-fileUpload mode="basic" accept="image/*" auto="auto"
+                                            <p-fileUpload #fileUpload mode="basic" accept="image/*" auto="auto"
                                                 maxFileSize="5000000" chooseLabel="Seleccionar"
                                                 uploadLabel="Seleccionar" chooseIcon="pi pi-upload"
                                                 pTooltip="Seleccionar Archivo" tooltipPosition="bottom"

@@ -1,0 +1,32 @@
+
+
+<p-dialog [(visible)]="visible" [style]="{width: '55%',height: '65%'}" [closable]="false" [draggable]="false"
+  [resizable]="false" [modal]=true styleClass="dialogo" [autoZIndex]="false" [baseZIndex]="1">
+  <p-header>
+    <ion-toolbar mode="ios" class="bg-white width100 border-bottom">
+      <ion-buttons slot="end">
+        <ion-button (click)="cerrar()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{titulo}}</ion-title>
+    </ion-toolbar>
+  </p-header>
+
+  <app-tabla #tabTablaModal></app-tabla>
+
+  <p-footer>
+    <ion-footer class="ion-no-border">
+      <ion-toolbar mode="ios" lines="none" class="border-top" color="light">
+        <ion-button *ngIf="mostrarBotonCancelar" size="small" slot="end" fill="outline" (click)="cancelar()">
+          {{valorBotonCancelar}}
+        </ion-button>
+        <ion-button *ngIf="mostrarBotonAceptar" size="small" style="padding-left:20px" slot="end" (click)="aceptar()"
+          [disabled]="ejecutando">
+          <ion-spinner *ngIf="ejecutando"></ion-spinner>
+          <ion-label> {{valorBotonAceptar}}</ion-label>
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </p-footer>
+</p-dialog>

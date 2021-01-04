@@ -17,14 +17,11 @@ export class CabeceraComponent implements OnInit {
 
   constructor(private seguridad: SeguridadService,
     private popoverCtrl: PopoverController) {
-    this.usuario = seguridad.usuario;
+    
   }
 
-  logout() {
-    //this.seguridad.logout();
-  }
   ngOnInit() {
-    this.firstLetter = this.usuario.nombre.charAt(0) || '';
+    this.usuario = this.seguridad.usuario;
   }
 
   async toggleMenu() {

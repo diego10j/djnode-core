@@ -37,9 +37,11 @@ import { MensajeComponent } from './mensaje/mensaje.component';
 import {RippleModule} from 'primeng/ripple';
 import { MenuComponent } from './menu/menu.component';
 import { PopoverUsuarioComponent } from './popover-usuario/popover-usuario.component';
-import { LoadingComponent } from './loading/loading.component';
 import {DialogModule} from 'primeng/dialog';
 import {TooltipModule} from 'primeng/tooltip';
+import { ModalComponent } from './modal/modal.component';
+import { ModalTablaComponent } from './modal-tabla/modal-tabla.component';
+import { AvatarComponent } from './avatar/avatar.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import {TooltipModule} from 'primeng/tooltip';
     MensajeComponent,
     MenuComponent,
     PopoverUsuarioComponent,
-    LoadingComponent,
+    AvatarComponent,
+    ModalComponent,
+    ModalTablaComponent,
   ],
   exports: [
     TablaComponent,
@@ -66,7 +70,9 @@ import {TooltipModule} from 'primeng/tooltip';
     MensajeComponent,
     MenuComponent,
     PopoverUsuarioComponent,
-    LoadingComponent,
+    AvatarComponent,
+    ModalComponent,
+    ModalTablaComponent,
   ],
   imports: [
     IonicModule,

@@ -1,7 +1,7 @@
 <ion-menu side="start" menuId="first" contentId="main">
   <ion-header mode="ios">
     <ion-toolbar mode="ios" class="centrar border-bottom">
-        <img class="img-responsive img-rounded" src="assets/icon/logo.png" alt="Logo" height="32">
+      <img class="img-responsive img-rounded" src="assets/icon/logo.png" alt="Logo" height="32">
     </ion-toolbar>
   </ion-header>
 
@@ -32,7 +32,7 @@
           </ion-icon>
         </ion-item>
         <ion-item mode="ios" [class]="mn.tag" detail="false"
-          [ngClass]="{ 'ion-no-padding submenu':true , 'active-item' : selected === ch.data}"
+          [ngClass]="{ 'ion-no-padding ion-no-margin submenu':true , 'active-item' : selected === ch.data}"
           *ngFor="let ch of mn.items" button lines="none" (click)="abrirPagina(ch)">
           <ion-label class="padding-nivel1">
             <ion-icon [name]="ch.icon"></ion-icon>
@@ -43,5 +43,3 @@
     </ion-list>
   </ion-content>
 </ion-menu>
-
-

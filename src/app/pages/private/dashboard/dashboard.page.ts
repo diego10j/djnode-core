@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UtilitarioService } from '../../../services/utilitario.service';
 import { SeguridadService } from '../../../framework/servicios/seguridad.service';
 import { Usuario } from '../../../framework/clases/usuario';
-import { PrimeIcons } from 'primeng/api';
+import { SistemaService } from '../../../framework/servicios/sistema.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +20,9 @@ export class DashboardPage {
 
   buscandoActividad = false;
   datosActividad: any[];
+
+  buscandoClima = false;
+  datosClima: any;
 
   semana = [
     'Domingo',
@@ -52,11 +55,13 @@ export class DashboardPage {
   ampm;
 
   constructor(private utilitario: UtilitarioService,
-    private seguridad: SeguridadService) {
+    private seguridad: SeguridadService,
+    private sistema: SistemaService) {
     this.dispositivo = this.utilitario.getPlataforma();
     this.userAgent = this.utilitario.getUserAgent();
     this.sistemaOperativo = this.utilitario.getSistemaOperativo();
     this.usuario = this.seguridad.usuario;
+    this.getDatosClima();
     setInterval(() => {
       this.now = new Date();
       this.diaSemana = this.now.getDay();
@@ -72,7 +77,8 @@ export class DashboardPage {
 
   ionViewWillEnter() {
     this.usuario = this.seguridad.usuario;
-    this.fechaUltimoAcceso = localStorage.getItem('ultimaFecha');
+    console.log(localStorage.getItem('ultimaFecha'));
+    this.fechaUltimoAcceso = this.utilitario.getFormatoFechaLarga(localStorage.getItem('ultimaFecha'));
     this.getActividadAuditoria();
   }
 
@@ -89,11 +95,25 @@ export class DashboardPage {
       console.log(this.datosActividad);
       this.buscandoActividad = false;
     }, (err) => {
-      this.utilitario.agregarMensajeError('<p>' + err.error.mensaje + '</p> <p><strong>Origen: </strong>' + err.message + '</p> ');
+      this.utilitario.agregarMensajeErrorServicioWeb(err);
       this.buscandoActividad = false;
     }
     );
+  }
 
+  private async getDatosClima() {
+    this.buscandoClima = true;
+    const cordenadas = await this.utilitario.getGeoLocalizacion();
+    this.sistema.getDatosClima(cordenadas.longitud, cordenadas.latitud).subscribe(resp => {
+      const respuest: any = resp;
+      this.datosClima = respuest.datos;
+      console.log(this.datosClima);
+      this.buscandoClima = false;
+    }, (err) => {
+      this.utilitario.agregarMensajeErrorServicioWeb(err);
+      this.buscandoClima = false;
+    }
+    );
   }
 
 

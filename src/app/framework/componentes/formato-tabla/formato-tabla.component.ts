@@ -19,12 +19,6 @@ export class FormatoTablaComponent implements OnInit {
 
   isOrden = true;
   seleccionada: Columna = new Columna();
-  slideOpts = {
-    centeredSlides: 'true',
-    allowSlidePrev: false,
-    allowSlideNext: false
-  };
-
 
   constructor(private modalController: ModalController,
     private sistemaService: SistemaService,

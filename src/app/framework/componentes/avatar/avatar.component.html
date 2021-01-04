@@ -1,0 +1,7 @@
+<ion-avatar *ngIf="!imagen">
+  <div class="u-text-avatar" [ngStyle]="styles">{{ firstLetters }}</div>
+</ion-avatar>
+
+<ion-avatar *ngIf="imagen">
+  <img [src]="(imagen  | imagen)">
+</ion-avatar>

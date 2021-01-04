@@ -13,7 +13,7 @@ export default class Columna {
     lectura = false;
     nombreVisual: string;
     componente?: 'Texto' | 'Calendario' | 'Hora' | 'CalendarioHora' | 'Check' | 'Combo' |
-        'TextoEntero' | 'TextoNumero' | 'TextoMoneda' | 'Autocompletar' | 'Radio' | 'Etiqueta' | 'Upload';
+        'TextoEntero' | 'TextoNumero' | 'TextoMoneda' | 'Autocompletar' | 'Radio' | 'Etiqueta' | 'Upload' | 'Avatar';
     valorDefecto: any = null;
     mascara: string;
     listaCombo: any[];
@@ -30,6 +30,8 @@ export default class Columna {
     tipoFiltro?: 'text' | 'numeric' | 'date' | 'boolean' = 'text';
     ordenable=true;
     expandible=false;
+    campoNombreAvatar:string;
+    resizable = true;
 
     //Eventos
     onMetodoChange?: (event?: any) => void;
@@ -124,6 +126,14 @@ export default class Columna {
         }
     }
 
+    setAvatar(campoNombreAvatar:string){
+        this.campoNombreAvatar=campoNombreAvatar;
+        this.componente = 'Avatar';
+        this.anchoColumna = 5;
+        this.ordenable=false;
+        this.resizable=false;
+    }
+
     get isCombo(): boolean {
         if (this.configCombo) {
             return true;
@@ -162,6 +172,10 @@ export default class Columna {
     setLectura(_lectura: boolean) {
         this.lectura = _lectura;
         this.componente='Etiqueta';
+    }
+
+    setValorDefecto(_valorDefecto:any){
+        this.valorDefecto=_valorDefecto;
     }
 
 }

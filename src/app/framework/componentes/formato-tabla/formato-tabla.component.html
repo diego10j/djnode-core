@@ -1,17 +1,15 @@
 <ion-header mode="ios" class="ion-no-border">
   <ion-toolbar class="bg-white border-bottom">
     <ion-buttons slot="end">
-      <ion-button (click)="closeModal()" >
+      <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Personalizar columnas</ion-title>
-
+    <ion-title>Personalizar Columnas</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [forceOverscroll]="false" [fullscreen]="true" class="ion-padding-top">
-
   <ion-toolbar mode="ios">
     <ion-segment mode="ios" value="orden">
       <ion-segment-button value="orden" layout="icon-start" (click)="cambiarSegmento(true)">
@@ -59,18 +57,17 @@
       </div>
     </div>
   </ng-container>
-
 </ion-content>
+
 <ion-footer class="ion-no-border">
   <ion-toolbar mode="ios" lines="none" class="border-top" color="light">
-
     <ion-button size="small" slot="end" fill="outline" (click)="closeModal()">
-      Cancelar
+      Canelar
     </ion-button>
-
     <ion-button size="small" style="padding-left:20px" slot="end" (click)="guardar()" [disabled]="cargando">
       <ion-spinner *ngIf="cargando"></ion-spinner>
-      <ion-label class="ion-margin-horizontal"> Aplicar</ion-label>
+      <ion-label> Aplicar</ion-label>
+
     </ion-button>
   </ion-toolbar>
 </ion-footer>
