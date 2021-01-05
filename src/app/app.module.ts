@@ -15,6 +15,8 @@ import { PrivateModule } from './pages/private/private.module';
 import { PublicModule } from './pages/public/public.module';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +29,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     AppRoutingModule,
     HttpClientModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
   providers: [
     StatusBar,
