@@ -21,7 +21,6 @@ export class SucursalesPage extends Pantalla {
     this.tabTabla1.setLectura(false);
     this.tabTabla1.setTipoFormulario();
     this.tabTabla1.dibujar(); // última
-    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
   async guardar() {

@@ -55,8 +55,6 @@ export class PerfilesPage extends Pantalla {
     this.tabTabla5.setFilasPorPagina(15);
     this.tabTabla5.setLectura(false);
     this.tabTabla5.dibujar(); // última
-    
-    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
   async guardar() {

@@ -56,7 +56,6 @@ export class OpcionesPage extends Pantalla {
     this.tabTabla4.setFilasPorPagina(5);
     this.tabTabla4.setLectura(false);
     this.tabTabla4.dibujar(); // última
-    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
   insertar(): void {

@@ -604,7 +604,6 @@ export class TablaComponent implements OnInit {
     //this.getSize();
     this.consultar();
     this.isDibujar = true;
-    // this.utilitario.cerrarLoading();
   }
 
 
@@ -2048,5 +2047,9 @@ export class TablaComponent implements OnInit {
     this.isBotonModificar = false;
     //this.isBotonOpciones = false;
   }
+
+  contador(i: number) {
+    return new Array(i);
+}
 
 }

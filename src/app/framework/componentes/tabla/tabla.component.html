@@ -1,5 +1,33 @@
 <p-contextMenu #mnCtx appendTo="body" [target]="cardTabla" [model]="menuContextual"></p-contextMenu>
 <div #cardTabla (mousedown)="onFocusTabla()" [style]="{'min-height': tabla.filasPorPagina * 30 + 'px'}">
+    <ion-card *ngIf="!isDibujar" [style]="{'height': tabla.filasPorPagina * 34 + 'px'}">
+        <ng-container *ngIf="!tipoFormulario">
+
+            <ion-card-content class="ion-padding-top">
+
+                <table class="ion-padding-top width100">
+
+                    <colgroup>
+                        <ng-container *ngFor="let columna of columnas">
+                            <col *ngIf="columna.visible" [style]="{'width': (columna.anchoColumna)+'em'}">
+                        </ng-container>
+                    </colgroup>
+
+                    <tr *ngFor="let count of  contador(tabla.filasPorPagina)">
+                        <ng-container *ngFor="let columna of columnas">
+                            <td *ngIf="columna.visible" class="fila-skeleton">
+                                <ion-skeleton-text animated style="width: 98%; height: 18px"> </ion-skeleton-text>
+                            </td>
+                        </ng-container>
+                    </tr>
+
+                </table>
+            </ion-card-content>
+
+
+
+        </ng-container>
+    </ion-card>
     <ion-card *ngIf="isDibujar">
         <ion-card-header *ngIf="titulo" class="ion-no-padding">
             <ion-card-title class="tituloTabla">{{titulo}}</ion-card-title>

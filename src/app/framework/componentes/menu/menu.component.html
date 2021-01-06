@@ -1,11 +1,11 @@
 <ion-menu side="start" menuId="first" contentId="main">
   <ion-header mode="ios">
-    <ion-toolbar mode="ios" class="centrar border-bottom">
+    <ion-toolbar color="tertiary" mode="ios" class="centrar">
       <img class="img-responsive img-rounded" src="assets/icon/logo.png" alt="Logo" height="32">
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <nav class="navbar">
     <ion-list mode="ios">
       <div class="paddingCard" *ngFor="let mn of menus">
 
@@ -41,5 +41,5 @@
         </ion-item>
       </div>
     </ion-list>
-  </ion-content>
+  </nav>
 </ion-menu>

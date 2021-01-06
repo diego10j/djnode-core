@@ -33,6 +33,11 @@ ion-card {
 }
 
 :host ::ng-deep {
+
+.fila-skeleton{
+  padding-left:10px;
+}
+
   .p-button {
     height: 30px;
     font-size: 0.85rem;

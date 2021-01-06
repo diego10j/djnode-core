@@ -51,8 +51,6 @@ export class TablasSistemaPage extends Pantalla {
     this.tabTabla3.setFilasPorPagina(10);
     this.tabTabla3.setLectura(false);
     this.tabTabla3.dibujar(); // última
-    this.utilitario.cerrarLoading(); //Cierra el loading
-
   }
 
   insertar(): void {

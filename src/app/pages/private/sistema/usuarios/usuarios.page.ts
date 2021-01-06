@@ -44,7 +44,6 @@ export class UsuariosPage extends Pantalla {
     this.modTabla2.tabla.setCondiciones(this.condicionTabla2);
     this.modTabla2.onClickAceptar = () => { this.guardar(); };
     this.modTabla2.tabla.dibujar(); // última
-    this.utilitario.cerrarLoading(); //Cierra el loading
 
   }
 

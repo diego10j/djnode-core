@@ -28,7 +28,6 @@ export class DoblePage extends Pantalla {
     //const condiciones2: Condicion = { condicion: 'cod_deta>= ?', valores: [0] };
     //this.tabTabla2.setCondiciones(condiciones2);
     this.tabTabla2.dibujar(); // última 
-    this.utilitario.cerrarLoading(); //Cierra el loading
   }
 
 

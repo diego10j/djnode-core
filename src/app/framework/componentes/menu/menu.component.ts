@@ -57,7 +57,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (opcion.ruta) {
       this.selected = opcion.data;
       if (this.utilitario.isDefined(opcion.ruta)) {
-
+        this.utilitario.abrirLoading();
         var index = this.utilitario.getPantallasGenericas().indexOf(opcion.ruta);
         if (index === -1) {
           this.utilitario.abrirPagina(opcion.ruta);
@@ -65,8 +65,9 @@ export class MenuComponent implements OnInit, OnDestroy {
         else {
           this.utilitario.abrirPagina(opcion.ruta + '/' + 'generic_' + opcion.data);
         }
-
-
+        setTimeout(() => {
+          this.utilitario.cerrarLoading();
+        }, 500);
 
         if (this.utilitario.isDefined(opcion.data)) {
           this.seguridad.auditoriaAccesoPantalla(opcion.data, this.utilitario.getPlataforma());

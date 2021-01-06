@@ -60,7 +60,6 @@ export class UtilitarioService {
             confirmButtonText: 'Ok',
             heightAuto: false,
         });
-        this.cerrarLoading();//
     }
 
     agregarMensajeErrorServicioWeb(err) {

@@ -16,7 +16,7 @@ export abstract class Pantalla {
 
 
   constructor(public utilitario: UtilitarioService) {
-    this.utilitario.abrirLoading();
+    
   }
 
   ionViewDidEnter() {
