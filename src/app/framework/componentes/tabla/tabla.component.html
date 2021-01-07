@@ -1,33 +1,22 @@
 <p-contextMenu #mnCtx appendTo="body" [target]="cardTabla" [model]="menuContextual"></p-contextMenu>
 <div #cardTabla (mousedown)="onFocusTabla()" [style]="{'min-height': tabla.filasPorPagina * 30 + 'px'}">
-    <ion-card *ngIf="!isDibujar" [style]="{'height': tabla.filasPorPagina * 34 + 'px'}">
-        <ng-container *ngIf="!tipoFormulario">
-
+    <ion-card *ngIf="isDibujar === false" [style]="{'height': tabla.filasPorPagina * 33 + 'px'}">
+        <ng-container>
             <ion-card-content class="ion-padding-top">
+                <ion-row class="ion-justify-content-center">
+                    <ion-col size="12" class="tabla-loading" [style]="{'height': tabla.filasPorPagina * 30 + 'px'}">
+                            <i class="p-datatable-loading-icon pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+                    </ion-col>
+                </ion-row>
 
-                <table class="ion-padding-top width100">
+                
 
-                    <colgroup>
-                        <ng-container *ngFor="let columna of columnas">
-                            <col *ngIf="columna.visible" [style]="{'width': (columna.anchoColumna)+'em'}">
-                        </ng-container>
-                    </colgroup>
 
-                    <tr *ngFor="let count of  contador(tabla.filasPorPagina)">
-                        <ng-container *ngFor="let columna of columnas">
-                            <td *ngIf="columna.visible" class="fila-skeleton">
-                                <ion-skeleton-text animated style="width: 98%; height: 18px"> </ion-skeleton-text>
-                            </td>
-                        </ng-container>
-                    </tr>
 
-                </table>
             </ion-card-content>
-
-
-
         </ng-container>
     </ion-card>
+
     <ion-card *ngIf="isDibujar">
         <ion-card-header *ngIf="titulo" class="ion-no-padding">
             <ion-card-title class="tituloTabla">{{titulo}}</ion-card-title>
@@ -63,7 +52,6 @@
         </ion-grid>
         <ion-card-content class="ion-no-padding ion-padding-horizontal ion-padding-bottom">
             <ng-container *ngIf="!tipoFormulario">
-
                 <!--  TABLA DE SOLO LECTURA [lazy]="true" (onLazyLoad)="onCargarLazy($event)"-->
                 <ng-container *ngIf="lectura">
                     <p-table #djtabla *ngIf="tabla" [columns]="columnas" [value]="tabla.datos"

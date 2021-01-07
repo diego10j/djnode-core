@@ -32,11 +32,17 @@ ion-card {
   }
 }
 
-:host ::ng-deep {
-
-.fila-skeleton{
-  padding-left:10px;
+ion-spinner {
+  width: 40px;
+  height: 40px;
 }
+
+:host ::ng-deep {
+  .tabla-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .p-button {
     height: 30px;
@@ -92,6 +98,10 @@ ion-card {
   .p-datatable {
     .p-component {
       background: none;
+    }
+
+    .p-datatable-loading-overlay {
+      background-color: rgba(0, 0, 0, 0.1);
     }
 
     .pi-sort-alt::before {

@@ -73,7 +73,7 @@ body :not(ion-icon):not(i):not(.pi) {
 }
 
 ion-card {
-  --background: white;
+  //--background: white;
   //box-shadow: none;
   //border-radius: 3px;
 
@@ -388,7 +388,7 @@ ion-content {
   border-bottom: 1px solid #cecece !important;
 }
 .border-bottom-soft {
-  border-bottom: 1px solid #e6e7e9 !important;
+  border-bottom: 1px solid #cecece !important;
 }
 .border-top {
   border-top: 1px solid #cecece !important;

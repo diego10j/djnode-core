@@ -12,6 +12,7 @@ ion-fab-button {
 
 ion-toolbar {
   --background:transparent;
+  z-index: 0;
 }
 
 :host ::ng-deep .fab-button-small {
