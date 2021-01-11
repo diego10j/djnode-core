@@ -42,7 +42,7 @@
                             (click)="onModificarClick()"></button>
                         <button pButton pRipple *ngIf="!tipoFormulario && isBotonFiltro" icon="pi pi-filter"
                             (click)="busqueda.toggle($event)" pTooltip="Filtrar" tooltipPosition="bottom"
-                            class="p-button-secondary p-mr-2 p-button-sm"></button>
+                            class="p-button-primary p-button-outlined p-mr-2 p-button-sm"></button>
                         <button pButton pRipple icon="pi pi-ellipsis-v" *ngIf="isBotonOpciones"
                             (click)="opcionesTabla.toggle($event)" pTooltip="Opciones" tooltipPosition="bottom"
                             class="p-button-info no-borde p-mr-2 p-button-sm"></button>
@@ -200,18 +200,18 @@
                         </ng-template>
                         <ng-template *ngIf="expandible" pTemplate="rowexpansion" let-fila>
                             <tr>
-                                <td colspan="4">
+                                <td [attr.colspan]="columnas.length - numColumnasExpansibles"> 
                                     <table width="100%">
                                         <tr>
                                             <ng-container *ngFor="let columna of columnas">
-                                                <th *ngIf="columna.visible && columna.expandible" class="centrar">
+                                                <th *ngIf="columna.visible && columna.expandible" class="centrar tabla-expandible">
                                                     {{columna.nombreVisual | uppercase}}
                                                 </th>
                                             </ng-container>
                                         </tr>
                                         <ng-container *ngFor="let columna of columnas">
                                             <td *ngIf="columna.visible && columna.expandible"
-                                                style="vertical-align: middle">
+                                                class="centrar tabla-expandible">
                                                 <ng-container [ngSwitch]="columna.componente">
                                                     <div *ngSwitchCase="['Calendario', 'Hora','CalendarioHora'].includes(columna.componente) ? columna.componente : !columna.componente"
                                                         class="componenteTexto centrar">

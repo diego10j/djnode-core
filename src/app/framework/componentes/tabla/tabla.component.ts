@@ -160,7 +160,7 @@ export class TablaComponent implements OnInit {
   isBotonModificar = false;
   //Filas Row Expansion
   expandible = false;
-
+  numColumnasExpansibles =0;
   //Calendario - Fechas
 
   formatoFecha: string;
@@ -176,6 +176,8 @@ export class TablaComponent implements OnInit {
     format: environment.FORMATO_FECHA,
     locale: 'es',
     closeOnSelectDelay: 0,
+    displayDate: "",
+    showGoToCurrent:true
     //min:'2019-08-29 15:50',
     // minTime:'2017-08-29 15:50'
   };
@@ -203,6 +205,7 @@ export class TablaComponent implements OnInit {
     showSeconds: true,
     showTwentyFourHours: true,
     closeOnSelectDelay: 0,
+    displayDate: null
   };
 
   //Tamaño de las columnas por defecto defecto
@@ -1791,9 +1794,12 @@ export class TablaComponent implements OnInit {
 
   setExpandible(nombresColumnas: string) {
     let colArray = nombresColumnas.split(',');
+    let cont=0;
     for (let colActual of colArray) {
       this.getColumna(colActual).expandible = true;
+      cont++;
     }
+    this.numColumnasExpansibles=cont;
     this.expandible = true;
   }
 
@@ -2047,9 +2053,4 @@ export class TablaComponent implements OnInit {
     this.isBotonModificar = false;
     //this.isBotonOpciones = false;
   }
-
-  contador(i: number) {
-    return new Array(i);
-}
-
 }

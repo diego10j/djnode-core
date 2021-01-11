@@ -44,6 +44,15 @@ ion-spinner {
     justify-content: center;
   }
 
+  
+.tabla-expandible {
+  border-right: 1px solid #cecece ;
+}
+
+.tabla-expandible:last-of-type {
+  border-right: none;
+}
+
   .p-button {
     height: 30px;
     font-size: 0.85rem;
@@ -60,7 +69,6 @@ ion-spinner {
     padding-left: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    color: var(--ion-color-secondary);
   }
 
   .p-fluid .p-fileupload .p-button {

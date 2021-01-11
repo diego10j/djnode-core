@@ -18,8 +18,8 @@ export class DashboardPage {
   dispositivo: string;
   fechaUltimoAcceso: string;
 
-  buscandoActividad = false;
-  datosActividad: any[];
+  buscandoPantallas = false;
+  datosPantallas: any[];
 
   buscandoClima = false;
   datosClima: any;
@@ -77,9 +77,8 @@ export class DashboardPage {
 
   ionViewWillEnter() {
     this.usuario = this.seguridad.usuario;
-    console.log(localStorage.getItem('ultimaFecha'));
-    this.fechaUltimoAcceso = this.utilitario.getFormatoFechaLarga(localStorage.getItem('ultimaFecha'));
-    this.getActividadAuditoria();
+    this.fechaUltimoAcceso = this.utilitario.getFormatoMoment(localStorage.getItem('ultimaFecha'), 'll', 'DD-MM-YYYY') + ' / ' + this.utilitario.getFormatoMoment(localStorage.getItem('ultimaFecha'), 'LT', 'DD-MM-YYYY h:mm:ss');
+    this.getPantallasFrecuentes();
   }
 
   get ip(): string {
@@ -87,16 +86,15 @@ export class DashboardPage {
   }
 
 
-  private getActividadAuditoria() {
-    this.buscandoActividad = true;
-    this.seguridad.getActividadAuditoria().subscribe(resp => {
+  private getPantallasFrecuentes() {
+    this.buscandoPantallas = true;
+    this.seguridad.getPantallasFrecuentes().subscribe(resp => {
       const respuest: any = resp;
-      this.datosActividad = respuest.datos;
-      console.log(this.datosActividad);
-      this.buscandoActividad = false;
+      this.datosPantallas = respuest.datos;
+      this.buscandoPantallas = false;
     }, (err) => {
       this.utilitario.agregarMensajeErrorServicioWeb(err);
-      this.buscandoActividad = false;
+      this.buscandoPantallas = false;
     }
     );
   }
@@ -107,7 +105,6 @@ export class DashboardPage {
     this.sistema.getDatosClima(cordenadas.longitud, cordenadas.latitud).subscribe(resp => {
       const respuest: any = resp;
       this.datosClima = respuest.datos;
-      console.log(this.datosClima);
       this.buscandoClima = false;
     }, (err) => {
       this.utilitario.agregarMensajeErrorServicioWeb(err);
@@ -116,5 +113,26 @@ export class DashboardPage {
     );
   }
 
+  abrirPantalla(opcion) {
+    if (opcion) {
+      if (this.utilitario.isDefined(opcion.ruta)) {
+        var index = this.utilitario.getPantallasGenericas().indexOf(opcion.ruta);
+        if (index === -1) {
+          this.utilitario.abrirPagina(opcion.ruta);
+        }
+        else {
+          this.utilitario.abrirPagina(opcion.ruta + '/' + 'generic_' + opcion.data);
+        }
+        if (this.utilitario.isDefined(opcion.data)) {
+          this.seguridad.auditoriaAccesoPantalla(opcion.data, this.utilitario.getPlataforma());
+        }
+      }
+    }
+  }
+
+
+  contador(i: number) {
+    return new Array(i);
+  }
 
 }

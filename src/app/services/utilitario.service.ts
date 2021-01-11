@@ -659,9 +659,10 @@ export class UtilitarioService {
     }
 
 
-    //Formatos Fechas
-    getFormatoFechaLarga(fecha){
-        return moment(fecha).format('LL');
+    //Formatos Fechas Moment
+
+    getFormatoMoment(fecha,format, formatoFecha = 'YYYY-MM-DD h:mm:ss') {
+        return moment(fecha, formatoFecha).format(format);
     }
 
 }

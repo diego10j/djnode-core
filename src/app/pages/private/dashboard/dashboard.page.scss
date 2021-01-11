@@ -55,7 +55,7 @@
 .card-title {
   margin-bottom: 1.25rem;
   font-weight: 500;
- // color: #222;
+  // color: #222;
 }
 h5,
 .h5 {
@@ -104,19 +104,7 @@ h2,
 .h2 {
   font-size: 1.05rem;
 }
-ion-content {
-  ion-card {
-    box-shadow: none;
-    border-radius: 12px;
-    box-shadow: 0px 3px 45px 0px rgba(0, 0, 0, 0.1);
-  }
-}
 
-.cardDatos {
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  --background: linear-gradient(147deg, #252c33 0, #1b3e71 100%) !important;
-}
 //RELOJ FECHA
 .reloj {
   background: rgb(0, 0, 0, 0.1);
@@ -145,4 +133,52 @@ ion-content {
     --background: transparent;
     --ion-background-color: transparent;
   }
+
+  ion-chip{
+    ion-icon{
+      color:rgb(245, 245, 245) !important;
+    }
+  }
 }
+
+.pantalla1 {
+  background-color: #0073b7;
+  color: white;
+}
+.pantalla2 {
+  background-color: #00a65a;
+  color: white;
+}
+.pantalla3 {
+  background-color: #f39c12;
+  color: white;
+}
+.pantalla4 {
+  background-color: #995ca8;
+  color: white;
+}
+.pantalla5 {
+  background-color: #00c0ef;
+  color: white;
+}
+.pantalla6 {
+  background-color: #05baa5;
+  color: white;
+}
+.pantalla7 {
+  background-color: #d81b60;
+  color: white;
+}
+.pantalla8 {
+  background-color: #063364;
+  color: white;
+}
+.pantalla9 {
+  background-color: #a07659;
+  color: white;
+}
+.pantalla10 {
+  background-color: #4b0082;
+  color: white;
+}
+

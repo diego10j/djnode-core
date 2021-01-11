@@ -42,6 +42,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import { ModalComponent } from './modal/modal.component';
 import { ModalTablaComponent } from './modal-tabla/modal-tabla.component';
 import { AvatarComponent } from './avatar/avatar.component';
+import { CalendarioComponent } from './calendario/calendario.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { AvatarComponent } from './avatar/avatar.component';
     AvatarComponent,
     ModalComponent,
     ModalTablaComponent,
+    CalendarioComponent,
   ],
   exports: [
     TablaComponent,
@@ -73,6 +75,7 @@ import { AvatarComponent } from './avatar/avatar.component';
     AvatarComponent,
     ModalComponent,
     ModalTablaComponent,
+    CalendarioComponent,
   ],
   imports: [
     IonicModule,

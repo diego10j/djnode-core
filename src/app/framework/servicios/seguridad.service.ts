@@ -197,11 +197,11 @@ export class SeguridadService extends ServicioBase {
   }
 
 
-  getActividadAuditoria() {
+  getPantallasFrecuentes() {
     const body = {
       ide_usua: localStorage.getItem('ide_usua')
     };
-    return this.llamarServicioPost('api/seguridad/getActividadAuditoria', body);
+    return this.llamarServicioPost('api/seguridad/getPantallasFrecuentes', body);
   }
 
 

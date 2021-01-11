@@ -124,10 +124,10 @@ ion-toolbar {
   color: #fffc48 !important;
 }
 .text-aqua {
-  color: #00c0ef !important;
+  color: #00C0EF !important;
 }
 .text-blue {
-  color: #0073b7 !important;
+  color: #0073B7 !important;
 }
 .text-black {
   color: #111111 !important;
@@ -280,10 +280,10 @@ ion-toolbar {
   background-color: #f39c12 !important;
 }
 .bg-aqua {
-  background-color: #00c0ef !important;
+  background-color: #00C0EF !important;
 }
 .bg-blue {
-  background-color: #0073b7 !important;
+  background-color: #0073B7 !important;
 }
 .bg-light-blue {
   background-color: #3c8dbc !important;
@@ -392,6 +392,12 @@ ion-content {
 }
 .border-top {
   border-top: 1px solid #cecece !important;
+}
+.border-right {
+  border-right: 1px solid #cecece !important;
+}
+.border-left {
+  border-left: 1px solid #cecece !important;
 }
 .border-danger {
   border-color: var(--ion-color-danger) !important;

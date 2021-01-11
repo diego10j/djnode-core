@@ -7,11 +7,13 @@
                         <ion-card-content>
                             <ion-row class="alinear-medio centrar">
                                 <ion-col size="12">
-                                    <ion-text color="secondary" style="font-size:1.2rem;padding-left: 10px;">Hola
-                                        {{usuario.nombre |titlecase}}</ion-text>
+                                    <ion-card-title mode="md">Hola
+                                        {{usuario.nombre |titlecase}}
+                                    </ion-card-title>
                                 </ion-col>
                                 <ion-col size="12" class="ion-no-padding">
-                                    <ion-text  class="text-muted" style="font-size:0.85rem;font-weight: 200;"> Último ingreso {{fechaUltimoAcceso}}</ion-text>
+                                    <ion-text class="text-muted" style="font-size:0.85rem;font-weight: 200;"> Último
+                                        ingreso {{fechaUltimoAcceso}}</ion-text>
                                 </ion-col>
                             </ion-row>
                         </ion-card-content>
@@ -145,8 +147,10 @@
             <ion-card>
                 <ion-card-header>
                     <ion-card-title mode="md">Tu Dispositivo
-                        <ion-icon *ngIf="!userAgent.mobile"  name="desktop-outline" style="float: right;" color="primary"></ion-icon>
-                        <ion-icon *ngIf="userAgent.mobile" name="phone-portrait-outline" style="float: right;" color="primary"></ion-icon>
+                        <ion-icon *ngIf="!userAgent.mobile" name="desktop-outline" style="float: right;"
+                            color="primary"></ion-icon>
+                        <ion-icon *ngIf="userAgent.mobile" name="phone-portrait-outline" style="float: right;"
+                            color="primary"></ion-icon>
                     </ion-card-title>
                 </ion-card-header>
 
@@ -181,28 +185,26 @@
                     <ion-card-title mode="md">Enlaces Rápidos
                         <ion-icon name="link-outline" style="float: right;" color="primary"></ion-icon>
                     </ion-card-title>
-                    
+
                 </ion-card-header>
 
-                <ion-card-content>
-                    <ion-chip color="primary">
-                        <ion-label>Primary</ion-label>
+                <ion-card-content *ngIf="!datosClima">
+
+                    <ion-chip *ngFor="let count of  contador(10)">
+                        <ion-skeleton-text animated style="width: 100px;height: 30px"></ion-skeleton-text>
                     </ion-chip>
-                    <ion-chip color="secondary">
-                        <ion-label>Secondary</ion-label>
+
+                </ion-card-content>
+
+
+                <ion-card-content *ngIf="datosClima">
+
+                    <ion-chip *ngFor="let pant of  datosPantallas; ; let i = index" [class]="'pantalla'+ (i+1)" (click)="abrirPantalla(pant)">
+                        <ion-icon  *ngIf="!pant.icono" name="browsers-outline"></ion-icon>
+                        <ion-icon  *ngIf="pant.icono" [name]="pant.icono"></ion-icon>
+                        <ion-label> {{pant.pantalla}}</ion-label>
                     </ion-chip>
-                    <ion-chip color="tertiary">
-                        <ion-label>Tertiary</ion-label>
-                    </ion-chip>
-                    <ion-chip color="success">
-                        <ion-label>Success</ion-label>
-                    </ion-chip>
-                    <ion-chip color="warning">
-                        <ion-label>Warning</ion-label>
-                    </ion-chip>
-                    <ion-chip color="danger">
-                        <ion-label>Danger</ion-label>
-                    </ion-chip>
+
                 </ion-card-content>
 
             </ion-card>
