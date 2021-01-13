@@ -44,14 +44,20 @@ ion-spinner {
     justify-content: center;
   }
 
-  
-.tabla-expandible {
-  border-right: 1px solid #cecece ;
-}
+  .texto-busqueda {
+    padding: 0.3375rem 0.3375rem;
+    padding-left: 30px;
+    font-size: 0.8rem;
+    border-radius: 15px;
+  }
 
-.tabla-expandible:last-of-type {
-  border-right: none;
-}
+  .tabla-expandible {
+    border-right: 1px solid #cecece;
+  }
+
+  .tabla-expandible:last-of-type {
+    border-right: none;
+  }
 
   .p-button {
     height: 30px;

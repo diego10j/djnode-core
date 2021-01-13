@@ -3,10 +3,14 @@ ion-content {
   //--background:var(--ion-color-dark);
 }
 
+.fondo {
+  background: #252c33;
+  --background: #252c33;
+}
+
 .navbar {
   background-attachment: fixed;
-  //background: #252c33;
-  background: var(--ion-color-tertiary);
+  //background: var(--ion-color-tertiary);
   background-image: url("//www.gstatic.com/mobilesdk/190424_mobilesdk/nav_nachos@2x.png");
   background-position: left 0 bottom 0;
   background-repeat: no-repeat;

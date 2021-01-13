@@ -14,6 +14,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import {DividerModule} from 'primeng/divider';
+
 import { PipesModule } from '../../pipes/pipes.module';
 import { IonicModule } from '@ionic/angular';
 import {TieredMenuModule} from 'primeng/tieredmenu';
@@ -106,6 +108,7 @@ import { CalendarioComponent } from './calendario/calendario.component';
     RippleModule,
     DialogModule,
     TooltipModule,
+    DividerModule,
     ReactiveFormsModule,
     AngularSplitModule.forRoot(),
   ]

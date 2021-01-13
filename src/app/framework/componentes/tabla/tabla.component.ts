@@ -28,6 +28,8 @@ export class TablaComponent implements OnInit {
     private modalController: ModalController,) {
     this.tabla = new Tabla();
     this.isDibujar = false;
+    this.plataforma=this.utilitario.getPlataforma();
+
   }
 
   get columnas(): Columna[] {
@@ -123,6 +125,7 @@ export class TablaComponent implements OnInit {
 
   public tabla: Tabla;
   indiceFilaActual = 0;
+  plataforma="desktop"; //por defecto
   //por defecto tabla 1
   public buscando = false;
   public textoFiltroGlobal = '';
@@ -176,8 +179,7 @@ export class TablaComponent implements OnInit {
     format: environment.FORMATO_FECHA,
     locale: 'es',
     closeOnSelectDelay: 0,
-    displayDate: "",
-    showGoToCurrent:true
+    displayDate: null,
     //min:'2019-08-29 15:50',
     // minTime:'2017-08-29 15:50'
   };

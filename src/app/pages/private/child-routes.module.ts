@@ -6,7 +6,7 @@ import { SeguridadGuard } from '../../guards/seguridad.guard';
 const childRoutes: Routes = [
   {
     path: 'dashboard', canActivate: [SeguridadGuard],
-    loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
   },
   {
     path: 'simple/:id', canActivate: [SeguridadGuard],
@@ -34,16 +34,22 @@ const childRoutes: Routes = [
   },
   {
     path: 'tablas-sistema', canActivate: [SeguridadGuard],
-    loadChildren: () => import('./sistema/tablas-sistema/tablas-sistema.module').then( m => m.TablasSistemaPageModule)
+    loadChildren: () => import('./sistema/tablas-sistema/tablas-sistema.module').then(m => m.TablasSistemaPageModule)
   },
+
+  {
+    path: 'consulta-auditoria', canActivate: [SeguridadGuard],
+    loadChildren: () => import('./auditoria/consulta-auditoria/consulta-auditoria.module').then(m => m.ConsultaAuditoriaPageModule)
+  },
+
   {
     path: 'usuarios', canActivate: [SeguridadGuard],
-    loadChildren: () => import('./sistema/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+    loadChildren: () => import('./sistema/usuarios/usuarios.module').then(m => m.UsuariosPageModule)
   },
 
   {
     path: 'perfil',
-    loadChildren: () => import('./usuario/perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./usuario/perfil/perfil.module').then(m => m.PerfilPageModule)
   },
 ]
 @NgModule({
