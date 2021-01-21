@@ -58,8 +58,6 @@ export class DoblePage extends Pantalla {
     }
 
   }
-  otro() {
-    console.log('ccccc');
-  }
+
 
 }

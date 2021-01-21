@@ -1,8 +1,9 @@
 <ion-content>
+  <app-mensaje #mensaje></app-mensaje>
   <app-barra #barra>
-    <ion-label class="ion-padding-horizontal">Fecha Inicio:</ion-label>
-    <app-calendario #fechaInicial> </app-calendario>
-    <ion-label class="ion-padding-horizontal">Fecha Final:</ion-label>
-    <app-calendario #fechaFinal> </app-calendario>
+    <app-rango-fechas #ranFechas></app-rango-fechas>
+    <ion-label class="ion-padding-horizontal textos-float">Usuario:</ion-label>
+    <app-combo #comUsuarios></app-combo>
+
   </app-barra>
 </ion-content>

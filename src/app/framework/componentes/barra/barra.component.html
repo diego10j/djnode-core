@@ -25,7 +25,7 @@
 
 
 
-  <ion-col>
+  <ion-row style="align-items: center;">
 
 
     <button class="ocultar" #botInsertar id="botInsertar" (click)="onClickInsertar($event)">
@@ -33,13 +33,13 @@
     <button class="ocultar" #botEliminar id="botEliminar" (click)="onClickEliminar($event)">
     </button>
 
-    <app-boton style="padding-left: 5px;" #botGuardar *ngIf="isBotonGuardar" id="botGuardar" valor="Guardar" color="primary" icono="save-outline"
+    <app-boton style="padding-left: 5px;" #botGuardar *ngIf="isBotonGuardar" id="botGuardar" texto="Guardar" color="primary" icono="save-outline"
       (click)="onClickGuardar($event)">
     </app-boton>
 
     <ng-content></ng-content>
 
-  </ion-col>
+  </ion-row>
 
   <ion-buttons slot="end" style="padding-right: 5px;">
     <ng-container>

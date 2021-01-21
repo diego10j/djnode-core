@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { BarraComponent } from '../componentes/barra/barra.component';
 import { MensajeComponent } from '../componentes/mensaje/mensaje.component';
 import { ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'pantalla',
@@ -15,8 +16,7 @@ export abstract class Pantalla {
 
 
 
-  constructor(public utilitario: UtilitarioService) {
-    
+  constructor(public utilitario: UtilitarioService, public route: ActivatedRoute) {
   }
 
   ionViewDidEnter() {
@@ -26,6 +26,10 @@ export abstract class Pantalla {
       this.barra.onEliminar = () => { this.eliminar(); };
       this.barra.onGuardar = () => { this.guardar(); };
     }
+    if (this.utilitario.isDefined(this.mensaje)) {
+      this.utilitario.setMensaje(this.mensaje);
+    }
+
   }
 
 

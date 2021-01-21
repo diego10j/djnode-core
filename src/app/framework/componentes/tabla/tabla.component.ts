@@ -28,7 +28,7 @@ export class TablaComponent implements OnInit {
     private modalController: ModalController,) {
     this.tabla = new Tabla();
     this.isDibujar = false;
-    this.plataforma=this.utilitario.getPlataforma();
+    this.plataforma = this.utilitario.getPlataforma();
 
   }
 
@@ -125,7 +125,7 @@ export class TablaComponent implements OnInit {
 
   public tabla: Tabla;
   indiceFilaActual = 0;
-  plataforma="desktop"; //por defecto
+  plataforma = "desktop"; //por defecto
   //por defecto tabla 1
   public buscando = false;
   public textoFiltroGlobal = '';
@@ -163,7 +163,7 @@ export class TablaComponent implements OnInit {
   isBotonModificar = false;
   //Filas Row Expansion
   expandible = false;
-  numColumnasExpansibles =0;
+  numColumnasExpansibles = 0;
   //Calendario - Fechas
 
   formatoFecha: string;
@@ -179,7 +179,7 @@ export class TablaComponent implements OnInit {
     format: environment.FORMATO_FECHA,
     locale: 'es',
     closeOnSelectDelay: 0,
-    displayDate: null,
+    displayDate: '',
     //min:'2019-08-29 15:50',
     // minTime:'2017-08-29 15:50'
   };
@@ -252,6 +252,9 @@ export class TablaComponent implements OnInit {
 
   //Eventos
   onClickModificar?: (event?: any) => void;
+  onClickEliminar?: (event?: any) => void;
+  onClickInsertar?: (event?: any) => void;
+
 
   setNumeroColumnasGrid(numeroColumnas: number) {
     this.sizeColumnas = numeroColumnas;
@@ -259,20 +262,36 @@ export class TablaComponent implements OnInit {
 
 
 
-  public onInsertarClick() {
-    const botInsertar = document.getElementById('botInsertar');
-    botInsertar.click();
+  public insertarClick() {
+
+    if (this.onClickInsertar) {
+      this.onClickInsertar({
+        originalEvent: null
+      });
+    }
+    else {
+      const botInsertar = document.getElementById('botInsertar');
+      botInsertar.click();
+    }
   }
-  public onEliminarClick() {
-    const botEliminar = document.getElementById('botEliminar');
-    botEliminar.click();
+  public eliminarClick() {
+    if (this.onClickEliminar) {
+      this.onClickEliminar({
+        originalEvent: null
+      });
+    }
+    else {
+      const botEliminar = document.getElementById('botEliminar');
+      botEliminar.click();
+    }
+
   }
-  private onGuardarClick() {
+  private guardarClick() {
     const botGuardar = document.getElementById('botGuardar');
     botGuardar.click();
   }
 
-  public onModificarClick() {
+  public modificarClick() {
     if (this.onClickModificar) {
       this.onClickModificar({
         originalEvent: null
@@ -359,7 +378,7 @@ export class TablaComponent implements OnInit {
       icon: 'pi pi-plus-circle',
       visible: this.isBotonInsertar,
       command: () => {
-        this.onInsertarClick();
+        this.insertarClick();
       }
     };
     this.menuContextual.push(this.itemInsertar);
@@ -369,7 +388,7 @@ export class TablaComponent implements OnInit {
       icon: 'pi pi-trash',
       visible: this.isBotonEliminar,
       command: () => {
-        this.onEliminarClick();
+        this.eliminarClick();
       }
     };
     this.menuContextual.push(this.itemEliminar);
@@ -381,7 +400,7 @@ export class TablaComponent implements OnInit {
         icon: 'pi pi-save',
         disabled: disBotGuardar,
         command: () => {
-          this.onGuardarClick();
+          this.guardarClick();
         }
       };
       this.menuContextual.push(this.itemGuardar);
@@ -1796,12 +1815,12 @@ export class TablaComponent implements OnInit {
 
   setExpandible(nombresColumnas: string) {
     let colArray = nombresColumnas.split(',');
-    let cont=0;
+    let cont = 0;
     for (let colActual of colArray) {
       this.getColumna(colActual).expandible = true;
       cont++;
     }
-    this.numColumnasExpansibles=cont;
+    this.numColumnasExpansibles = cont;
     this.expandible = true;
   }
 

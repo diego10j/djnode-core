@@ -1,11 +1,11 @@
 
 <ion-content>
-
+  <app-mensaje #mensaje></app-mensaje>
   <app-barra #barra>
    
-    <app-boton valor="Calcular" icono="star" soloIcono="true"></app-boton>
+    <app-boton texto="Calcular" icono="star"></app-boton>
     <ng-template #derecha>
-      <app-boton valor="Otro" color="success" icono="build-outline" (onClick)="otro()" ></app-boton>
+      <app-boton texto="Otro" color="success" icono="build-outline" ></app-boton>
     </ng-template>
     
   </app-barra>

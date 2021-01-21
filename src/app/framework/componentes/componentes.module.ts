@@ -15,6 +15,8 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {DividerModule} from 'primeng/divider';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+
 
 import { PipesModule } from '../../pipes/pipes.module';
 import { IonicModule } from '@ionic/angular';
@@ -45,6 +47,9 @@ import { ModalComponent } from './modal/modal.component';
 import { ModalTablaComponent } from './modal-tabla/modal-tabla.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { CalendarioComponent } from './calendario/calendario.component';
+import { ComboComponent } from './combo/combo.component';
+import { RangoFechasComponent } from './rango-fechas/rango-fechas.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +68,10 @@ import { CalendarioComponent } from './calendario/calendario.component';
     ModalComponent,
     ModalTablaComponent,
     CalendarioComponent,
+    ComboComponent,
+    RangoFechasComponent,
+    BreadcrumbComponent,
+
   ],
   exports: [
     TablaComponent,
@@ -78,6 +87,9 @@ import { CalendarioComponent } from './calendario/calendario.component';
     ModalComponent,
     ModalTablaComponent,
     CalendarioComponent,
+    ComboComponent,
+    RangoFechasComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     IonicModule,
@@ -109,6 +121,7 @@ import { CalendarioComponent } from './calendario/calendario.component';
     DialogModule,
     TooltipModule,
     DividerModule,
+    BreadcrumbModule,
     ReactiveFormsModule,
     AngularSplitModule.forRoot(),
   ]

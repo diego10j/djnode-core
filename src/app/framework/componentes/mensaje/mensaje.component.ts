@@ -21,6 +21,14 @@ export class MensajeComponent {
     this.messageService.add({ severity: 'info', summary: $titulo, detail: $mensaje });
   }
 
+
+  agregarMensajeExito($mensaje: string, $titulo?: string) {
+    if (!this.utilitario.isDefined($titulo)) {
+      $titulo = 'Éxito';
+    }
+    this.messageService.add({ severity: 'success', summary: $titulo, detail: $mensaje });
+  }
+
   agregarMensajeError($mensaje: string, $titulo?: string) {
     if (!this.utilitario.isDefined($titulo)) {
       $titulo = 'Error';

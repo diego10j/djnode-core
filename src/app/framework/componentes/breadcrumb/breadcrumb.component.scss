@@ -1,0 +1,38 @@
+:host ::ng-deep {
+  .p-breadcrumb {
+    padding: 5px;
+    padding-left: 10px;
+    font-size: 0.95rem;
+    border: none;
+    background: none;
+
+    ul li.p-breadcrumb-chevron {
+      font-size: 0.6rem;
+      color: #b3b3b3;
+    }
+
+    ul li a.p-menuitem-link {
+      .p-menuitem-text {
+        color: #b3b3b3;
+        cursor: pointer;
+      }
+    }
+
+    ul li :active {
+      border: none;
+    }
+
+    ul li:last-child a.p-menuitem-link {
+      .p-menuitem-text {
+        color: #ffffff;
+        cursor: pointer;
+      }
+    }
+
+    ul li .p-menuitem-link:focus {
+        outline: 0 none;
+        outline-offset: 0;
+        box-shadow: none;
+    }
+  }
+}

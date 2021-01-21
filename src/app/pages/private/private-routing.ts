@@ -6,12 +6,12 @@ import { AuthGuard } from '../../guards/auth.guard';
 
 
 const routes: Routes = [
-    { 
-        path: 'private', 
+    {
+        path: 'private',
         component: PrivateComponent,
-       canActivate: [ AuthGuard ],
-       canLoad: [ AuthGuard ],
-        loadChildren: () => import('./child-routes.module').then( m => m.ChildRoutesModule )
+        canActivate: [AuthGuard],
+        canLoad: [AuthGuard],
+        loadChildren: () => import('./child-routes.module').then(m => m.ChildRoutesModule)
     },
 ];
 

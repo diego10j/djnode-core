@@ -1,0 +1,21 @@
+<ion-content>
+  <app-mensaje #mensaje></app-mensaje>
+  <app-barra #barra></app-barra>
+  <app-tabla #tabTabla1></app-tabla>
+  <ion-card>
+    <p-tabView>
+      <p-tabPanel header="OPCIONES" leftIcon="pi pi-desktop">
+        <app-tabla #tabTabla2></app-tabla>
+      </p-tabPanel>
+      <p-tabPanel header="REPORTES" leftIcon="pi pi-file-pdf">
+        <app-tabla #tabTabla3></app-tabla>
+      </p-tabPanel>
+      <p-tabPanel header="OBJETOS - COMPONENTES" leftIcon="pi pi-th-large">
+        <app-tabla #tabTabla4></app-tabla>
+      </p-tabPanel>
+      <p-tabPanel header="COLUMNAS" leftIcon="pi pi-list">
+        <app-tabla #tabTabla5></app-tabla>
+      </p-tabPanel>
+    </p-tabView>
+  </ion-card>
+</ion-content>

@@ -11,10 +11,13 @@ import { LoadingController, Platform } from '@ionic/angular';
 import Condicion from '../framework/interfaces/condicion';
 import * as moment from 'moment';
 import 'moment/locale/es';
+import { MensajeComponent } from '../framework/componentes/mensaje/mensaje.component';
 @Injectable({
     providedIn: 'root',
 })
 export class UtilitarioService {
+
+    private mensaje: MensajeComponent; //Recibe de la clase Pantalla
     constructor(
         private storage: Storage,
         private router: Router,
@@ -24,6 +27,10 @@ export class UtilitarioService {
         private loadingController: LoadingController,
         private geolocation: Geolocation
     ) {
+    }
+
+    setMensaje(mensaje: MensajeComponent) {
+        this.mensaje = mensaje;
     }
 
     /**
@@ -119,10 +126,10 @@ export class UtilitarioService {
             focusConfirm: false,
             reverseButtons: true,
             confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Si',
+                '<span class="ion-padding-horizontal"></span> Si <span class="ion-padding-horizontal"></span> ',
             confirmButtonAriaLabel: 'Si',
             cancelButtonText:
-                '<i class="fa fa-thumbs-down"></i> No',
+                '<span class="ion-padding-horizontal"></span>  No <span class="ion-padding-horizontal"></span> ',
             cancelButtonAriaLabel: 'No',
             heightAuto: false,
         }).then((result) => {
@@ -138,6 +145,14 @@ export class UtilitarioService {
      */
     isDefined($variable: any): boolean {
         return typeof $variable !== 'undefined' && $variable !== null;
+    }
+
+    /**
+     * Retorna si una variable es numerica
+     * @param valor 
+     */
+    isNumber(valor): boolean {
+        return !isNaN(parseFloat(valor)) && !isNaN(valor - 0);
     }
 
     /**
@@ -330,7 +345,13 @@ export class UtilitarioService {
                         tab.onCommit();
                         tab.buscando = false;
                     }
-                    this.agregarMensajeExito('Datos guardados exitosamente');
+                    if (this.isDefined(this.mensaje)) {
+                        this.mensaje.agregarMensajeExito('Datos guardados exitosamente');
+                    }
+                    else {
+                        this.agregarMensajeExito('Datos guardados exitosamente');
+                    }
+
                     resolve(true);
                 }, (err) => {
                     resolve(false);
@@ -355,19 +376,40 @@ export class UtilitarioService {
         }
 
         if (ruta.includes('generic_')) {
+            //Para pantallas genericas
             let data = ruta.substring(ruta.lastIndexOf('_') + 1, ruta.length);
             return data;
         }
-        else {
-            const menus = JSON.parse(localStorage.getItem('menu')) || [];
-            //Busqueda recursiva
-            for (const opciActual of menus) {
-                const encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
+        else if (this.isNumber(ruta)) {
+            //Para pantallas que recieben 1 parametro id
+            ruta = this.router.url;
+            ruta = ruta.substring(0, ruta.lastIndexOf('/'));
+            ruta = ruta.substring(ruta.lastIndexOf('/') + 1, ruta.length);
+        }
+        const menus = JSON.parse(localStorage.getItem('menu')) || [];
+        //Busqueda recursiva
+        for (const opciActual of menus) {
+            let encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
+            if (encontro !== null) {
+                return encontro;
+            }
+        }
+        return null;
+    }
+
+    private busquedaRecursivaIdeOpci(opcion: any, ruta: string): string {
+        if (opcion.ruta === ruta) {
+            return opcion.data;
+        }
+        if (opcion.items) {
+            for (const opciActual of opcion.items) {
+                let encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
                 if (encontro !== null) {
                     return encontro;
                 }
             }
         }
+
         return null;
     }
 
@@ -377,22 +419,6 @@ export class UtilitarioService {
         return ruta;
     }
 
-    private busquedaRecursivaIdeOpci(opcion: any, ruta: string): string {
-
-        if (opcion.ruta === ruta) {
-            return opcion.data;
-        }
-        if (opcion.items) {
-            for (const opciActual of opcion.items) {
-                const encontro = this.busquedaRecursivaIdeOpci(opciActual, ruta);
-                if (encontro !== null) {
-                    return opciActual.data;
-                }
-            }
-        }
-
-        return null;
-    }
 
     getIp(): string {
         return localStorage.getItem('ip') || '127.0.0.1';
@@ -661,7 +687,7 @@ export class UtilitarioService {
 
     //Formatos Fechas Moment
 
-    getFormatoMoment(fecha,format, formatoFecha = 'YYYY-MM-DD h:mm:ss') {
+    getFormatoMoment(fecha, format, formatoFecha = 'YYYY-MM-DD h:mm:ss') {
         return moment(fecha, formatoFecha).format(format);
     }
 

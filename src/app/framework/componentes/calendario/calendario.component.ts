@@ -62,5 +62,14 @@ export class CalendarioComponent implements OnInit {
     }
   }
 
+  getValor(): string {
+    if (this.plataforma === 'desktop') {
+      return this.utilitario.getFormatoFecha(this.fecha);
+    }
+    else {
+      return this.fechaIonic;
+    }
+  }
+
 
 }

@@ -17,7 +17,6 @@
 
                         <p-button *ngIf="imgTemp" class="bt-upload" label="Aceptar" icon="pi pi-check"
                             (click)="actualizarImagen()" iconPos="left"></p-button>
-
                     </div>
                     <div class="user-profile-data">
                         <h1 class="ion-padding-horizontal negrilla">{{usuario.nombre | titlecase}}</h1>
@@ -49,7 +48,7 @@
                                             <span class="p-float-label">
                                                 <input type="text" class="componente" pInputText
                                                     [value]="identificacion" [readonly]="true">
-                                                <label for="inputgroup" class="text-secondary">Usuario</label>
+                                                <label for="inputgroup" class="text-primary">Usuario</label>
                                             </span>
                                             <span class="p-inputgroup-addon">
                                                 <i class="pi pi-user"></i>
@@ -67,7 +66,7 @@
                                             <span class="p-float-label">
                                                 <input type="text" class="componente" pInputText [value]="usuario.email"
                                                     [readonly]="true">
-                                                <label for="inputgroup" class="text-secondary">Email</label>
+                                                <label for="inputgroup" class="text-primary">Email</label>
                                             </span>
                                             <span class="p-inputgroup-addon">
                                                 <i class="pi pi-envelope"></i>
@@ -85,7 +84,7 @@
                                             <span class="p-float-label">
                                                 <input type="text" class="componente" pInputText [value]="usuario.rol"
                                                     [readonly]="true">
-                                                <label for="inputgroup" class="text-secondary">Perfil</label>
+                                                <label for="inputgroup" class="text-primary">Perfil</label>
                                             </span>
                                             <span class="p-inputgroup-addon">
                                                 <i class="pi pi-users"></i>
@@ -103,7 +102,7 @@
                                             <span class="p-float-label">
                                                 <input type="text" class="componente" pInputText [value]="ultimaFecha"
                                                     [readonly]="true">
-                                                <label for="inputgroup" class="text-secondary">Último Ingreso</label>
+                                                <label for="inputgroup" class="text-primary">Último Ingreso</label>
                                             </span>
                                             <span class="p-inputgroup-addon">
                                                 <i class="pi pi-clock"></i>
@@ -121,7 +120,7 @@
                     <ion-grid *ngIf="segment.value ==='avatar' " class="ion-padding-top">
 
                         <div class="centrar width100 ion-text-center">
-                            <ion-label class="text-secondary">Seleccione un avatar</ion-label>
+                            <ion-label class="text-primary">Seleccione un avatar</ion-label>
                         </div>
 
                         <ion-row class="ion-justify-content-center ion-padding-top">
@@ -137,7 +136,7 @@
                         </ion-row>
 
                         <ion-row class="ion-justify-content-center ion-padding-top">
-                            <app-boton valor="Aceptar" color="primary" (onClick)="aceptarAvatar()">
+                            <app-boton texto="Aceptar" color="primary" (onClick)="aceptarAvatar()">
                             </app-boton>
                         </ion-row>
 

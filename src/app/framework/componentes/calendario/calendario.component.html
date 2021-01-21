@@ -1,11 +1,14 @@
-<p-calendar *ngIf="plataforma === 'desktop'" appendTo="body" dateFormat="yy-mm-dd" showButtonBar="false" class="app-calendario" 
- [(ngModel)]="fecha" [minDate]="fechaMinima" [maxDate]="fechaMaxima"
-  placeholder="yyyy-mm-dd">
-</p-calendar>
+<ng-container *ngIf="plataforma === 'desktop'">
+  <p-calendar inputId="calendar" appendTo="body" dateFormat="yy-mm-dd" showButtonBar="false" class="app-calendario"
+    [(ngModel)]="fecha" [minDate]="fechaMinima" [maxDate]="fechaMaxima" placeholder="yyyy-mm-dd">
+  </p-calendar>
+</ng-container>
 
-<ion-datetime *ngIf="plataforma !== 'desktop'"  displayFormat="YYYY-MM-DD" placeholder="yyyy-mm-dd" doneText="Aceptar" cancelText="Cancelar"
-  class="p-inputtext p-component app-calendario"
-  monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" pickerFormat="DD/MMMM/YYYY"
-  [(ngModel)]="fechaIonic" [max]="fechaMaximaIonic"  [min]="fechaMaximaIonic" 
-  monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre">
-</ion-datetime>
+<ng-container *ngIf="plataforma !== 'desktop'">
+  <ion-datetime displayFormat="YYYY-MM-DD" placeholder="yyyy-mm-dd" doneText="Aceptar" cancelText="Cancelar"
+    class="p-inputtext p-component app-calendario"
+    monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" pickerFormat="DD/MMMM/YYYY"
+    [(ngModel)]="fechaIonic" [max]="fechaMaximaIonic" [min]="fechaMaximaIonic"
+    monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre">
+  </ion-datetime>
+</ng-container>

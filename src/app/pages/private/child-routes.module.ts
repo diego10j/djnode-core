@@ -29,6 +29,14 @@ const childRoutes: Routes = [
     loadChildren: () => import('./sistema/perfiles/perfiles.module').then(m => m.PerfilesPageModule)
   },
   {
+    path: 'detalle-perfil/:id',
+    loadChildren: () => import('./sistema/perfiles/detalle-perfil/detalle-perfil.module').then(m => m.DetallePerfilPageModule)
+  },
+  {
+    path: 'detalle-perfil',
+    loadChildren: () => import('./sistema/perfiles/detalle-perfil/detalle-perfil.module').then(m => m.DetallePerfilPageModule)
+  },
+  {
     path: 'sucursales', canActivate: [SeguridadGuard],
     loadChildren: () => import('./sistema/sucursales/sucursales.module').then(m => m.SucursalesPageModule)
   },
@@ -46,7 +54,10 @@ const childRoutes: Routes = [
     path: 'usuarios', canActivate: [SeguridadGuard],
     loadChildren: () => import('./sistema/usuarios/usuarios.module').then(m => m.UsuariosPageModule)
   },
-
+  {
+    path: 'bloqueos',
+    loadChildren: () => import('./sistema/bloqueos/bloqueos.module').then(m => m.BloqueosPageModule)
+  },
   {
     path: 'perfil',
     loadChildren: () => import('./usuario/perfil/perfil.module').then(m => m.PerfilPageModule)
