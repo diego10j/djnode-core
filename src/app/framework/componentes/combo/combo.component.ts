@@ -10,12 +10,14 @@ import { Dropdown } from 'primeng/dropdown';
 })
 export class ComboComponent implements OnInit {
 
+
   listaCombo: any[] = [];
   valor: any;
   @Input() lectura = false;
   @Input() label: string;
   @Input() nullCombo = true;
-  plataforma: string = 'desktop'; //defecto
+  @Input() width = "200px"; //defecto
+  plataforma = 'desktop'; //defecto
   invalid = false;
   //Eventos
   onChange?: (event?: any) => void;

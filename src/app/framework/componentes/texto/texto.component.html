@@ -1,3 +1,20 @@
-<p>
-  texto works!
-</p>
+<!--  PC -->
+<ng-container *ngIf="plataforma === 'desktop'">
+  <ion-row style="align-items: center; display:felx;position: static;">
+    <ion-label class="textos-float ion-padding-horizontal" *ngIf="label"> {{label}}</ion-label>
+    <input [type]="type" pInputText [ngClass]="{ 'app-texto':true , 'ng-invalid ng-dirty' : invalid === true}"
+      [(ngModel)]="valor" [disabled]="lectura" (change)="changeEvent()" />
+  </ion-row>
+</ng-container>
+
+<!--  MOVIL interface="popover" -->
+<ng-container *ngIf="plataforma !== 'desktop'">
+  <ion-col class="contenedor-comp-movil">
+    <ion-label class="ion-no-padding label-stacked-movil" *ngIf="label">
+      {{label}}
+    </ion-label>
+    <ion-input [type]="type" pInputText  [style]="{'width':width}"
+      [ngClass]="{ 'p-inputtext p-component app-texto':true , 'ng-invalid ng-dirty' : invalid === true, 'comp-conLabel-movil':label}"
+      [(ngModel)]="valor" [disabled]="lectura" (change)="changeEvent()"></ion-input>
+  </ion-col>
+</ng-container>

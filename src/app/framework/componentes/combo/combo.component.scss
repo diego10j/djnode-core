@@ -13,8 +13,6 @@
     padding-left: 5px;
   }
 
- 
-
   ion-select {
     .select-text {
       font-size: 0.8rem;
@@ -23,25 +21,4 @@
       border-color: #f44336;
     }
   }
-
-  .label-stacked {
-    position: absolute;
-    font-size: 0.78rem !important;
-    color: var(--ion-color-medium-shade) !important;
-    display: block;
-    float: none;
-  }
-
-  .conLabel {
-    margin-top: 17px;
-  }
-
-  .contenedor {
-    display: block;
-    float: none;
-    line-height: normal;
-    position: relative;
-  }
-
-
 }

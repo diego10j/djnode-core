@@ -9,7 +9,7 @@ import { UtilitarioService } from '../../../services/utilitario.service';
 export class CalendarioComponent implements OnInit {
 
   @Input() lectura = false;
-  @Input() label:string ="Label";
+  @Input() label: string;
   fecha: Date;
   fechaMinima: Date;
   fechaMaxima: Date;

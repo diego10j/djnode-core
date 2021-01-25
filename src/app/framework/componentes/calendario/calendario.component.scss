@@ -1,7 +1,7 @@
 :host ::ng-deep {
   .p-calendar .p-inputtext {
     font-size: 0.85rem !important;
-    width: 6.8rem !important;
+    min-width: 6.8rem !important;
     text-align: center;
     padding-top: 4px;
     padding-bottom: 4px;
@@ -10,28 +10,9 @@
 
   .app-calendario {
     font-size: 0.85rem !important;
-    width: 6.8rem !important;
+    min-width: 6.8rem !important;
     text-align: center;
     padding-top: 4px;
     padding-bottom: 4px;
-  }
-
-  ion-label{
-    position: absolute;
-    font-size: 0.78rem !important;
-    color:var(--ion-color-medium-shade) !important;
-    display:block;
-    float:none;
-  }
-
-  ion-datetime{
-    margin-top: 17px;
-  }
-
-  .contenedor{
-    display:block;
-    float:none;
-    line-height:normal;
-    position:relative;
   }
 }

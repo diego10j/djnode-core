@@ -1,0 +1,9 @@
+:host ::ng-deep {
+  .p-autocomplete {
+    height: 30px;
+    font-size: 0.8rem;
+    .p-autocomplete-input{
+      padding-right: 20px;
+    }
+  }
+}

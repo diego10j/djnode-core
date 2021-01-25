@@ -1,24 +1,28 @@
 <!--  PC -->
 <ng-container *ngIf="plataforma === 'desktop'">
-  <p-calendar inputId="calendar" appendTo="body" dateFormat="dd/mm/yy" showButtonBar="false"
-    [ngClass]="{ 'app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}" [(ngModel)]="fecha"
-    [minDate]="fechaMinima" [maxDate]="fechaMaxima" placeholder="dd/mm/aaaa" [monthNavigator]="true"
-    [yearNavigator]="true" yearRange="1950:2050" [disabled]="lectura">
-  </p-calendar>
+  <ion-row style="align-items: center; display:felx;position: static;">
+    <ion-label class="textos-float ion-padding-horizontal" *ngIf="label"> {{label}}</ion-label>
+    <p-calendar appendTo="body" dateFormat="dd/mm/yy" showButtonBar="false"
+      [ngClass]="{ 'app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}" [(ngModel)]="fecha"
+      [minDate]="fechaMinima" [maxDate]="fechaMaxima" placeholder="dd/mm/aaaa" [monthNavigator]="true"
+      [yearNavigator]="true" yearRange="1950:2050" [disabled]="lectura" (onSelect)="changeEvent()"
+      (change)="changeEvent()">
+    </p-calendar>
+  </ion-row>
 </ng-container>
 
 <!--  MOVIL interface="popover" -->
-<ng-container  *ngIf="plataforma !== 'desktop'">
-    <ion-col class="contenedor">
-      <ion-label position="stacked" class="ion-no-padding">
-        {{label}}
-      </ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" placeholder="dd/mm/aaaa" doneText="Aceptar" cancelText="Cancelar"
-      [ngClass]="{ 'p-inputtext p-component app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}"
+<ng-container *ngIf="plataforma !== 'desktop'">
+  <ion-col class="contenedor-comp-movil">
+    <ion-label class="ion-no-padding label-stacked-movil" *ngIf="label">
+      {{label}}
+    </ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY" placeholder="dd/mm/aaaa" doneText="Aceptar" cancelText="Cancelar"
+      [ngClass]="{ 'p-inputtext p-component app-calendario':true , 'ng-invalid ng-dirty' : invalid === true, 'comp-conLabel-movil':label }"
       monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" pickerFormat="DD/MMMM/YYYY"
       [(ngModel)]="fecha" [max]="fechaMaximaIonic" [min]="fechaMinimaIonic"
       monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
       (ionChange)="changeEvent()" [disabled]="lectura">
     </ion-datetime>
-    </ion-col>
+  </ion-col>
 </ng-container>

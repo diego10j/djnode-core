@@ -112,6 +112,27 @@ ion-toolbar {
   font-weight: bold;
 }
 
+//Css componentes para movil
+.label-stacked-movil {
+  position: absolute;
+  font-size: 0.78rem !important;
+  color: var(--ion-color-medium-shade) !important;
+  display: block;
+  float: none;
+}
+.comp-conLabel-movil {
+  margin-top: 17px;
+}
+
+.contenedor-comp-movil {
+  display: block;
+  float: none;
+  line-height: normal;
+  position: relative;
+}
+//Fin
+
+
 .text-red {
   color: #dd4b39 !important;
 }
@@ -389,7 +410,7 @@ ion-content {
   color: var(--ion-color-dark-contrast) !important;
 }
 
-.invalid{
+.invalid {
   border-color: #f44336;
 }
 

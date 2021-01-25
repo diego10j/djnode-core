@@ -50,6 +50,8 @@ import { CalendarioComponent } from './calendario/calendario.component';
 import { ComboComponent } from './combo/combo.component';
 import { RangoFechasComponent } from './rango-fechas/rango-fechas.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { TextoComponent } from './texto/texto.component';
+import { AutocompletarComponent } from './autocompletar/autocompletar.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     ComboComponent,
     RangoFechasComponent,
     BreadcrumbComponent,
-
+    TextoComponent,
+    AutocompletarComponent,
   ],
   exports: [
     TablaComponent,
@@ -90,6 +93,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     ComboComponent,
     RangoFechasComponent,
     BreadcrumbComponent,
+    TextoComponent,
+    AutocompletarComponent,
   ],
   imports: [
     IonicModule,
