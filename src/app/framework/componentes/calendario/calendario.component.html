@@ -1,14 +1,24 @@
+<!--  PC -->
 <ng-container *ngIf="plataforma === 'desktop'">
-  <p-calendar inputId="calendar" appendTo="body" dateFormat="yy-mm-dd" showButtonBar="false" class="app-calendario"
-    [(ngModel)]="fecha" [minDate]="fechaMinima" [maxDate]="fechaMaxima" placeholder="yyyy-mm-dd">
+  <p-calendar inputId="calendar" appendTo="body" dateFormat="dd/mm/yy" showButtonBar="false"
+    [ngClass]="{ 'app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}" [(ngModel)]="fecha"
+    [minDate]="fechaMinima" [maxDate]="fechaMaxima" placeholder="dd/mm/aaaa" [monthNavigator]="true"
+    [yearNavigator]="true" yearRange="1950:2050" [disabled]="lectura">
   </p-calendar>
 </ng-container>
 
-<ng-container *ngIf="plataforma !== 'desktop'">
-  <ion-datetime displayFormat="YYYY-MM-DD" placeholder="yyyy-mm-dd" doneText="Aceptar" cancelText="Cancelar"
-    class="p-inputtext p-component app-calendario"
-    monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" pickerFormat="DD/MMMM/YYYY"
-    [(ngModel)]="fechaIonic" [max]="fechaMaximaIonic" [min]="fechaMaximaIonic"
-    monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre">
-  </ion-datetime>
+<!--  MOVIL interface="popover" -->
+<ng-container  *ngIf="plataforma !== 'desktop'">
+    <ion-col class="contenedor">
+      <ion-label position="stacked" class="ion-no-padding">
+        {{label}}
+      </ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" placeholder="dd/mm/aaaa" doneText="Aceptar" cancelText="Cancelar"
+      [ngClass]="{ 'p-inputtext p-component app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}"
+      monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" pickerFormat="DD/MMMM/YYYY"
+      [(ngModel)]="fecha" [max]="fechaMaximaIonic" [min]="fechaMinimaIonic"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+      (ionChange)="changeEvent()" [disabled]="lectura">
+    </ion-datetime>
+    </ion-col>
 </ng-container>

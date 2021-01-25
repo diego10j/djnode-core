@@ -14,12 +14,13 @@ export class BreadcrumbComponent implements OnDestroy {
 
   rutas = [];
   items: MenuItem[];
-  home: MenuItem;
+
+  plataforma: string = 'desktop'; //defecto
 
   public tituloSubs$: Subscription;
 
   constructor(private utilitario: UtilitarioService, private route: ActivatedRoute, private router: Router) {
-
+    this.plataforma = this.utilitario.getPlataforma();
     this.tituloSubs$ = this.getArgumentosRuta()
       .subscribe(({ titulo }) => {
         this.cargarRuta();
@@ -66,19 +67,19 @@ export class BreadcrumbComponent implements OnDestroy {
         });
       }
       else {
-        this.items.push({
-          label: opci.label, command: () => {
-            this.abrirPagina(opci);
-          }
-        });
+        if (this.plataforma === 'desktop') {
+          this.items.push({
+            label: opci.label, command: () => {
+              this.abrirPagina(opci);
+            }
+          });
+        }
+
       }
 
     }
-    this.home = {
-      icon: 'pi pi-home', command: () => {
-        this.abrirInicio();
-      }
-    };
+
+
   }
 
   private busquedaPadre(ide_opci: string): any {

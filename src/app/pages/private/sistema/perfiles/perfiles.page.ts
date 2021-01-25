@@ -21,9 +21,9 @@ export class PerfilesPage extends Pantalla {
     this.tabTabla1.setCampoOrden('nom_perf');
     this.tabTabla1.setFilasPorPagina(15);
     this.tabTabla1.mostrarBotonModificar();
-    this.tabTabla1.onClickModificar = () => { this.modificar(); };
-    this.tabTabla1.onClickEliminar = () => { this.eliminar(); };
-    this.tabTabla1.onClickInsertar = () => { this.insertar(); };
+    this.tabTabla1.onModificar = () => { this.modificar(); };
+    this.tabTabla1.onEliminar = () => { this.eliminar(); };
+    this.tabTabla1.onInsertar = () => { this.insertar(); };
 
     this.tabTabla1.dibujar(); // última
 

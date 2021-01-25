@@ -17,11 +17,13 @@ import { MensajeComponent } from '../framework/componentes/mensaje/mensaje.compo
 })
 export class UtilitarioService {
 
+    FORMATO_FECHA_BDD = 'YYYY-MM-DD';
+    FORMATO_FECHA_FRONT = 'DD/MM/YYYY'
+
     private mensaje: MensajeComponent; //Recibe de la clase Pantalla
     constructor(
         private storage: Storage,
         private router: Router,
-        private datePipe: DatePipe,
         public platform: Platform,
         public sistemaService: SistemaService,
         private loadingController: LoadingController,
@@ -32,6 +34,11 @@ export class UtilitarioService {
     setMensaje(mensaje: MensajeComponent) {
         this.mensaje = mensaje;
     }
+
+    getMensaje(): MensajeComponent {
+        return this.mensaje;
+    }
+
 
     /**
      * Agrega un mensaje en la pantalla
@@ -250,13 +257,17 @@ export class UtilitarioService {
      * Retorna la fecha en formato yyyy-MM-dd
      * @param fecha
      */
-    getFormatoFecha(fecha: Date): string {
-        return this.getFechaFormato(fecha, 'yyyy-MM-dd');
+    getFormatoFecha(fecha: any, formato?: string): string {
+        if (this.isDefined(fecha)) {
+            if (this.isDefined(formato) === false) {
+                formato = this.FORMATO_FECHA_BDD;
+            }
+            return this.getFechaFormato(fecha, formato);
+        }
+        return null;
     }
 
-    getFechaFormato(fecha: Date, formato: string): string {
-        return this.datePipe.transform(fecha, formato);
-    }
+
 
     /**
  * Retorna la fecha hora en formatoyyyy-MM-dd HH:mm:ss
@@ -274,13 +285,6 @@ export class UtilitarioService {
         return this.getFechaFormato(fecha, 'HH:mm:ss');
     }
 
-    /**
-     * Transforma a Date una fecha string
-     * @param fecha
-     */
-    toDate(fecha: string): Date {
-        return new Date(fecha);
-    }
 
     /**
      * Suma dias a una fecha
@@ -296,8 +300,12 @@ export class UtilitarioService {
     /**
      * Retorna la fecha actual en formato
      */
-    getFechaActual(): string {
-        return this.getFormatoFecha(new Date());
+    getFechaActual(formato?: string): string {
+        return this.getFormatoFecha(new Date(), formato);
+    }
+
+    getFechaActualDate(formato?: string): Date {
+        return this.toDate(this.getFechaActual(formato));
     }
 
 
@@ -507,6 +515,7 @@ export class UtilitarioService {
     }
 
     getPlataforma(): string {
+        //return 'ios';
         if (this.platform.is('desktop')) {
             return 'desktop';
         } else if (this.platform.is('ios')) {
@@ -689,6 +698,37 @@ export class UtilitarioService {
 
     getFormatoMoment(fecha, format, formatoFecha = 'YYYY-MM-DD h:mm:ss') {
         return moment(fecha, formatoFecha).format(format);
+    }
+
+    /**
+     * Transforma a Date una fecha string
+     * @param fecha 
+     * @param formato 
+     */
+    toDate(fecha, formato = 'YYYY-MM-DD'): Date {
+        return moment(fecha, formato).toDate();
+    }
+
+    /**
+     * Retorna si es una fecha 
+     * @param fecha 
+     * @param formato 
+     */
+    isFechaValida(fecha, formato = 'YYYY-MM-DD'): boolean {
+        return moment(fecha, formato).isValid();
+    }
+    /**
+     * Compara si la fecha1 es mayor a la fecha 2
+     * @param fechaInicio 
+     * @param fechaFin 
+     * @param formato 
+     */
+    isFechaMenorOrIgual(fecha1: string, fecha2: string): boolean {
+        return moment(fecha1).isSameOrBefore(fecha2)
+    }
+
+    private getFechaFormato(fecha: Date, formato: string): string {
+        return moment(fecha).format(formato.toUpperCase());
     }
 
 }

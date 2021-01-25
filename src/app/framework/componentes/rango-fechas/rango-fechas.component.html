@@ -1,32 +1,20 @@
-<ion-row *ngIf="plataforma === 'desktop'">
-  <ion-label class="textos-float">Fecha Inicio:</ion-label>
-  <app-calendario class="ion-padding-horizontal" #calFechaInicial> </app-calendario>
-  <ion-label class="textos-float">Fecha Final:</ion-label>
-  <app-calendario class="ion-padding-horizontal" #calFechaFinal> </app-calendario>
-  <app-boton icono="pi pi-search" titulo="Buscar" color="medium" modo="prime"></app-boton>
+<!--  PC -->
+<ion-row *ngIf="plataforma === 'desktop'" style="align-items: center; ">
+  <ion-label class="textos-float ion-padding-horizontal">Fecha Inicio:</ion-label>
+  <app-calendario #calFechaInicial style="width: 7rem;"> </app-calendario>
+  <ion-label class="textos-float ion-padding-horizontal">Fecha Final:</ion-label>
+  <app-calendario #calFechaFinal style="width: 7rem;margin-right: 15px;"> </app-calendario>
+  <app-boton icono="pi pi-search" titulo="Buscar" color="medium" modo="prime" (click)="buscarClick()"></app-boton>
 </ion-row>
-
-<ion-row *ngIf="plataforma !== 'desktop'" size="12">
-  <ion-col size="5">
-    <ion-item lines="none">
-
-      <ion-label position="stacked">
-        Fecha Inicio
-      </ion-label>
-      <app-calendario class="app-calendario"></app-calendario>
-    </ion-item>
-
+<!--  MOVIL -->
+<ion-row *ngIf="plataforma !== 'desktop'" style="align-items: center;" class="ion-no-padding">
+  <ion-col class="ion-no-padding">
+    <app-calendario #calFechaInicial class="app-calendario" label="Fecha Inicio"></app-calendario>
   </ion-col>
-  <ion-col size="5">
-    <ion-item lines="none">
-      <ion-label position="stacked">
-        Fecha Fin
-      </ion-label>
-      <app-calendario class="app-calendario"></app-calendario>
-    </ion-item>
-
+  <ion-col class="ion-no-padding ion-padding-horizontal">
+    <app-calendario #calFechaFinal class="app-calendario" label=" Fecha Fin"></app-calendario>
   </ion-col>
-  <ion-col size="2">
-    <app-boton icono="pi pi-search" titulo="Buscar" color="medium" modo="prime"></app-boton>
+  <ion-col class="ion-no-padding">
+    <app-boton style="margin-top: 17px;display: block;margin-left: -5px;" icono="pi pi-search" titulo="Buscar" color="medium" modo="prime" (click)="buscarClick()"></app-boton>
   </ion-col>
 </ion-row>

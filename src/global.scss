@@ -30,10 +30,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
-//@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
-
-$primaryColor: #b53f59;
-
 @font-face {
   font-family: "DM Sans";
   src: url(assets/fonts/DM_Sans/DMSans-Regular.ttf) format("truetype");
@@ -391,6 +387,10 @@ ion-content {
 .bg-dark {
   background-color: var(--ion-color-dark) !important;
   color: var(--ion-color-dark-contrast) !important;
+}
+
+.invalid{
+  border-color: #f44336;
 }
 
 .no-borde {

@@ -1,6 +1,47 @@
 :host ::ng-deep {
   .p-dropdown {
     height: 30px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    min-width: 250px;
+    .p-dropdown-label {
+      padding-top: 3px;
+    }
   }
+
+  .app-combo {
+    font-size: 0.8rem;
+    padding-left: 5px;
+  }
+
+ 
+
+  ion-select {
+    .select-text {
+      font-size: 0.8rem;
+    }
+    .inavlid {
+      border-color: #f44336;
+    }
+  }
+
+  .label-stacked {
+    position: absolute;
+    font-size: 0.78rem !important;
+    color: var(--ion-color-medium-shade) !important;
+    display: block;
+    float: none;
+  }
+
+  .conLabel {
+    margin-top: 17px;
+  }
+
+  .contenedor {
+    display: block;
+    float: none;
+    line-height: normal;
+    position: relative;
+  }
+
+
 }

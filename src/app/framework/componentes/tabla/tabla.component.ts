@@ -251,9 +251,9 @@ export class TablaComponent implements OnInit {
   }
 
   //Eventos
-  onClickModificar?: (event?: any) => void;
-  onClickEliminar?: (event?: any) => void;
-  onClickInsertar?: (event?: any) => void;
+  onModificar?: (event?: any) => void;
+  onEliminar?: (event?: any) => void;
+  onInsertar?: (event?: any) => void;
 
 
   setNumeroColumnasGrid(numeroColumnas: number) {
@@ -264,8 +264,8 @@ export class TablaComponent implements OnInit {
 
   public insertarClick() {
 
-    if (this.onClickInsertar) {
-      this.onClickInsertar({
+    if (this.onInsertar) {
+      this.onInsertar({
         originalEvent: null
       });
     }
@@ -274,9 +274,10 @@ export class TablaComponent implements OnInit {
       botInsertar.click();
     }
   }
+  
   public eliminarClick() {
-    if (this.onClickEliminar) {
-      this.onClickEliminar({
+    if (this.onEliminar) {
+      this.onEliminar({
         originalEvent: null
       });
     }
@@ -292,8 +293,8 @@ export class TablaComponent implements OnInit {
   }
 
   public modificarClick() {
-    if (this.onClickModificar) {
-      this.onClickModificar({
+    if (this.onModificar) {
+      this.onModificar({
         originalEvent: null
       });
     }

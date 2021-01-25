@@ -1,6 +1,8 @@
+<!--  PC -->
 <ng-container *ngIf="plataforma === 'desktop'">
-
-  <p-dropdown inputId="dropdown" [autoDisplayFirst]="false" appendTo="body" [filter]="listaCombo.length >= 10"
+  <ion-row style="align-items: center;">
+  <ion-label class="textos-float ion-padding-horizontal"> {{label}}</ion-label>
+  <p-dropdown #drw  inputId="dropdown" [autoDisplayFirst]="false" appendTo="body" [filter]="listaCombo.length >= 10"
     emptyFilterMessage="No existen registros" [(ngModel)]="valor" [options]="listaCombo" [disabled]="lectura">
     <ng-template let-item pTemplate="selectedItem">
       <span *ngIf="item.label !=='|'">
@@ -17,7 +19,24 @@
         <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
           {{valor}}</span>
       </div>
-
     </ng-template>
   </p-dropdown>
+</ion-row>
+</ng-container>
+<!--  MOVIL interface="popover" -->
+<ng-container  *ngIf="plataforma !== 'desktop'">
+    <ion-col class="contenedor">
+      <ion-label class="ion-no-padding label-stacked" *ngIf="label">
+        {{label}}
+      </ion-label>
+      <ion-select [(ngModel)]="valor" (ionChange)="changeEvent($event)" 
+      [ngClass]="{ 'p-dropdown p-component app-combo':true , 'invalid' : invalid === true, 'conLabel':label  }">
+        <ion-select-option *ngFor="let opciones of listaCombo" [value]="opciones.value" placeholder="Seleccionar...">
+          <td style="width: 100%;height: 100%;padding: 0;margin: 0;" *ngFor="let valor  of opciones.label.split('|')">
+            <span style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+              {{valor}}</span>
+          </td>
+        </ion-select-option>
+      </ion-select>
+    </ion-col>
 </ng-container>

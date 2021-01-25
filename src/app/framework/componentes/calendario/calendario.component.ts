@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UtilitarioService } from '../../../services/utilitario.service';
 
 @Component({
@@ -8,18 +8,21 @@ import { UtilitarioService } from '../../../services/utilitario.service';
 })
 export class CalendarioComponent implements OnInit {
 
+  @Input() lectura = false;
+  @Input() label:string ="Label";
   fecha: Date;
   fechaMinima: Date;
   fechaMaxima: Date;
 
-  fechaIonic: string;
   fechaMinimaIonic: string;
   fechaMaximaIonic: string;
 
   plataforma: string = 'desktop'; //defecto
+  invalid = false;
 
-  //eventos
-  onMetodoChange?: (event?: any) => void;
+  //Eventos
+  onChange?: (event?: any) => void;
+
 
   constructor(private utilitario: UtilitarioService) {
     this.plataforma = this.utilitario.getPlataforma();
@@ -27,18 +30,27 @@ export class CalendarioComponent implements OnInit {
 
   ngOnInit() { }
 
+  public changeEvent() {
+    this.invalid = false;
+    //Ejecuta callback method
+    if (this.onChange) {
+      this.onChange({
+        originalEvent: null
+      });
+    }
+
+  }
+
+  setInvalid(invalid: boolean) {
+    this.invalid = invalid;
+  }
+
   setFechaActual() {
     this.fecha = new Date();
   }
 
   setFecha(fecha: Date) {
-    if (this.plataforma === 'desktop') {
-      this.fecha = fecha;
-    }
-    else {
-      //convierte a string
-      this.fechaIonic = this.utilitario.getFormatoFecha(fecha);
-    }
+    this.fecha = fecha;
   }
 
 
@@ -48,7 +60,7 @@ export class CalendarioComponent implements OnInit {
     }
     else {
       //convierte a string
-      this.fechaMinimaIonic = this.utilitario.getFormatoFecha(fecha);
+      this.fechaMinimaIonic = this.utilitario.getFormatoFecha(fecha, this.utilitario.FORMATO_FECHA_BDD);
     }
   }
 
@@ -58,17 +70,19 @@ export class CalendarioComponent implements OnInit {
     }
     else {
       //convierte a string
-      this.fechaMaximaIonic = this.utilitario.getFormatoFecha(fecha);
+      this.fechaMaximaIonic = this.utilitario.getFormatoFecha(fecha, this.utilitario.FORMATO_FECHA_BDD);
     }
   }
 
+  /**
+   * Retorna el Valor de la fecha en Formato YYYY-MM-DD
+   */
   getValor(): string {
-    if (this.plataforma === 'desktop') {
-      return this.utilitario.getFormatoFecha(this.fecha);
-    }
-    else {
-      return this.fechaIonic;
-    }
+    return this.utilitario.getFormatoFecha(this.fecha, this.utilitario.FORMATO_FECHA_BDD);
+  }
+
+  getValorDate(): Date {
+    return this.utilitario.toDate(this.fecha, this.utilitario.FORMATO_FECHA_BDD);
   }
 
 

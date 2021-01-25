@@ -29,7 +29,7 @@ export class UsuariosPage extends Pantalla {
     this.tabTabla1.getColumna('activo_usua').setFiltro(true);
     this.tabTabla1.setFilasPorPagina(20);
     this.tabTabla1.mostrarBotonModificar();
-    this.tabTabla1.onClickModificar = () => { this.modificar(); };
+    this.tabTabla1.onModificar = () => { this.modificar(); };
     this.tabTabla1.setExpandible('mail_usua,fecha_reg_usua,nom_perf');
     this.tabTabla1.dibujar();
 
