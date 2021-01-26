@@ -39,10 +39,12 @@ export class ConsultaAuditoriaPage extends Pantalla {
   }
 
   seleccionarUsuario(): void {
+    this.comUsuarios.setInvalid(true);
     console.log(this.comUsuarios.getValor());
   }
 
   guardar(): void {
+    this.autUsuarios.setInvalid(true);
     console.log(this.autUsuarios.getValor());
   }
   insertar(): void {

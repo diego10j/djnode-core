@@ -41,7 +41,7 @@ export class AutocompletarComponent implements OnInit {
 
   public borrarEvent() {
     this.invalid = false;
-    this.valor =null;
+    this.valor = null;
     //Ejecuta callback method
     if (this.onChange) {
       this.onChange({
@@ -53,17 +53,16 @@ export class AutocompletarComponent implements OnInit {
   setInvalid(invalid: boolean) {
     this.invalid = invalid;
 
-    if (this.plataforma === 'desktop') {
-      const dr = document.querySelector('p-autocomplete');
-      if (invalid) {
-        dr.classList.add('ng-invalid');
-        dr.classList.add('ng-dirty');
-      }
-      else {
-        dr.classList.remove('ng-invalid');
-        dr.classList.remove('ng-dirty');
-      }
+    const dr = document.querySelector('p-autocomplete');
+    if (invalid) {
+      dr.classList.add('ng-invalid');
+      dr.classList.add('ng-dirty');
     }
+    else {
+      dr.classList.remove('ng-invalid');
+      dr.classList.remove('ng-dirty');
+    }
+
 
   }
 
