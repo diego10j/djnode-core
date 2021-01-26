@@ -515,7 +515,7 @@ export class UtilitarioService {
     }
 
     getPlataforma(): string {
-        //return 'ios'; 
+        return 'ios'; 
         if (this.platform.is('desktop')) {
             return 'desktop';
         } else if (this.platform.is('ios')) {
