@@ -4,9 +4,11 @@
     font-size: 0.8rem;
     .p-autocomplete-input{
       padding-right: 20px;
+      min-width: 340px;
     }
   }
-  .p-float-label input:focus ~ label, .p-float-label input.p-filled ~ label, .p-float-label textarea:focus ~ label, .p-float-label textarea.p-filled ~ label, .p-float-label .p-inputwrapper-focus ~ label, .p-float-label .p-inputwrapper-filled ~ label{
-    top: -.45rem;
+  .label-stacked-movil{
+  //  margin-top: -17px;
+  display: inherit;
   }
 }
