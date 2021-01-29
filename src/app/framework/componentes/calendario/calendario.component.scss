@@ -1,7 +1,7 @@
 :host ::ng-deep {
   .p-calendar .p-inputtext {
     font-size: 0.85rem !important;
-    min-width: 6.8rem !important;
+    min-width: 7rem !important;
     text-align: center;
     padding-top: 4px;
     padding-bottom: 4px;
@@ -10,9 +10,17 @@
 
   .app-calendario {
     font-size: 0.85rem !important;
-    min-width: 6.8rem !important;
-    text-align: center;
+    min-width: 7rem !important;
+    text-align: right;
     padding-top: 4px;
     padding-bottom: 4px;
+
+  }
+
+  .icono-calendario{
+    z-index: 10 !important;
+    margin-left: -3px; 
+    vertical-align: middle;
+    font-size: 0.9rem;
   }
 }

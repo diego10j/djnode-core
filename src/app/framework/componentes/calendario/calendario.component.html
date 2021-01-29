@@ -11,7 +11,7 @@
   </ion-row>
 </ng-container>
 
-<!--  MOVIL interface="popover" -->
+<!--  MOVIL interface="popover" 
 <ng-container *ngIf="plataforma !== 'desktop'">
   <ion-col class="contenedor-comp-movil">
     <ion-label class="ion-no-padding label-stacked-movil" *ngIf="label">
@@ -25,4 +25,26 @@
       (ionChange)="changeEvent()" [disabled]="lectura">
     </ion-datetime>
   </ion-col>
+</ng-container>
+-->
+
+
+<ng-container *ngIf="plataforma !== 'desktop'">
+  <ion-row style="align-items: center;">
+    <ion-col class="contenedor-comp-movil">
+      <ion-label class="ion-no-padding label-stacked-movil " *ngIf="label">
+        {{label}}
+      </ion-label>
+      <span class="p-field p-inputtext-sm p-input-icon-left"> 
+        <i class="pi pi-calendar icono-calendario"  ></i>
+        <ion-datetime displayFormat="DD/MM/YYYY" placeholder="dd/mm/aaaa" doneText="Aceptar" cancelText="Cancelar"
+        [ngClass]="{ 'p-inputtext p-component app-calendario':true , 'ng-invalid ng-dirty' : invalid === true, 'comp-conLabel-movil':label }"
+        monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic" pickerFormat="DD/MMMM/YYYY"
+        [(ngModel)]="fecha" [max]="fechaMaximaIonic" [min]="fechaMinimaIonic"
+        monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+        (ionChange)="changeEvent()" [disabled]="lectura">
+      </ion-datetime>
+      </span>
+    </ion-col>
+  </ion-row>
 </ng-container>
