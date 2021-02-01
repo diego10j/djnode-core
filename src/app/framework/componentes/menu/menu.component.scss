@@ -28,11 +28,11 @@ ion-menu ion-content .scroll-content::-webkit-scrollbar {
 
 ion-list {
   padding-top: 15px;
-  --background: transparent;
-  --ion-background-color: transparent;
+  --background: transparent !important;
+  --ion-background-color: transparent !important;
   ion-item {
     --background: transparent;
-    --ion-background-color: transparent;
+    --ion-background-color: transparent !important;
     --border-radius: 5px;
     --inner-padding-start: 0px;
     --color-hover: var(--ion-color-medium-shade);
@@ -112,14 +112,14 @@ ion-list {
 
   .active-header {
     ion-label {
-      color: var(--ion-color-light);
+      color: var(--ion-color-dark-contrast);
 
       ion-icon {
-        color: var(--ion-color-light) !important;
+        color: var(--ion-color-dark-contrast) !important;
       }
     }
     ion-icon {
-      color: var(--ion-color-light);
+      color: var(--ion-color-dark-contrast);
     }
   }
 }

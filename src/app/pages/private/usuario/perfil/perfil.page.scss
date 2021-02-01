@@ -1,7 +1,5 @@
-
-
 .card {
-  background: #fff;
+  background: var(--ion-background-color);
   margin-bottom: 1em;
 }
 
@@ -10,14 +8,14 @@
   text-align: center;
 }
 .profile-user-page .img-user-profile .profile-bgHome {
-  border-bottom: 0.2em solid #f5f5f5;
+  border-bottom: 0.2em solid var(--ion-color-light-shade);
   width: 100%;
   height: 16em;
-  background: linear-gradient(147deg, #252C33 0, #223E6D 100%) !important;
+  background: linear-gradient(147deg, #252c33 0, #223e6d 100%) !important;
 }
 .profile-user-page .img-user-profile .avatar {
   margin: 0 auto;
-  background: #fff;
+  background: var(--ion-background-color);
   width: 7em;
   height: 7em;
   padding: 0.25em;
@@ -28,61 +26,58 @@
 
 .profile-user-page .img-user-profile .bt-upload {
   margin: 0 auto;
-  background: #fff;
-  float:right;
+  background: var(--ion-background-color);
+  float: right;
   right: 10px;
   padding-right: 15px;
-  margin-top:-55px;
+  margin-top: -55px;
 }
 
 .profile-user-page .user-profile-data,
-.profile-user-page  {
+.profile-user-page {
   text-align: center;
   padding: 0;
 }
 .profile-user-page .user-profile-data h1 {
   margin-top: 0.35em;
-  color:  var(--ion-color-tertiary);
+  color: var(--ion-color-light-contrast);
   margin-bottom: 0;
   font-size: 1.2rem;
 }
 
 :host ::ng-deep {
-
   .p-button {
     height: 30px;
     font-size: 0.85rem;
     background: var(--ion-color-medium) !important;
     border: 0;
-    color: black;
+    color: var(--ion-color-medium-contrast) !important;
   }
 
+  .pick-avatar {
+    width: 80px;
+    opacity: 0.3;
+  }
 
-.pick-avatar {
-  width: 80px;
-  opacity: 0.3;
-}
+  .pick-avatar-seleccionado {
+    transition: opacity 0.5s linear;
+    opacity: 1 !important;
+  }
 
-.pick-avatar-seleccionado {
-  transition: opacity 0.5s linear;
-  opacity: 1 !important;
-}
+  .cardImagen {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    background: var(--ion-background-color);
+    cursor: pointer;
+  }
 
-.cardImagen {
-  /* Add shadows to create the "card" effect */
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  background:#fefefe;
-  cursor: pointer;
-}
+  /* On mouse-over, add a deeper shadow */
+  .cardImagen:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
 
-/* On mouse-over, add a deeper shadow */
-.cardImagen:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-
-.active-card{
-  background:var(--ion-color-primary);
-}
-
+  .active-card {
+    background: var(--ion-color-primary);
+  }
 }

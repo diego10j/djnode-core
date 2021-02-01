@@ -12,11 +12,25 @@ import { PopoverController } from '@ionic/angular';
 export class PopoverUsuarioComponent implements OnInit {
 
   public usuario: Usuario;
+
+  darkMode: boolean = true;
+
+  // Listen for changes to the prefers-color-scheme media query
+
   constructor(private seguridad: SeguridadService,
     private utilitario: UtilitarioService,
     private currentPopover: PopoverController) {
     this.usuario = seguridad.usuario;
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.darkMode = prefersDark.matches;
   }
+
+  cambio() {
+    this.darkMode = !this.darkMode;
+    document.body.classList.toggle('dark');
+  }
+
+
 
 
   logout() {
@@ -24,7 +38,7 @@ export class PopoverUsuarioComponent implements OnInit {
     this.seguridad.logout(this.utilitario.getPlataforma());
   }
 
-  abrirPerfil(){
+  abrirPerfil() {
     this.utilitario.abrirPagina('perfil');
     this.currentPopover.dismiss();
   }

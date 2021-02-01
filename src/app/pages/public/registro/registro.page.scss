@@ -7,11 +7,11 @@ ion-content {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--ion-color-tertiary);
+  //color: var(--ion-color-tertiary);
 }
 
 body {
-  color: var(--ion-color-tertiary);
+ // color: var(--ion-color-tertiary);
   min-height: 100vh;
   width: 100%;
   display: grid;
@@ -94,8 +94,9 @@ button {
 
 input {
   width: 100%;
-  background: white;
-  color:  var(--ion-color-tertiary) !important;
+  background: var(--ion-color-light);
+  color: var(--ion-color-light-contrast);
+  border-color: var(--ion-color-light-shade);
   letter-spacing: 0.5px;
   padding: 14px 64px;
 
@@ -107,7 +108,7 @@ input ~ i {
   top: 50%;
   transform: translateY(-50%);
   transition: color   0.4s;
-  color: #8594a3;
+  color: var(--ion-color-tertiary-tint);
 }
 
 input:focus ~ i {
@@ -158,10 +159,10 @@ button.submit:hover {
     font-size: 14px;
     font-weight: 600;
     padding-left: 3px;
-    color: var(--ion-color-secondary) 
+    color: var(--ion-color-secondary);
 
  }
  button:hover{
-  color: var(--ion-color-tertiary) 
+  color: var(--ion-color-secondary-tint);
 }
 }

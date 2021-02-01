@@ -1,5 +1,5 @@
 ion-content {
-  --background: url("../../../../assets/img/fondo.jpg") #ECEDEF no-repeat !important;
+  --background: url("../../../../assets/img/fondo.jpg") var(--ion-color-light) no-repeat;
   --background-size: cover !important;
 }
 
@@ -7,16 +7,15 @@ ion-content {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--ion-color-dark);
+  color: var(--ion-color-light-contrast);
 }
 
 body {
-  color: var(--ion-color-dark);
+  color: var(--ion-color-light-contrast);
   min-height: 100vh;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  
 }
 
 
@@ -89,8 +88,9 @@ button {
 
 input {
   width: 100%;
-  background: white;
-  color:  var(--ion-color-dark) !important;
+  background: var(--ion-color-light);
+  color: var(--ion-color-light-contrast);
+  border-color: var(--ion-color-light-shade);
   letter-spacing: 0.5px;
   padding: 14px 64px;
 }
@@ -156,6 +156,6 @@ button.submit:hover {
 
  }
  button:hover{
-  color: var(--ion-color-tertiary) 
+  color: var(--ion-color-secondary-tint) 
 }
 }
