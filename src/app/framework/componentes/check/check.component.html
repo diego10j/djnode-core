@@ -1,3 +1,9 @@
-<p>
-  check works!
-</p>
+<!--  PC -->
+<ng-container *ngIf="plataforma === 'desktop'">
+  <ion-row class="p-field-checkbox" style="align-items: center; display:flex;position: static;">
+
+    <p-checkbox  binary="true" inputId="binary"></p-checkbox>
+    <label class="textos-float" for="binary">{{label}}</label>
+
+  </ion-row>
+</ng-container>

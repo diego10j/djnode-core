@@ -52,6 +52,7 @@ import { RangoFechasComponent } from './rango-fechas/rango-fechas.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { TextoComponent } from './texto/texto.component';
 import { AutocompletarComponent } from './autocompletar/autocompletar.component';
+import { CheckComponent } from './check/check.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { AutocompletarComponent } from './autocompletar/autocompletar.component'
     BreadcrumbComponent,
     TextoComponent,
     AutocompletarComponent,
+    CheckComponent,
   ],
   exports: [
     TablaComponent,
@@ -95,6 +97,7 @@ import { AutocompletarComponent } from './autocompletar/autocompletar.component'
     BreadcrumbComponent,
     TextoComponent,
     AutocompletarComponent,
+    CheckComponent,
   ],
   imports: [
     IonicModule,

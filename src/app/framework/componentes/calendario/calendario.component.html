@@ -1,6 +1,6 @@
 <!--  PC -->
 <ng-container *ngIf="plataforma === 'desktop'">
-  <ion-row style="align-items: center; display:felx;position: static;">
+  <ion-row style="align-items: center; display:fex;position: static;">
     <ion-label class="textos-float ion-padding-horizontal" *ngIf="label"> {{label}}</ion-label>
     <p-calendar appendTo="body" dateFormat="dd/mm/yy" showButtonBar="false"
       [ngClass]="{ 'app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}" [(ngModel)]="fecha"

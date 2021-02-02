@@ -16,7 +16,7 @@ export class ComboComponent implements OnInit {
   @Input() lectura = false;
   @Input() label: string;
   @Input() nullCombo = true;
-  @Input() width = "200px"; //defecto
+  @Input() width = "250px"; //defecto
   plataforma = 'desktop'; //defecto
   invalid = false;
   //Eventos

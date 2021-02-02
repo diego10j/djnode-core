@@ -13,7 +13,7 @@ export class AutocompletarComponent implements OnInit {
 
   listaCombo: any[] = [];
   valor: any;
-  @Input() width = "200px"; //defecto
+  @Input() width = "250px"; //defecto
   @Input() lectura = false;
   @Input() label: string;
 

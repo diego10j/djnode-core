@@ -3,6 +3,7 @@
   [pTooltip]="titulo ? titulo: texto" tooltipPosition="bottom" [disabled]="disabled">
   <span *ngIf="texto && !soloIcono" style="padding-right: 3px;"> {{texto}}</span>
   <ion-icon *ngIf="icono" [slot]="soloIcono ? 'icon-only':'start'" [name]="icono" name="add-circle-outline"></ion-icon>
+  <ion-ripple-effect type="unbounded"></ion-ripple-effect>
 </ion-button>
 
 <button *ngIf="modo === 'prime'" pButton pRipple [icon]="icono" [ngClass]="{ 'p-button-outlined' : soloBorde === true  
@@ -10,4 +11,6 @@
 , 'p-button-info' : color === 'medium','p-button' : color === 'primary','p-button-secondary' : color === 'secondary'
   , 'p-button-tertiary' : color === 'tertiary', 'p-button-success' : color === 'success', 'p-button-danger' : color === 'danger'
   , 'p-button-warning' : color === 'warning'
-  }" [pTooltip]="titulo ? titulo: ''" [label]="texto" tooltipPosition="bottom"></button>
+  }" [pTooltip]="titulo ? titulo: ''" [label]="texto" tooltipPosition="bottom">
+  <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+</button>

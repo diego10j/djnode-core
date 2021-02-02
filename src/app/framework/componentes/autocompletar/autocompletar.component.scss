@@ -2,11 +2,17 @@
   .p-autocomplete {
     height: 30px;
     font-size: 0.8rem;
+    display: inline;
     .p-autocomplete-input{
       padding-right: 20px;
-      min-width: 340px;
+      min-width: 280px;
     }
   }
+
+.label-stacked-desktop{
+  display: inherit !important;
+}
+
   .label-stacked-movil{
   //  margin-top: -17px;
   display: inherit;

@@ -1,11 +1,12 @@
+
+
+
 <!--  PC -->
 <ng-container *ngIf="plataforma === 'desktop'">
-  <ion-row style="display:flex;align-items: center;">
-    <div class="p-col">
-      <ion-label class="textos-float ion-padding-horizontal" *ngIf="label"> {{label}}</ion-label>
-    </div>
-    <div class="p-inputgroup p-inputtext-sm p-autocomplete">
-      <span class="p-float-label">
+  <ion-row style="align-items: center;">
+    <ion-label class="textos-float ion-padding-horizontal" *ngIf="label"> {{label}}</ion-label>
+    <div class="p-inputgroup p-inputtext-sm p-autocomplete label-stacked-desktop">
+      <span>
         <p-autoComplete appendTo="body" [(ngModel)]="valor" (onSelect)="changeEvent()" [inputStyle]="{'width':width}"
           [suggestions]="resultadoAutocompletar" [forceSelection]="true" (completeMethod)="onAutocompletar($event)"
           field="label" [type]="'search'" [disabled]="lectura">
@@ -24,6 +25,7 @@
     </div>
   </ion-row>
 </ng-container>
+
 
 <!--  MOVIL  
 <ng-container *ngIf="plataforma !== 'desktop'">
