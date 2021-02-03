@@ -1,0 +1,27 @@
+:host ::ng-deep {
+  .p-calendar .p-inputtext {
+    font-size: 0.85rem !important;
+    text-align: right;
+    width: 6.2rem !important;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-right: 10px;
+  }
+
+
+
+  .app-hora {
+    font-size: 0.85rem !important;
+    width: 6.2rem !important;
+    text-align: right;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .icono-hora {
+    z-index: 10 !important;
+    margin-left: -3px;
+    vertical-align: middle;
+    font-size: 0.9rem;
+  }
+}

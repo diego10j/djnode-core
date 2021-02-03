@@ -19,6 +19,7 @@ export class UtilitarioService {
 
     FORMATO_FECHA_BDD = 'YYYY-MM-DD';
     FORMATO_FECHA_FRONT = 'DD/MM/YYYY'
+    FORMATO_HORA = 'HH:mm:ss';
 
     private mensaje: MensajeComponent; //Recibe de la clase Pantalla
     constructor(
@@ -281,8 +282,14 @@ export class UtilitarioService {
    * Retorna la hora en formato hh:mm:ss
    * @param fecha
    */
-    getFormatoHora(fecha: Date): string {
-        return this.getFechaFormato(fecha, 'HH:mm:ss');
+    getFormatoHora(hora: Date, formato?: string): string {
+        if (this.isDefined(hora)) {
+            if (this.isDefined(formato) === false) {
+                formato = this.FORMATO_HORA;
+            }
+            return this.getFechaFormato(hora, formato);
+        }
+        return null;
     }
 
 

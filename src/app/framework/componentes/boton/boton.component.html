@@ -7,10 +7,10 @@
 </ion-button>
 
 <button *ngIf="modo === 'prime'" pButton pRipple [icon]="icono" [ngClass]="{ 'p-button-outlined' : soloBorde === true  
-,'p-button-info p-button-sm'  :true
+,'p-button-info p-button-sm'  :true 
 , 'p-button-info' : color === 'medium','p-button' : color === 'primary','p-button-secondary' : color === 'secondary'
   , 'p-button-tertiary' : color === 'tertiary', 'p-button-success' : color === 'success', 'p-button-danger' : color === 'danger'
   , 'p-button-warning' : color === 'warning'
-  }" [pTooltip]="titulo ? titulo: ''" [label]="texto" tooltipPosition="bottom">
+  }" [pTooltip]="titulo ? titulo: ''" [label]="texto" tooltipPosition="bottom" (click)="onClickButton($event)">
   <ion-ripple-effect type="unbounded"></ion-ripple-effect>
 </button>

@@ -17,6 +17,7 @@ export default class Tabla {
     pagina: number = 1;
     filaActual: number = 0;
     seleccionada: any;
+    seleccionadas: any[];
     lectura = true;
     calculaPrimaria=true;
     ideTabla:string; //pk sis_tabla

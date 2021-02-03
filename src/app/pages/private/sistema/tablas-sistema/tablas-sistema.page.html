@@ -7,7 +7,7 @@
       <p-tabPanel header="COLUMNAS" leftIcon="pi pi-list">
         <app-tabla #tabTabla2>
           <ng-template #barra>
-            <app-boton texto="Borrar Configuracion" color="secondary"> (onClick)="confirmarEliminar()">
+            <app-boton texto="Borrar Configuracion" color="secondary" (click)="confirmarEliminar()">
             </app-boton>
           </ng-template>
         </app-tabla>

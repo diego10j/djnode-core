@@ -31,7 +31,7 @@ export class TablasSistemaPage extends Pantalla {
     this.tabTabla1.getColumna('primaria_tabl').setVisible(true);
     this.tabTabla1.agregarRelacion(this.tabTabla2);
     this.tabTabla1.agregarRelacion(this.tabTabla3);
-    this.tabTabla1.setLectura(true);
+    this.tabTabla1.setTipoSeleccionSimple();
     this.tabTabla1.dibujar();
 
 
@@ -65,7 +65,8 @@ export class TablasSistemaPage extends Pantalla {
     }
   }
 
-  confirmarEliminar() {
+  confirmarEliminar(): void {
+
     const nombreTabla = this.tabTabla1.getValor('tabla_tabl');
     if (!this.tabTabla2.isEmpty()) {
       const mensaje = 'Está seguro de que desea eliminar la configuración de la tabla <strong> ' + nombreTabla + ' </strong>?';

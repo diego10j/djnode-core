@@ -53,6 +53,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { TextoComponent } from './texto/texto.component';
 import { AutocompletarComponent } from './autocompletar/autocompletar.component';
 import { CheckComponent } from './check/check.component';
+import { HoraComponent } from './hora/hora.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { CheckComponent } from './check/check.component';
     TextoComponent,
     AutocompletarComponent,
     CheckComponent,
+    HoraComponent,
   ],
   exports: [
     TablaComponent,
@@ -98,6 +100,7 @@ import { CheckComponent } from './check/check.component';
     TextoComponent,
     AutocompletarComponent,
     CheckComponent,
+    HoraComponent,
   ],
   imports: [
     IonicModule,

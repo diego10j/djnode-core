@@ -68,8 +68,10 @@
                         paginatorPosition="top" [metaKeySelection]="true" [sortField]="campoOrden"
                         alwaysShowPaginator="true" showJumpToPageDropdown="true" [showPageLinks]="false"
                         currentPageReportTemplate="Página {currentPage} de {totalPages}" [autoLayout]="true"
-                        selectionMode="single" [(selection)]="tabla.seleccionada" [dataKey]="tabla.campoPrimario"
-                        (onRowSelect)="onSeleccionarFila($event.data)" scrollHeight="flex">
+                        [selectionMode]="selectionMode"
+                        [selection]="tipoSeleccion === 'multiple' ? tabla.seleccionadas:seleccionada"
+                        [dataKey]="tabla.campoPrimario" (onRowSelect)="onSeleccionarFila($event.data)"
+                        scrollHeight="flex">
 
                         <ng-template pTemplate="paginatorleft" let-state>
                             Registros ({{state.totalRecords}})
@@ -86,6 +88,7 @@
                         <ng-template pTemplate="colgroup">
                             <colgroup>
                                 <col *ngIf="expandible" [style]="{'width':'3rem'}">
+                                <col *ngIf="tipoSeleccion" [style]="{'width':'2.5rem'}">
                                 <ng-container *ngFor="let columna of columnas">
                                     <col *ngIf="columna.visible && !columna.expandible"
                                         [style]="{'width': columna.anchoColumna+'em'}">
@@ -95,6 +98,11 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th *ngIf="expandible"></th>
+                                <th *ngIf="tipoSeleccion">
+                                    <ion-row *ngIf="tipoSeleccion==='multiple'" class="ion-justify-content-center">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </ion-row>
+                                </th>
                                 <ng-container *ngFor="let columna of columnas">
                                     <th [pResizableColumnDisabled]="!columna.resizable" pResizableColumn
                                         *ngIf="columna.visible && !columna.expandible"
@@ -160,6 +168,17 @@
                                         class="p-button-text p-button-plain" (click)="onClickComponente(fila)"
                                         [icon]="expanded ? 'pi pi-angle-down' : 'pi pi-angle-right'"></button>
                                 </td>
+
+                                <td *ngIf="tipoSeleccion">
+                                    <ion-row class="ion-justify-content-center">
+                                        <p-tableRadioButton *ngIf="tipoSeleccion === 'simple'" [value]="fila">
+                                        </p-tableRadioButton>
+                                        <p-tableCheckbox *ngIf="tipoSeleccion === 'multiple'" [value]="fila">
+                                        </p-tableCheckbox>
+                                    </ion-row>
+                                </td>
+
+
                                 <ng-container *ngFor="let columna of columnas">
                                     <td *ngIf="columna.visible && !columna.expandible">
 

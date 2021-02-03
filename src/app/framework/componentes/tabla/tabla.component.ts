@@ -154,7 +154,9 @@ export class TablaComponent implements OnInit {
   //Servicio
   private metodoServicio: string;
   private bodyServicio: any;
-
+  //Seleccion single / multiple se
+  tipoSeleccion?: 'simple' | 'multiple';
+  selectionMode= 'single';
   //Botones Tabla
   isBotonInsertar = true;
   isBotonEliminar = true;
@@ -274,7 +276,7 @@ export class TablaComponent implements OnInit {
       botInsertar.click();
     }
   }
-  
+
   public eliminarClick() {
     if (this.onEliminar) {
       this.onEliminar({
@@ -1185,6 +1187,13 @@ export class TablaComponent implements OnInit {
   getIndiceFilaActual(): number {
     return this.indiceFilaActual;
   }
+  /**
+   * Para tabla selección multiple
+   */
+  getFilasSeleccionadas(): any[] {
+    return this.tabla.seleccionadas;
+  }
+
 
   /**
    * Selecciona Fila por campo primario
@@ -1901,6 +1910,22 @@ export class TablaComponent implements OnInit {
     }
     return false;
   }
+
+  /**Hace de tipo seleccion simple con radio */
+  setTipoSeleccionSimple() {
+    this.tipoSeleccion = 'simple';
+    this.lectura = true;
+    this.selectionMode=null;
+  }
+  /**
+   * Hace de tipo seleccion multiple con check
+   */
+  setTipoSeleccionMultiple() {
+    this.tipoSeleccion = 'multiple';
+    this.lectura = true;
+    this.selectionMode=null;
+  }
+
 
   //Exportaciones
   exportExcel() {

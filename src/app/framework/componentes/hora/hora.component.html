@@ -1,3 +1,31 @@
-<p>
-  hora works!
-</p>
+<!--  PC -->
+<ng-container *ngIf="plataforma === 'desktop'">
+  <ion-row style="align-items: center; display:flex;position: static;">
+    <ion-label class="textos-float ion-padding-horizontal" *ngIf="label"> {{label}}</ion-label>
+    <span class="p-field p-inputtext-sm p-input-icon-left" style="width: auto;">
+      <i class="pi pi-clock icono-hora"></i>
+      <p-calendar appendTo="body" [timeOnly]="true" [showSeconds]="true"
+        [ngClass]="{ 'app-hora':true , 'ng-invalid ng-dirty' : invalid === true}" [(ngModel)]="hora" placeholder="hh:mm:ss"
+        [disabled]="lectura" (onSelect)="changeEvent()" (change)="changeEvent()">
+      </p-calendar>
+    </span>
+  </ion-row>
+</ng-container>
+
+
+<ng-container *ngIf="plataforma !== 'desktop'">
+  <ion-row style="align-items: center;" class="ion-no-padding">
+    <ion-col class="contenedor-comp-movil">
+      <ion-label class="ion-no-padding label-stacked-movil " *ngIf="label">
+        {{label}}
+      </ion-label>
+      <span class="p-field p-inputtext-sm p-input-icon-left">
+        <i class="pi pi-clock icono-hora"></i>
+        <ion-datetime displayFormat="H:mm:s" placeholder="hh:mm:ss" doneText="Aceptar" cancelText="Cancelar"
+          [ngClass]="{ 'p-inputtext p-component app-hora':true , 'ng-invalid ng-dirty' : invalid === true, 'comp-conLabel-movil':label }"
+          [(ngModel)]="hora" (ionChange)="changeEvent()" [disabled]="lectura">
+        </ion-datetime>
+      </span>
+    </ion-col>
+  </ion-row>
+</ng-container>

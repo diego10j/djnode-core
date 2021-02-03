@@ -6,6 +6,7 @@ import { RangoFechasComponent } from '../../../../framework/componentes/rango-fe
 import { TextoComponent } from '../../../../framework/componentes/texto/texto.component';
 import { AutocompletarComponent } from '../../../../framework/componentes/autocompletar/autocompletar.component';
 import { CheckComponent } from '../../../../framework/componentes/check/check.component';
+import { HoraComponent } from '../../../../framework/componentes/hora/hora.component';
 
 @Component({
   selector: 'app-consulta-auditoria',
@@ -19,7 +20,9 @@ export class ConsultaAuditoriaPage extends Pantalla {
   @ViewChild('autUsuarios', { static: false }) autUsuarios: AutocompletarComponent;
   @ViewChild('chkPrueba', { static: false }) chkPrueba: CheckComponent;
 
-  
+  @ViewChild('horHora', { static: false }) horHora: HoraComponent;
+
+
 
   async ionViewWillEnter() {
     this.barra.ocultarBotonGuardar();
@@ -51,7 +54,9 @@ export class ConsultaAuditoriaPage extends Pantalla {
     this.autUsuarios.setInvalid(true);
     this.chkPrueba.setInvalid(true);
     console.log(this.autUsuarios.getValor());
+    this.horHora.setInvalid(true);
   }
+  
   insertar(): void {
 
   }
