@@ -1,9 +1,11 @@
-<!--  PC -->
-<ng-container *ngIf="plataforma === 'desktop'">
-  <ion-row class="p-field-checkbox" style="align-items: center; display:flex;position: static;">
+<!--  PC y MOVIL -->
 
-    <p-checkbox  binary="true" inputId="binary"></p-checkbox>
-    <label class="textos-float" for="binary">{{label}}</label>
-
-  </ion-row>
-</ng-container>
+<ion-row style="align-items: center;" class="ion-no-padding">
+  <ion-col [ngClass]="{'contenedor-comp-movil' : plataforma !== 'desktop'}">
+    <p-checkbox binary="true" [disabled]="lectura"
+      [ngClass]="{ 'app-check':true , 'ng-invalid ng-dirty invalid' : invalid === true}" [(ngModel)]="valor"
+      (onChange)="changeEvent()">
+    </p-checkbox>
+    <label class="textos-float">{{label}}</label>
+  </ion-col>
+</ion-row>

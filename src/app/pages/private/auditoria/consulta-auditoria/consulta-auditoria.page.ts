@@ -5,6 +5,7 @@ import { ComboComponent } from '../../../../framework/componentes/combo/combo.co
 import { RangoFechasComponent } from '../../../../framework/componentes/rango-fechas/rango-fechas.component';
 import { TextoComponent } from '../../../../framework/componentes/texto/texto.component';
 import { AutocompletarComponent } from '../../../../framework/componentes/autocompletar/autocompletar.component';
+import { CheckComponent } from '../../../../framework/componentes/check/check.component';
 
 @Component({
   selector: 'app-consulta-auditoria',
@@ -16,6 +17,7 @@ export class ConsultaAuditoriaPage extends Pantalla {
   @ViewChild('ranFechas', { static: false }) ranFechas: RangoFechasComponent;
   @ViewChild('comUsuarios', { static: false }) comUsuarios: ComboComponent;
   @ViewChild('autUsuarios', { static: false }) autUsuarios: AutocompletarComponent;
+  @ViewChild('chkPrueba', { static: false }) chkPrueba: CheckComponent;
 
   
 
@@ -31,6 +33,8 @@ export class ConsultaAuditoriaPage extends Pantalla {
     this.autUsuarios.onChange = () => { this.guardar(); };
     this.autUsuarios.setAutocompletar('sis_usuario', 'ide_usua', 'nom_usua');
 
+    this.chkPrueba.onChange = () => { this.guardar(); };
+
   }
 
   buscar(): void {
@@ -45,6 +49,7 @@ export class ConsultaAuditoriaPage extends Pantalla {
 
   guardar(): void {
     this.autUsuarios.setInvalid(true);
+    this.chkPrueba.setInvalid(true);
     console.log(this.autUsuarios.getValor());
   }
   insertar(): void {

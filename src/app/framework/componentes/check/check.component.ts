@@ -12,6 +12,7 @@ export class CheckComponent implements OnInit {
   @Input() label: string;
   plataforma: string = 'desktop'; //defecto
   invalid = false;
+  valor= false;
 
   //Eventos
   onChange?: (event?: any) => void;

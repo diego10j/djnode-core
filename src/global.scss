@@ -236,7 +236,7 @@ ion-toolbar {
 
 .textos-float {
   font-size: 0.8rem;
-  color: #252c33;
+  color: var(--ion-color-text);
 }
 
 .text-8pt {
@@ -443,6 +443,10 @@ ion-content {
 }
 .border-white {
   border-color: #fafafa !important;
+}
+.invalid {
+  border-color: #f44336 !important;
+  --border-color: #f44336 !important;
 }
 
 .button-vertical-align {
@@ -1379,8 +1383,4 @@ ion-button {
 }
 .p-input-filled .p-dropdown:not(.p-disabled).p-focus {
   background-color: var(--ion-color-light-tint);
-}
-
-.as-split-gutter {
-  background: red;
 }
