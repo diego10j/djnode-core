@@ -54,6 +54,9 @@ export class UsuariosPage extends Pantalla {
       this.tabTabla1.actualizar();
       this.modTabla2.cerrar();
     }
+    else{
+      this.modTabla2.ejecutando = false;
+    }
   }
 
   insertar(): void {

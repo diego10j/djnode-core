@@ -31,7 +31,7 @@ export class TablasSistemaPage extends Pantalla {
     this.tabTabla1.getColumna('primaria_tabl').setVisible(true);
     this.tabTabla1.agregarRelacion(this.tabTabla2);
     this.tabTabla1.agregarRelacion(this.tabTabla3);
-    this.tabTabla1.setTipoSeleccionSimple();
+    this.tabTabla1.setLectura(true);
     this.tabTabla1.dibujar();
 
 

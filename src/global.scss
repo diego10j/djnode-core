@@ -1384,3 +1384,26 @@ ion-button {
 .p-input-filled .p-dropdown:not(.p-disabled).p-focus {
   background-color: var(--ion-color-light-tint);
 }
+///
+.p-orderlist .p-orderlist-list {
+  border-color: var(--ion-color-light-shade);
+  background: var(--ion-background-color);
+  color: var(--ion-color-text);
+}
+.p-orderlist .p-orderlist-list .p-orderlist-item {
+  color: var(--ion-color-text);
+}
+.p-orderlist .p-orderlist-list .p-orderlist-item:not(.p-highlight):hover {
+  background:var(--ion-color-light-tint);
+  color: var(--ion-color-text);
+}
+.p-orderlist .p-orderlist-list .p-orderlist-item:focus {
+  box-shadow: none;
+}
+.p-orderlist .p-orderlist-list .p-orderlist-item.p-highlight {
+  color: var(--ion-color-light-contrast);
+  background: var(--ion-background-active);
+}
+.p-orderlist .p-orderlist-list .p-orderlist-droppoint.p-orderlist-droppoint-highlight {
+  background: var(--ion-background-active);
+}

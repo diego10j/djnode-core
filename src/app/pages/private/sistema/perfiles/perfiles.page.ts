@@ -24,7 +24,7 @@ export class PerfilesPage extends Pantalla {
     this.tabTabla1.onModificar = () => { this.modificar(); };
     this.tabTabla1.onEliminar = () => { this.eliminar(); };
     this.tabTabla1.onInsertar = () => { this.insertar(); };
-
+    this.tabTabla1.setTipoSeleccionSimple();
     this.tabTabla1.dibujar(); // última
 
 

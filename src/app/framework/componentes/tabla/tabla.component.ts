@@ -1915,7 +1915,7 @@ export class TablaComponent implements OnInit {
   setTipoSeleccionSimple() {
     this.tipoSeleccion = 'simple';
     this.lectura = true;
-    this.selectionMode=null;
+    this.selectionMode=null;//'single';
   }
   /**
    * Hace de tipo seleccion multiple con check

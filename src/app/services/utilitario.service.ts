@@ -642,7 +642,7 @@ export class UtilitarioService {
 
 
     getPantallasGenericas(): string[] {
-        return ['simple', 'doble', 'recursiva', 'triple'];
+        return ['simple', 'simple-ui','doble', 'recursiva', 'triple'];
     }
 
     async abrirLoading() {

@@ -13,6 +13,10 @@ const childRoutes: Routes = [
     loadChildren: () => import('./sistema/simple/simple.module').then(m => m.SimplePageModule)
   },
   {
+    path: 'simple-ui/:id',
+    loadChildren: () => import('./sistema/simple-ui/simple-ui.module').then( m => m.SimpleUiPageModule)
+  },
+  {
     path: 'doble/:id', canActivate: [SeguridadGuard],
     loadChildren: () => import('./sistema/doble/doble.module').then(m => m.DoblePageModule)
   },
