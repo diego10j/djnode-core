@@ -8,7 +8,7 @@
         [ngClass]="{ 'app-calendario':true , 'ng-invalid ng-dirty' : invalid === true}" [(ngModel)]="fecha"
         [minDate]="fechaMinima" [maxDate]="fechaMaxima" placeholder="dd/mm/aaaa" [monthNavigator]="true"
         [yearNavigator]="true" yearRange="1950:2050" [disabled]="lectura" (onSelect)="changeEvent()"
-        (change)="changeEvent()">
+        (onTodayClick)="changeEvent()"  (onClearClick)="changeEvent()"        (change)="changeEvent()">
       </p-calendar>
     </span>
   </ion-row>

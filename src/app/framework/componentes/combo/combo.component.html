@@ -31,7 +31,7 @@
       <ion-label class="ion-no-padding label-stacked-movil" *ngIf="label">
         {{label}}
       </ion-label>
-      <ion-select interface="popover" [(ngModel)]="valor" (ionChange)="changeEvent($event)"
+      <ion-select interface="popover" [(ngModel)]="valor" (ionChange)="changeEvent()"
         [ngClass]="{ 'p-dropdown p-component app-combo':true , 'invalid' : invalid === true, 'comp-conLabel-movil':label  }">
         <ion-select-option *ngFor="let opciones of listaCombo" [value]="opciones.value" placeholder="Seleccionar...">
           <td style="width: 100%;height: 100%;padding: 0;margin: 0;" *ngFor="let valor  of opciones.label.split('|')">

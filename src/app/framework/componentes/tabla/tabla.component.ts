@@ -22,7 +22,7 @@ import { MensajeComponent } from '../mensaje/mensaje.component';
 })
 export class TablaComponent implements OnInit {
 
-  constructor(private utilitario: UtilitarioService,
+  constructor(public utilitario: UtilitarioService,
     private sistemaService: SistemaService,
     private uploadService: UploadService,
     private modalController: ModalController,) {
@@ -178,7 +178,7 @@ export class TablaComponent implements OnInit {
   fechaPickerConfig = {
     allowMultiSelect: false,
     appendTo: document.body,
-    format: environment.FORMATO_FECHA,
+    format:  this.utilitario.FORMATO_FECHA_FRONT,//environment.FORMATO_FECHA,
     locale: 'es',
     closeOnSelectDelay: 0,
     displayDate: '',
@@ -203,7 +203,7 @@ export class TablaComponent implements OnInit {
   fechaHoraPickerConfig = {
     allowMultiSelect: false,
     appendTo: document.body,
-    format: environment.FORMATO_FECHAHORA,
+    format:  this.utilitario.FORMATO_FECHA_HORA_FRONT,//environment.FORMATO_FECHAHORA,
     locale: 'es',
     hours24Format: 'HH',
     showSeconds: true,

@@ -20,6 +20,7 @@ export class UtilitarioService {
     FORMATO_FECHA_BDD = 'YYYY-MM-DD';
     FORMATO_FECHA_FRONT = 'DD/MM/YYYY'
     FORMATO_HORA = 'HH:mm:ss';
+    FORMATO_FECHA_HORA_FRONT = 'DD/MM/YYYY HH:mm:ss'
 
     private mensaje: MensajeComponent; //Recibe de la clase Pantalla
     constructor(

@@ -212,7 +212,7 @@
                                                     [imagen]="fila[columna.nombre]"> </app-avatar>
                                             </ion-row>
                                             <div *ngSwitchCase="'Combo'" class="componenteTexto">
-                                                {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
+                                                {{fila[columna.nombre] | convertidor: columna.listaCombo}}
                                             </div>
                                             <div *ngSwitchDefault class="componenteTexto">
                                                 {{fila[columna.nombre]}}
@@ -264,7 +264,7 @@
                                                         </ion-thumbnail>
                                                     </div>
                                                     <div *ngSwitchCase="'Combo'" class="componenteTexto">
-                                                        {{getCampoNombreCombo(columna.nombre, fila[columna.nombre])}}
+                                                        {{fila[columna.nombre] | convertidor: columna.listaCombo}}
                                                     </div>
                                                     <div *ngSwitchDefault class="componenteTexto">
                                                         {{fila[columna.nombre]}}
@@ -393,7 +393,7 @@
                                                 [config]="fechaPickerConfig" mode="day" theme="dp-material"
                                                 (onSelect)="onMetodoChange($event,columna.nombre,fila)"
                                                 [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
-                                                [placeholder]="formatoFecha"></dp-date-picker>
+                                                placeholder="dd/mm/aaaa"></dp-date-picker>
                                         </div>
 
                                         <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
@@ -404,7 +404,7 @@
                                                 (change)="onMetodoChange($event,columna.nombre,fila)"
                                                 [config]="horaPickerConfig" mode="time" theme="dp-material"
                                                 [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
-                                                placeholder="HH:MM:SS">
+                                                placeholder="hh:mm:ss">
                                             </dp-date-picker>
 
                                         </div>
@@ -431,7 +431,7 @@
                                                 [config]="fechaHoraPickerConfig" mode="daytime" theme="dp-material"
                                                 (onSelect)="onMetodoChange($event,columna.nombre,fila)"
                                                 [(ngModel)]="fila[columna.nombre]" [disabled]="columna.lectura"
-                                                [placeholder]="formatoFechaHora"></dp-date-picker>
+                                                placeholder="dd/mm/aaaa hh:mm:ss"></dp-date-picker>
                                         </div>
                                         <div *ngIf="columna.componente === 'Check'"
                                             style="text-align: center;vertical-align: middle;">
@@ -629,12 +629,14 @@
                                 <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
                                     <p-calendar appendTo="body" inputStyleClass="componente" [style]="{'width':'100%'}"
+                                        dateFormat="dd/mm/yy" showButtonBar="false" [yearNavigator]="true"
+                                        yearRange="1950:2050"
                                         (onSelect)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         (onTodayClick)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         (onClearClick)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         (change)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                        [(ngModel)]="seleccionada[columna.nombre]" dateFormat="yy-mm-dd"
-                                        showButtonBar="true" [disabled]="columna.lectura">
+                                        [(ngModel)]="seleccionada[columna.nombre]" placeholder="dd/mm/aaaa"
+                                        [disabled]="columna.lectura" [monthNavigator]="true">
                                     </p-calendar>
                                 </div>
                                 <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
@@ -650,7 +652,7 @@
                                     <p-inputMask mask="9999-99-99 99:99:99" [style]="{'width':'99%'}"
                                         styleClass="componente"
                                         (change)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                        [(ngModel)]="seleccionada[columna.nombre]" placeholder="yyyy-mm-dd hh:mm:ss"
+                                        [(ngModel)]="seleccionada[columna.nombre]" placeholder="dd/mm/aaaa hh:mm:ss"
                                         [disabled]="columna.lectura">
                                     </p-inputMask>
                                 </div>
@@ -791,9 +793,12 @@
                                             {{columna.nombreVisual | uppercase}}
                                             <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
                                         </ion-label>
-                                        <ion-datetime displayFormat="YYYY-MM-DD"
+                                        <ion-datetime displayFormat="DD/MM/YYYY" placeholder="dd/mm/aaaa"
                                             [(ngModel)]="seleccionada[columna.nombre]" class="componente"
                                             (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                                            pickerFormat="DD/MMMM/YYYY"
+                                            monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                                             style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
                                             cancelText="Cancelar"></ion-datetime>
                                     </ion-item>
@@ -819,9 +824,12 @@
                                             {{columna.nombreVisual | uppercase}}
                                             <ion-text *ngIf="columna.requerida" color="danger">*</ion-text>
                                         </ion-label>
-                                        <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss"
+                                        <ion-datetime displayFormat="DD/MM/YYYY HH:mm:ss"
                                             [(ngModel)]="seleccionada[columna.nombre]" class="componente"
                                             (ionChange)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            monthShortNames="ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic"
+                                            pickerFormat="DD/MMMM/YYYY HH:mm:ss"
+                                            monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                                             style="padding-bottom: 6px;" [disabled]="columna.lectura" doneText="Aceptar"
                                             cancelText="Cancelar"></ion-datetime>
                                     </ion-item>
