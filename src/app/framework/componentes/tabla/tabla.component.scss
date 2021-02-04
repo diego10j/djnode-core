@@ -1,8 +1,4 @@
-.componenteFiltro {
-  width: 90%;
-  font-size: 0.7rem;
-  background-color: white !important;
-}
+
 
 .componenteTexto {
   white-space: pre-line;
@@ -50,11 +46,12 @@ ion-spinner {
     padding-left: 30px;
     font-size: 0.8rem;
     border-radius: 15px;
-    background: #F0F2F5;
+    background: var(--ion-color-light);
   }
 
   .tabla-expandible {
     border-right: 1px solid #cecece;
+    border-color: var(--ion-color-light-shade);
   }
 
   .tabla-expandible:last-of-type {
@@ -111,16 +108,13 @@ ion-spinner {
   }
 
   .p-dropdown-panel .p-dropdown-items {
-    background: white;
+    background: var(--ion-background-color);
   }
 
   .p-datatable {
-    .p-component {
-      background: none;
-    }
 
     .p-datatable-loading-overlay {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: rgba(0, 0, 0, 0.2);
     }
 
     .pi-sort-alt::before {

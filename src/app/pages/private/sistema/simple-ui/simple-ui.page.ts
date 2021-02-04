@@ -22,12 +22,13 @@ export class SimpleUiPage extends Pantalla {
   async ionViewWillEnter() {
     await this.tabTabla1.setTablaConfiguracion(1);
     this.condicionTabla2.condicion = `${this.tabTabla1.campoPrimario} = ?`;
-    this.tabTabla1.setLectura(false);
+    this.tabTabla1.setLectura(true);
     this.tabTabla1.mostrarBotonModificar();
+    this.tabTabla1.mostrarBotonInsertar();
+    this.tabTabla1.mostrarBotonEliminar();
     this.tabTabla1.onModificar = () => { this.modificar(); };
     this.tabTabla1.onEliminar = () => { this.eliminar(); };
     this.tabTabla1.onInsertar = () => { this.insertar(); };
-    this.tabTabla1.setTipoSeleccionSimple();
     this.tabTabla1.dibujar(); // última
 
 
