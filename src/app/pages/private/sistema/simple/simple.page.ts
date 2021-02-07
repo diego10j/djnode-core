@@ -18,6 +18,7 @@ export class SimplePage extends Pantalla{
     // Configura la tabla
     await this.tabTabla1.setTablaConfiguracion(1);
     this.tabTabla1.setLectura(false);
+    this.tabTabla1.getColumna('ide_perf').setCombo('sis_perfil', 'ide_perf', 'nom_perf');
     //this.tabTabla1.setTipoFormularioIonic();
     this.tabTabla1.dibujar(); // última
   }

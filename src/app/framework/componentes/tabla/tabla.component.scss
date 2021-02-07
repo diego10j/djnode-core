@@ -1,5 +1,3 @@
-
-
 .componenteTexto {
   white-space: pre-line;
   padding-left: 5px;
@@ -18,6 +16,7 @@
   width: 100% !important;
   font-size: 0.85rem !important;
   color: var(--ion-color-light-contrast);
+  background: transparent;
 }
 
 ion-card {
@@ -35,6 +34,7 @@ ion-spinner {
 }
 
 :host ::ng-deep {
+
   .tabla-loading {
     display: flex;
     align-items: center;
@@ -84,12 +84,10 @@ ion-spinner {
     border: 0;
   }
 
-
-
   .p-paginator {
     font-size: 0.8rem;
     padding: 0;
-    background:none;
+    background: none;
     //background: linear-gradient(0deg, rgba(254,254,254,1) 0%, rgba(238,238,238,1) 100%);
     padding-top: 0;
     padding-bottom: 0;
@@ -107,12 +105,7 @@ ion-spinner {
     }
   }
 
-  .p-dropdown-panel .p-dropdown-items {
-    background: var(--ion-background-color);
-  }
-
   .p-datatable {
-
     .p-datatable-loading-overlay {
       background-color: rgba(0, 0, 0, 0.2);
     }
@@ -193,6 +186,34 @@ ion-spinner {
       //background: linear-gradient(0deg, rgba(254,254,254,1) 0%, rgba(238,238,238,1) 100%);
       padding-top: 0%;
       padding-bottom: 0%;
+    }
+
+    .p-dropdown {
+      min-height: 25px;
+      padding: 0;
+      display: flex;
+      background: transparent;
+    }
+    .p-inputtext {
+      background: transparent;
+    }
+    .p-autocomplete {
+      background: transparent;
+      .p-autocomplete-input{
+        padding-right: 20px;
+      }
+    }
+    .p-autocomplete-panel .p-autocomplete-items{
+      width: 100%;
+    }
+
+    .icono-autompletar{
+      float:right;
+      margin-top:-20px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      z-index: 1000;
+      position: sticky
     }
   }
 

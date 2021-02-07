@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ContentChild, TemplateRef, ɵConsole } from '@angular/core';
 import Tabla from '../../clases/tabla';
 import { SistemaService } from '../../servicios/sistema.service';
 import Columna from '../../clases/columna';
@@ -13,7 +13,7 @@ import { ModalController } from '@ionic/angular';
 import { VisualizadorImagenComponent } from '../visualizador-imagen/visualizador-imagen.component';
 import { FormatoTablaComponent } from '../formato-tabla/formato-tabla.component';
 import { ArbolComponent } from '../arbol/arbol.component';
-import { MensajeComponent } from '../mensaje/mensaje.component';
+
 
 @Component({
   selector: 'app-tabla',
@@ -156,7 +156,7 @@ export class TablaComponent implements OnInit {
   private bodyServicio: any;
   //Seleccion single / multiple se
   tipoSeleccion?: 'simple' | 'multiple';
-  selectionMode= 'single';
+  selectionMode = 'single';
   //Botones Tabla
   isBotonInsertar = true;
   isBotonEliminar = true;
@@ -178,7 +178,7 @@ export class TablaComponent implements OnInit {
   fechaPickerConfig = {
     allowMultiSelect: false,
     appendTo: document.body,
-    format:  this.utilitario.FORMATO_FECHA_FRONT,//environment.FORMATO_FECHA,
+    format: this.utilitario.FORMATO_FECHA_FRONT,//environment.FORMATO_FECHA,
     locale: 'es',
     closeOnSelectDelay: 0,
     displayDate: '',
@@ -203,7 +203,7 @@ export class TablaComponent implements OnInit {
   fechaHoraPickerConfig = {
     allowMultiSelect: false,
     appendTo: document.body,
-    format:  this.utilitario.FORMATO_FECHA_HORA_FRONT,//environment.FORMATO_FECHAHORA,
+    format: this.utilitario.FORMATO_FECHA_HORA_FRONT,//environment.FORMATO_FECHAHORA,
     locale: 'es',
     hours24Format: 'HH',
     showSeconds: true,
@@ -660,7 +660,7 @@ export class TablaComponent implements OnInit {
             colActual.listaCombo = respuest.datos;
             if (colActual.nullCombo) {
               //Agrega null a opcion
-              colActual.listaCombo.unshift({ value: null, label: '|' });
+              colActual.listaCombo.unshift({ value: null, label: ' ' });
             }
           }
         }, (err) => {
@@ -676,7 +676,7 @@ export class TablaComponent implements OnInit {
               colActual.listaCombo = respuest.datos;
               if (colActual.nullCombo) {
                 //Agrega null a opcion
-                colActual.listaCombo.unshift({ value: null, label: '|' });
+                colActual.listaCombo.unshift({ value: null, label: ' ' });
               }
             }
           }, (err) => {
@@ -897,12 +897,13 @@ export class TablaComponent implements OnInit {
     if (this.utilitario.isDefined(valor)) {
       if (columna.componente === 'Calendario') {
         if (typeof valor === 'object') {
-          fila[columna.nombre] = this.utilitario.getFormatoFecha(valor);
+          //fila[columna.nombre] = this.utilitario.getFormatoFecha(valor);
+          fila[columna.nombre] = this.utilitario.getFormatoFecha(valor, this.utilitario.FORMATO_FECHA_FRONT);
         }
         //valida que sea una fecha valida
         valor = fila[columna.nombre];
-        const d = new Date(valor);
-        if (isNaN(d.getTime())) {
+        //const d = new Date(valor);
+        if (this.utilitario.isFechaValida(valor, this.utilitario.FORMATO_FECHA_FRONT) === false) {
           this.utilitario.agregarMensajeAdvertencia('Fecha no válida '
             + '<strong>' + valor + '</strong> en la columna "' + columna.nombreVisual.toUpperCase() + '"');
           return false;
@@ -925,12 +926,14 @@ export class TablaComponent implements OnInit {
       }
       else if (columna.componente === 'CalendarioHora') {
         if (typeof valor === 'object') {
-          fila[columna.nombre] = this.utilitario.getFormatoFechaHora(valor);
+          //fila[columna.nombre] = this.utilitario.getFormatoFechaHora(valor);
+          fila[columna.nombre] = this.utilitario.getFormatoFecha(valor, this.utilitario.FORMATO_FECHA_FRONT);
+
         }
         //valida que sea una fecha valida
         valor = fila[columna.nombre];
-        const d = new Date(valor);
-        if (isNaN(d.getTime())) {
+        // const d = new Date(valor);
+        if (this.utilitario.isFechaValida(valor, this.utilitario.FORMATO_FECHA_FRONT) === false) {
           this.utilitario.agregarMensajeAdvertencia('Fecha no válida '
             + '<strong>' + valor + '</strong> en la columna "' + columna.nombreVisual.toUpperCase() + '"');
           return false;
@@ -1117,6 +1120,15 @@ export class TablaComponent implements OnInit {
     }
   }
 
+  /**Cuando da clic en el icono borrar del autocompletar */
+  onBorrarAutocompletarChange(event,nombreColumna, fila) {
+    //Pone el foco en el input del autocompletar
+    event.target.parentElement.firstChild.firstChild.firstChild.focus();
+    this.seleccionada = fila;
+    this.seleccionada[nombreColumna] = null;
+    this.onMetodoChange(event, nombreColumna, fila);
+  }
+
 
 
   /**
@@ -1255,7 +1267,8 @@ export class TablaComponent implements OnInit {
           let valor = this.seleccionada[_nombreColumna.toLowerCase()];
           if (col.componente === 'Calendario') {
             if (typeof valor === 'object') {
-              valor = this.utilitario.getFormatoFecha(valor);
+              //valor = this.utilitario.getFormatoFecha(valor);
+              valor = this.utilitario.getFormatoFecha(valor, this.utilitario.FORMATO_FECHA_FRONT);
             }
           }
           else if (col.componente === 'Autocompletar') {
@@ -1292,7 +1305,8 @@ export class TablaComponent implements OnInit {
           let valor = this.seleccionada[_nombreColumna.toLowerCase()];
           if (col.componente === 'Calendario') {
             if (typeof valor === 'object') {
-              valor = this.utilitario.getFormatoFecha(valor);
+              //valor = this.utilitario.getFormatoFecha(valor);
+              valor = this.utilitario.getFormatoFecha(valor, this.utilitario.FORMATO_FECHA_FRONT);
             }
           }
           else if (col.componente === 'Autocompletar') {
@@ -1683,9 +1697,9 @@ export class TablaComponent implements OnInit {
         delete filaActual[this.tabla.campoPrimario];
       }
       //valores en blanco to null Fechas
-      for (const colActual of colFecha) {
-        filaActual = this.validarFila(colActual, filaActual);
-      }
+      //for (const colActual of colFecha) {
+      //  filaActual = this.validarFila(colActual, filaActual);
+      //}
       // Valores Mayusculas
       for (const colActual of colMayusculas) {
         filaActual = this.validarFila(colActual, filaActual);
@@ -1695,11 +1709,23 @@ export class TablaComponent implements OnInit {
         }
       }
       // Valores Autocompletar obj
-      for (const colActual of colCombo) {
-        filaActual = this.validarFila(colActual, filaActual);
-      }
+      // for (const colActual of colCombo) {
+      //   filaActual = this.validarFila(colActual, filaActual);
+      // }
 
-      objInsert['valores'] = filaActual;
+      //Valores a Insertar
+      const valoresInsertados = {};
+      for (const colActual of this.tabla.columnas) {
+        // filaActual = this.validarFila(colActual, filaActual);
+        valoresInsertados[colActual.nombre] = filaActual[colActual.nombre];
+        //Formato fecha para la base de datos
+        if (colActual.componente === 'Calendario') {
+
+          valoresInsertados[colActual.nombre] = this.utilitario.getFormatoFecha(this.utilitario.toDate(filaActual[colActual.nombre], this.utilitario.FORMATO_FECHA_FRONT));
+
+        }
+      }
+      objInsert['valores'] = valoresInsertados;
       listaSQL.push(objInsert);
     }
     const lisModificadas = this.getModificadas();
@@ -1728,6 +1754,10 @@ export class TablaComponent implements OnInit {
       const valoresModifica = {};
       for (const colM of colModificadas) {
         valoresModifica[colM] = filaActual[colM.toLowerCase()];
+        //Formato fecha para la base de datos 
+        if (this.getColumna(colM.toLowerCase()).componente === 'Calendario') {
+          valoresModifica[colM] = this.utilitario.getFormatoFecha(this.utilitario.toDate(filaActual[colM.toLowerCase()], this.utilitario.FORMATO_FECHA_FRONT));
+        }
       }
       objModifica['valores'] = valoresModifica;
       const condicionModifica: Condicion = { condicion: this.campoPrimario + ' = ?', valores: [filaActual[this.tabla.campoPrimario.toLowerCase()]] };
@@ -1915,7 +1945,7 @@ export class TablaComponent implements OnInit {
   setTipoSeleccionSimple() {
     this.tipoSeleccion = 'simple';
     this.lectura = true;
-    this.selectionMode=null;//'single';
+    this.selectionMode = null;//'single';
   }
   /**
    * Hace de tipo seleccion multiple con check
@@ -1923,7 +1953,7 @@ export class TablaComponent implements OnInit {
   setTipoSeleccionMultiple() {
     this.tipoSeleccion = 'multiple';
     this.lectura = true;
-    this.selectionMode=null;
+    this.selectionMode = null;
   }
 
 

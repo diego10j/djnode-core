@@ -714,7 +714,10 @@ export class UtilitarioService {
      * @param formato 
      */
     toDate(fecha, formato = 'YYYY-MM-DD'): Date {
-        return moment(fecha, formato).toDate();
+        if(this.isDefined(fecha)){
+            return moment(fecha, formato).toDate();
+        }
+       return null;
     }
 
     /**

@@ -98,7 +98,7 @@ export default class Columna {
             condicion
         };
         this.componente = "Combo";
-        this.longitud = 50; // ancho por defecto de una columna que se hace combo
+        this.setLongitud(50); // ancho por defecto de una columna que se hace combo
     }
 
     setComboSql(sql: string) {
@@ -106,7 +106,7 @@ export default class Columna {
             sql
         };
         this.componente = "Combo";
-        this.longitud = 50; // ancho por defecto de una columna que se hace combo
+        this.setLongitud(50);// ancho por defecto de una columna que se hace combo
     }
 
     setAutocompletar() {

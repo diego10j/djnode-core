@@ -1359,6 +1359,8 @@ ion-button {
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   color: var(--ion-color-text);
+  font-size: 0.85rem;
+  display: flex;
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
   color: var(--ion-color-text);
@@ -1406,4 +1408,65 @@ ion-button {
 }
 .p-orderlist .p-orderlist-list .p-orderlist-droppoint.p-orderlist-droppoint-highlight {
   background: var(--ion-background-active);
+}
+/////
+.p-autocomplete-panel {
+  color: var(--ion-color-text);
+  background: var(--ion-background-color);
+  border-color: var(--ion-color-medium);
+}
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item {
+  color: var(--ion-color-text);
+  font-size: 0.85rem;
+  display: flex;
+}
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item:hover {
+  background:var(--ion-color-light-tint);
+  color: var(--ion-color-text);
+}
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
+  background: var(--ion-background-active);
+  color: var(--ion-color-light-contrast);
+}
+
+
+/////
+.dp-popup {
+  background: var(--ion-background-color)!important;
+  border-color: var(--ion-color-light-shade) !important;
+}
+dp-day-calendar .dp-day-calendar-container {
+  background: var(--ion-background-color)!important;
+}
+dp-calendar-nav.dp-material .dp-nav-header-btn {
+  border-color: var(--ion-color-light-shade) !important;
+  background: var(--ion-background-color)!important;
+  color: var(--ion-color-text);
+}
+dp-day-calendar.dp-material .dp-calendar-weekday {
+  color: var(--ion-color-light-contrast);
+  border-color: var(--ion-color-light-contrast) !important;
+}
+dp-day-calendar.dp-material .dp-calendar-day, dp-day-calendar.dp-material .dp-calendar-month {
+  background: var(--ion-background-color)!important;
+  color: var(--ion-color-text);
+  border-color: var(--ion-color-light-shade) !important;
+}
+dp-calendar-nav.dp-material .dp-calendar-nav-container {
+  border-color: var(--ion-color-light-shade) !important;
+}
+dp-day-calendar.dp-material .dp-selected {
+  background: var(--ion-background-active)!important;
+  color: var(--ion-color-light-contrast)!important;
+}
+dp-calendar-nav.dp-material .dp-calendar-nav-container {
+  border-color: var(--ion-color-light-shade) !important;
+}
+dp-day-calendar.dp-material .dp-calendar-wrapper {
+  border-color: var(--ion-color-light-shade) !important;
+}
+dp-calendar-nav .dp-current-location-btn{
+  background: var(--ion-background-color)!important;
+  box-shadow:none !important;
+  border:none !important;
 }

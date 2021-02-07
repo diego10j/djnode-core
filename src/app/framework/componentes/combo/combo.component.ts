@@ -69,7 +69,7 @@ export class ComboComponent implements OnInit {
           this.listaCombo = respuest.datos;
           if (this.nullCombo) {
             //Agrega null a opcion
-            this.listaCombo.unshift({ value: null, label: 'Seleccionar...' });
+            this.listaCombo.unshift({ value: null, label: '  ' });
           }
         }
       }, (err) => {
