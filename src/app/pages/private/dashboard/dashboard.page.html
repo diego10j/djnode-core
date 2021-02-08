@@ -75,7 +75,7 @@
                         <ion-card-content>
                             <ion-row class="alinear-medio centrar">
                                 <ion-col size="6">
-                                    <img style="height: 82px" [src]="datosClima.icon">
+                                    <img style="height: 82px" [src]="datosClima.icon | domSanitizer">
                                 </ion-col>
                                 <ion-col size="6">
                                     <ion-label style="font-size:3.3rem">
