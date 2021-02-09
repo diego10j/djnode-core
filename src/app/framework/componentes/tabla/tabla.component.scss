@@ -34,7 +34,6 @@ ion-spinner {
 }
 
 :host ::ng-deep {
-
   .tabla-loading {
     display: flex;
     align-items: center;
@@ -103,6 +102,21 @@ ion-spinner {
         padding-left: 5px;
       }
     }
+  }
+
+  .p-dropdown {
+    min-height: 30px;
+    display: flex;
+  }
+  .componente-formulario {
+    height: 30px;
+  }
+
+  .p-inputnumber {
+    height: 30px;
+  }
+  .p-inputtext {
+    height: 30px;
   }
 
   .p-datatable {
@@ -194,26 +208,29 @@ ion-spinner {
       display: flex;
       background: transparent;
     }
+    .p-inputnumber {
+      background: transparent;
+    }
     .p-inputtext {
       background: transparent;
     }
     .p-autocomplete {
       background: transparent;
-      .p-autocomplete-input{
+      .p-autocomplete-input {
         padding-right: 20px;
       }
     }
-    .p-autocomplete-panel .p-autocomplete-items{
+    .p-autocomplete-panel .p-autocomplete-items {
       width: 100%;
     }
 
-    .icono-autompletar{
-      float:right;
-      margin-top:-20px;
+    .icono-autompletar {
+      float: right;
+      margin-top: -20px;
       cursor: pointer;
       font-size: 0.8rem;
       z-index: 1000;
-      position: sticky
+      position: sticky;
     }
   }
 

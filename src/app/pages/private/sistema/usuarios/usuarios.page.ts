@@ -17,7 +17,7 @@ export class UsuariosPage extends Pantalla {
   @ViewChild('modTabla2', { static: false }) modTabla2: ModalTablaComponent;
 
   condicionTabla2: Condicion = { condicion: 'ide_usua = ?', valores: [-1] };
-
+  
   async ionViewWillEnter() {
     this.barra.ocultarBotonGuardar();
     // Configura Tabla opcion

@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, ContentChild, TemplateRef, ɵConsole } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren, ContentChild, TemplateRef } from '@angular/core';
 import Tabla from '../../clases/tabla';
 import { SistemaService } from '../../servicios/sistema.service';
 import Columna from '../../clases/columna';
@@ -768,7 +768,6 @@ export class TablaComponent implements OnInit {
       }
     }
     // this.tabla.datos=[];
-
     this.seleccionada = null;
     this.sistemaService.consultarTabla(this.tabla.nombreTabla, this.tabla.campoOrden, condicionesTabla,
       this.tabla.numeroFilas, this.tabla.pagina).subscribe(resp => {
@@ -800,7 +799,7 @@ export class TablaComponent implements OnInit {
               //si es tipo formulario y no hay datos inserta una fila 
               if (this.tipoFormulario) {
                 if (this.lectura === false) {
-                  this.crearFila();
+                 this.crearFila();
                 }
               }
             }
@@ -1121,7 +1120,7 @@ export class TablaComponent implements OnInit {
   }
 
   /**Cuando da clic en el icono borrar del autocompletar */
-  onBorrarAutocompletarChange(event,nombreColumna, fila) {
+  onBorrarAutocompletarChange(event, nombreColumna, fila) {
     //Pone el foco en el input del autocompletar
     event.target.parentElement.firstChild.firstChild.firstChild.focus();
     this.seleccionada = fila;
@@ -1430,7 +1429,7 @@ export class TablaComponent implements OnInit {
 
     filaNueva['insertada'] = true;
     this.datos.unshift(filaNueva);
-    this.seleccionada = this.datos[0]; //selecciona fila insertada
+    this.seleccionada = filaNueva
   }
 
   public limpiar(): void {

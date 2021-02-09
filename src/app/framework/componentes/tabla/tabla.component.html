@@ -601,10 +601,10 @@
                     <ng-container *ngFor="let columna of columnas">
                         <ion-col *ngIf="columna.visible" class="p-field" [size]="numeroColumnasGrid">
                             <ion-label>
-                                <ion-skeleton-text animated style="width: 30%;height: 20px"></ion-skeleton-text>
+                                <ion-skeleton-text animated style="width: 30%;height: 18px"></ion-skeleton-text>
                             </ion-label>
                             <div class="p-inputtext-sm" style="white-space:pre-line;">
-                                <ion-skeleton-text animated style="width: 99%; height: 35px"></ion-skeleton-text>
+                                <ion-skeleton-text animated style="width: 99%; height: 28px"></ion-skeleton-text>
                             </div>
                         </ion-col>
                     </ng-container>
@@ -623,12 +623,12 @@
                                 <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
                                     <input pInputText type="text" [(ngModel)]="seleccionada[columna.nombre]"
-                                        class="componente" (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        class="componente componente-formulario" (change)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         [disabled]="columna.lectura" [maxlength]="columna.longitud">
                                 </div>
                                 <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
-                                    <p-calendar appendTo="body" inputStyleClass="componente" [style]="{'width':'100%'}"
+                                    <p-calendar appendTo="body" inputStyleClass="componente componente-formulario" [style]="{'width':'100%'}"
                                         dateFormat="dd/mm/yy" showButtonBar="false" [yearNavigator]="true"
                                         yearRange="1950:2050"
                                         (onSelect)="onMetodoChange($event,columna.nombre,seleccionada)"
@@ -641,7 +641,7 @@
                                 </div>
                                 <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
-                                    <p-inputMask mask="99:99:99" [style]="{'width':'99%'}" styleClass="componente"
+                                    <p-inputMask mask="99:99:99" [style]="{'width':'99%'}" styleClass="componente componente-formulario"
                                         (change)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         [(ngModel)]="seleccionada[columna.nombre]" placeholder="hh:mm:ss"
                                         [disabled]="columna.lectura">
@@ -650,7 +650,7 @@
                                 <div *ngIf="columna.componente === 'CalendarioHora'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
                                     <p-inputMask mask="9999-99-99 99:99:99" [style]="{'width':'99%'}"
-                                        styleClass="componente"
+                                        styleClass="componente componente-formulario "
                                         (change)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         [(ngModel)]="seleccionada[columna.nombre]" placeholder="dd/mm/aaaa hh:mm:ss"
                                         [disabled]="columna.lectura">

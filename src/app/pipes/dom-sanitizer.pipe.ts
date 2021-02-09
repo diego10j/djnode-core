@@ -10,7 +10,7 @@ export class DomSanitizerPipe implements PipeTransform {
 
   transform( img: string ): any {
     const domImg = `background-image: url('${ img }')`;
-    return this.domSanitizer.bypassSecurityTrustStyle( domImg );
+    return this.domSanitizer.bypassSecurityTrustResourceUrl( domImg );
   }
 
 }
