@@ -1,12 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Pantalla } from '../../../../framework/clases/pantalla';
-import { CalendarioComponent } from '../../../../framework/componentes/calendario/calendario.component';
 import { ComboComponent } from '../../../../framework/componentes/combo/combo.component';
 import { RangoFechasComponent } from '../../../../framework/componentes/rango-fechas/rango-fechas.component';
-import { TextoComponent } from '../../../../framework/componentes/texto/texto.component';
-import { AutocompletarComponent } from '../../../../framework/componentes/autocompletar/autocompletar.component';
-import { CheckComponent } from '../../../../framework/componentes/check/check.component';
-import { HoraComponent } from '../../../../framework/componentes/hora/hora.component';
+import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
 
 @Component({
   selector: 'app-consulta-auditoria',
@@ -17,46 +13,49 @@ export class ConsultaAuditoriaPage extends Pantalla {
 
   @ViewChild('ranFechas', { static: false }) ranFechas: RangoFechasComponent;
   @ViewChild('comUsuarios', { static: false }) comUsuarios: ComboComponent;
-  @ViewChild('autUsuarios', { static: false }) autUsuarios: AutocompletarComponent;
-  @ViewChild('chkPrueba', { static: false }) chkPrueba: CheckComponent;
-
-  @ViewChild('horHora', { static: false }) horHora: HoraComponent;
+  @ViewChild('tabTabla1', { static: false }) tabTabla1: TablaComponent;
 
 
 
   async ionViewWillEnter() {
     this.barra.ocultarBotonGuardar();
-    this.comUsuarios.onChange = () => { this.seleccionarUsuario(); };
-    this.comUsuarios.setCombo('sis_usuario', 'ide_usua', 'nom_usua');
+    this.comUsuarios.onChange = () => { this.buscar(); };
+    this.comUsuarios.setCombo('sis_usuario', 'ide_usua', 'nom_usua', 'activo_usua = true');
     this.ranFechas.setFechaInicio(this.utilitario.getFechaActualDate());
-    this.ranFechas.setFechasMaximas();
-    this.ranFechas.onBuscar = () => { this.seleccionarUsuario(); };
+    this.ranFechas.setFechaFin(this.utilitario.getFechaActualDate());
+    this.ranFechas.setControlarFechasMaximas();
+    this.ranFechas.onBuscar = () => { this.buscar(); };
 
-
-    this.autUsuarios.onChange = () => { this.guardar(); };
-    this.autUsuarios.setAutocompletar('sis_usuario', 'ide_usua', 'nom_usua');
-
-    this.chkPrueba.onChange = () => { this.guardar(); };
+    let parametrosServicio = {
+      fecha_inicio: this.ranFechas.getValorFechaInicial(),
+      fecha_fin: this.ranFechas.getValorFechaInicial(),
+      ide_usua: null
+    }
+    await this.tabTabla1.setTablaServicio('api/seguridad/getConsultaAuditoria', parametrosServicio, 1);
+    this.tabTabla1.setTitulo('Consulta Auditoria Usuarios');
+    this.tabTabla1.getColumna('nom_usua').setFiltro(true);
+    this.tabTabla1.getColumna('nom_acau').setFiltro(true);
+   // this.tabTabla1.getColumna('pantalla').setFiltro(true);
+    this.tabTabla1.getColumna('ip_auac').setFiltro(true);
+    this.tabTabla1.setFilasPorPagina(20);
+    this.tabTabla1.dibujar();
 
   }
 
   buscar(): void {
-    console.log('FI ' + this.ranFechas.getValorFechaInicial() + ',,,,,,,,,,' + this.ranFechas.getValorDateFechaInicial());
-    console.log('FF ' + this.ranFechas.getValorFechaFinal() + ',,,,,,,,,,' + this.ranFechas.getValorDateFechaFinal());
+    let parametrosServicio = {
+      fecha_inicio: this.ranFechas.getValorFechaInicial(),
+      fecha_fin: this.ranFechas.getValorFechaInicial(),
+      ide_usua: this.comUsuarios.getValor()
+    };
+    this.tabTabla1.ejecutarServicio(parametrosServicio);
   }
 
-  seleccionarUsuario(): void {
-    this.comUsuarios.setInvalid(true);
-    console.log(this.comUsuarios.getValor());
-  }
+
 
   guardar(): void {
-    this.autUsuarios.setInvalid(true);
-    this.chkPrueba.setInvalid(true);
-    console.log(this.autUsuarios.getValor());
-    this.horHora.setInvalid(true);
   }
-  
+
   insertar(): void {
 
   }

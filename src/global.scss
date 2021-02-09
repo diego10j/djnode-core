@@ -1110,6 +1110,11 @@ ion-button {
 */
 
 //textos
+.p-inputnumber {
+  background: var(--ion-background-color);
+  color: var(--ion-color-text);
+  border-color: var(--ion-color-light-shade);
+}
 .p-inputtext {
   background: var(--ion-background-color);
   color: var(--ion-color-text);
@@ -1117,12 +1122,10 @@ ion-button {
 }
 
 .p-inputtext:enabled:focus {
-  outline: 0 none;
-  outline-offset: 0;
   box-shadow: none;
 }
 
-.p-component{
+.p-component {
   background: var(--ion-background-color);
   color: var(--ion-color-text);
   border-color: var(--ion-color-light-shade);
@@ -1154,16 +1157,22 @@ ion-button {
 .p-tieredmenu .p-menuitem.p-menuitem-active > .p-menuitem-link {
   background: var(--ion-color-light);
 }
-.p-tieredmenu .p-menuitem.p-menuitem-active > .p-menuitem-link .p-menuitem-text {
+.p-tieredmenu
+  .p-menuitem.p-menuitem-active
+  > .p-menuitem-link
+  .p-menuitem-text {
   color: var(--ion-color-light-contrast);
 }
-.p-tieredmenu .p-menuitem.p-menuitem-active > .p-menuitem-link .p-menuitem-icon  {
+.p-tieredmenu
+  .p-menuitem.p-menuitem-active
+  > .p-menuitem-link
+  .p-menuitem-icon {
   color: var(--ion-color-light-contrast);
 }
 .p-tieredmenu .p-menu-separator {
   border-color: var(--ion-color-light-shade);
 }
-.p-tieredmenu.p-tieredmenu-overlay  {
+.p-tieredmenu.p-tieredmenu-overlay {
   background: var(--ion-background-color);
   border-color: var(--ion-color-light-shade);
 }
@@ -1172,16 +1181,22 @@ ion-button {
   background: var(--ion-background-color);
   border-color: var(--ion-color-light-shade);
 }
-.p-contextmenu  .p-menu-separator {
+.p-contextmenu .p-menu-separator {
   border-color: var(--ion-color-light-shade);
 }
-.p-contextmenu  .p-menuitem.p-menuitem-active > .p-menuitem-link {
+.p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link {
   background: var(--ion-color-light);
 }
-.p-contextmenu .p-menuitem.p-menuitem-active > .p-menuitem-link .p-menuitem-text {
+.p-contextmenu
+  .p-menuitem.p-menuitem-active
+  > .p-menuitem-link
+  .p-menuitem-text {
   color: var(--ion-color-light-contrast);
 }
-.p-contextmenu  .p-menuitem.p-menuitem-active > .p-menuitem-link .p-menuitem-icon  {
+.p-contextmenu
+  .p-menuitem.p-menuitem-active
+  > .p-menuitem-link
+  .p-menuitem-icon {
   color: var(--ion-color-light-contrast);
 }
 .p-tieredmenu .p-menu-separator {
@@ -1194,7 +1209,7 @@ ion-button {
 }
 .p-column-filter-overlay-menu .p-column-filter-buttonbar {
   //background: var(--ion-color-light);
-  padding:8px;
+  padding: 8px;
 }
 .p-overlaypanel .p-overlaypanel-content {
   background: var(--ion-background-color);
@@ -1205,12 +1220,16 @@ ion-button {
   background: var(--ion-background-color);
   color: var(--ion-color-text);
 }
-.p-tree .p-tree-container .p-treenode .p-treenode-content .p-checkbox .p-indeterminate .p-checkbox-icon {
+.p-tree
+  .p-tree-container
+  .p-treenode
+  .p-treenode-content
+  .p-checkbox
+  .p-indeterminate
+  .p-checkbox-icon {
   color: var(--ion-color-text);
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content:focus {
-  outline: 0 none;
-  outline-offset: 0;
   box-shadow: none;
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight {
@@ -1218,15 +1237,34 @@ ion-button {
   color: var(--ion-color-light-contrast);
 }
 
-.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight .p-tree-toggler,
-.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight .p-treenode-icon {
+.p-tree
+  .p-tree-container
+  .p-treenode
+  .p-treenode-content.p-highlight
+  .p-tree-toggler,
+.p-tree
+  .p-tree-container
+  .p-treenode
+  .p-treenode-content.p-highlight
+  .p-treenode-icon {
   color: var(--ion-color-text);
 }
-.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight .p-tree-toggler:hover,
-.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight .p-treenode-icon:hover {
+.p-tree
+  .p-tree-container
+  .p-treenode
+  .p-treenode-content.p-highlight
+  .p-tree-toggler:hover,
+.p-tree
+  .p-tree-container
+  .p-treenode
+  .p-treenode-content.p-highlight
+  .p-treenode-icon:hover {
   color: var(--ion-color-light-contrast);
 }
-.p-tree .p-tree-container .p-treenode .p-treenode-content.p-treenode-selectable:not(.p-highlight):hover {
+.p-tree
+  .p-tree-container
+  .p-treenode
+  .p-treenode-content.p-treenode-selectable:not(.p-highlight):hover {
   background: var(--ion-color-medium);
   color: var(--ion-color-light-contrast);
 }
@@ -1283,7 +1321,6 @@ ion-button {
 .p-datepicker table td.p-datepicker-today > span {
   background: var(--ion-color-light);
   color: var(--ion-color-text);
-
 }
 .p-datepicker .p-datepicker-buttonbar {
   border-color: var(--ion-color-light-shade);
@@ -1293,28 +1330,34 @@ ion-button {
 }
 
 .p-datepicker .p-timepicker button {
-
   color: var(--ion-color-medium);
-
 }
 .p-datepicker .p-timepicker button:focus {
-
   box-shadow: none;
 }
 .p-datepicker.p-datepicker-multiple-month .p-datepicker-group {
   border-color: var(--ion-color-light-shade);
 }
-.p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):hover {
+.p-datepicker:not(.p-disabled)
+  table
+  td
+  span:not(.p-highlight):not(.p-disabled):hover {
   background: var(--ion-color-light-tint);
 }
-.p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):focus {
-
+.p-datepicker:not(.p-disabled)
+  table
+  td
+  span:not(.p-highlight):not(.p-disabled):focus {
   box-shadow: none;
 }
-.p-datepicker:not(.p-disabled) .p-monthpicker .p-monthpicker-month:not(.p-highlight):not(.p-disabled):hover {
+.p-datepicker:not(.p-disabled)
+  .p-monthpicker
+  .p-monthpicker-month:not(.p-highlight):not(.p-disabled):hover {
   background: var(--ion-color-light-tint);
 }
-.p-datepicker:not(.p-disabled) .p-monthpicker .p-monthpicker-month:not(.p-highlight):not(.p-disabled):focus {
+.p-datepicker:not(.p-disabled)
+  .p-monthpicker
+  .p-monthpicker-month:not(.p-highlight):not(.p-disabled):focus {
   box-shadow: none;
 }
 .p-datepicker table td > span.p-highlight {
@@ -1322,7 +1365,8 @@ ion-button {
   color: var(--ion-color-light-contrast);
 }
 
-.p-datepicker .p-datepicker-header .p-datepicker-prev:enabled:hover, .p-datepicker .p-datepicker-header .p-datepicker-next:enabled:hover {
+.p-datepicker .p-datepicker-header .p-datepicker-prev:enabled:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-next:enabled:hover {
   background: var(--ion-color-medium);
   color: var(--ion-color-light-contrast);
 }
@@ -1354,15 +1398,16 @@ ion-button {
   border-color: var(--ion-color-light-shade);
 }
 .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
-
-  color:var(--ion-color-medium);
+  color: var(--ion-color-medium);
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   color: var(--ion-color-text);
   font-size: 0.85rem;
   display: flex;
 }
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
+.p-dropdown-panel
+  .p-dropdown-items
+  .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
   color: var(--ion-color-text);
   background: var(--ion-color-light-tint);
 }
@@ -1396,7 +1441,7 @@ ion-button {
   color: var(--ion-color-text);
 }
 .p-orderlist .p-orderlist-list .p-orderlist-item:not(.p-highlight):hover {
-  background:var(--ion-color-light-tint);
+  background: var(--ion-color-light-tint);
   color: var(--ion-color-text);
 }
 .p-orderlist .p-orderlist-list .p-orderlist-item:focus {
@@ -1406,7 +1451,9 @@ ion-button {
   color: var(--ion-color-light-contrast);
   background: var(--ion-background-active);
 }
-.p-orderlist .p-orderlist-list .p-orderlist-droppoint.p-orderlist-droppoint-highlight {
+.p-orderlist
+  .p-orderlist-list
+  .p-orderlist-droppoint.p-orderlist-droppoint-highlight {
   background: var(--ion-background-active);
 }
 /////
@@ -1421,7 +1468,7 @@ ion-button {
   display: flex;
 }
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item:hover {
-  background:var(--ion-color-light-tint);
+  background: var(--ion-color-light-tint);
   color: var(--ion-color-text);
 }
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
@@ -1429,26 +1476,26 @@ ion-button {
   color: var(--ion-color-light-contrast);
 }
 
-
 /////
 .dp-popup {
-  background: var(--ion-background-color)!important;
+  background: var(--ion-background-color) !important;
   border-color: var(--ion-color-light-shade) !important;
 }
 dp-day-calendar .dp-day-calendar-container {
-  background: var(--ion-background-color)!important;
+  background: var(--ion-background-color) !important;
 }
 dp-calendar-nav.dp-material .dp-nav-header-btn {
   border-color: var(--ion-color-light-shade) !important;
-  background: var(--ion-background-color)!important;
+  background: var(--ion-background-color) !important;
   color: var(--ion-color-text);
 }
 dp-day-calendar.dp-material .dp-calendar-weekday {
   color: var(--ion-color-light-contrast);
   border-color: var(--ion-color-light-contrast) !important;
 }
-dp-day-calendar.dp-material .dp-calendar-day, dp-day-calendar.dp-material .dp-calendar-month {
-  background: var(--ion-background-color)!important;
+dp-day-calendar.dp-material .dp-calendar-day,
+dp-day-calendar.dp-material .dp-calendar-month {
+  background: var(--ion-background-color) !important;
   color: var(--ion-color-text);
   border-color: var(--ion-color-light-shade) !important;
 }
@@ -1456,8 +1503,8 @@ dp-calendar-nav.dp-material .dp-calendar-nav-container {
   border-color: var(--ion-color-light-shade) !important;
 }
 dp-day-calendar.dp-material .dp-selected {
-  background: var(--ion-background-active)!important;
-  color: var(--ion-color-light-contrast)!important;
+  background: var(--ion-background-active) !important;
+  color: var(--ion-color-light-contrast) !important;
 }
 dp-calendar-nav.dp-material .dp-calendar-nav-container {
   border-color: var(--ion-color-light-shade) !important;
@@ -1465,8 +1512,8 @@ dp-calendar-nav.dp-material .dp-calendar-nav-container {
 dp-day-calendar.dp-material .dp-calendar-wrapper {
   border-color: var(--ion-color-light-shade) !important;
 }
-dp-calendar-nav .dp-current-location-btn{
-  background: var(--ion-background-color)!important;
-  box-shadow:none !important;
-  border:none !important;
+dp-calendar-nav .dp-current-location-btn {
+  background: var(--ion-background-color) !important;
+  box-shadow: none !important;
+  border: none !important;
 }

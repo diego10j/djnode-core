@@ -316,6 +316,9 @@ export class UtilitarioService {
     }
 
     getFechaActualDate(formato?: string): Date {
+        if(this.isDefined(formato)===false){
+            formato=this.FORMATO_FECHA_HORA_FRONT;
+        }
         return this.toDate(this.getFechaActual(formato));
     }
 

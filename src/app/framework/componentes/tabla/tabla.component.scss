@@ -103,20 +103,21 @@ ion-spinner {
       }
     }
   }
+  #formularioTabla {
+    .p-dropdown {
+      min-height: 30px;
+      display: flex;
+    }
+    .componente-formulario {
+      height: 30px;
+    }
 
-  .p-dropdown {
-    min-height: 30px;
-    display: flex;
-  }
-  .componente-formulario {
-    height: 30px;
-  }
-
-  .p-inputnumber {
-    height: 30px;
-  }
-  .p-inputtext {
-    height: 30px;
+    .p-inputnumber {
+      height: 30px;
+    }
+    .p-inputtext {
+      height: 30px;
+    }
   }
 
   .p-datatable {
@@ -222,15 +223,6 @@ ion-spinner {
     }
     .p-autocomplete-panel .p-autocomplete-items {
       width: 100%;
-    }
-
-    .icono-autompletar {
-      float: right;
-      margin-top: -20px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      z-index: 1000;
-      position: sticky;
     }
   }
 

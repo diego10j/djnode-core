@@ -31,10 +31,9 @@
                         <span *ngIf="!tipoFormulario && isBotonFiltro && plataforma === 'desktop'"
                             class="p-input-icon-left" style="padding-right:5px">
                             <i class="pi pi-search"></i>
-                            <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" placeholder="Busqueda General"
-                                (input)="onFiltroGlobal(textoFiltroGlobal)" class="texto-busqueda" />
+                            <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" placeholder="Buscar"
+                                (input)="onFiltroGlobal(textoFiltroGlobal)" class="texto-busqueda"  />                              
                         </span>
-
                         <button pButton pRipple *ngIf="isBotonInsertar" icon="pi pi-plus" pTooltip="Insertar"
                             tooltipPosition="bottom" class="p-button-success p-mr-2  p-button-sm"
                             (click)="insertarClick()"></button>
@@ -495,32 +494,29 @@
 
                                         <div *ngIf="columna.componente === 'Autocompletar'" class="p-inputtext-sm"
                                             style="white-space:pre-line;">
-                           
-                                                <p-autoComplete  appendTo="body" [inputStyle]="{'width':'100%'}"
-                                                    [(ngModel)]="fila[columna.nombre]"
-                                                    (ngModelChange)="onMetodoChange($event,columna.nombre,fila)"
-                                                    (mousedown)="onClickComponente(fila)"
-                                                    [suggestions]="resultadoAutocompletar" [style]="{'width':'100%'}"
-                                                    [forceSelection]="true"
-                                                    (completeMethod)="onAutocompletar($event,columna.nombre)"
-                                                    field="label">
-                                                    <ng-template let-opciones pTemplate="item">
-                                                        <div style="width: 100%;height: 100%;padding: 0;margin: 0;"
-                                                            *ngFor="let valor  of opciones.label.split('|')">
-                                                            <span
-                                                                style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
-                                                                {{valor}}</span>
-                                                        </div>
-                                                    </ng-template>
-                                                </p-autoComplete>
-                                                <i class="pi pi-times"
-                                                    (click)="onBorrarAutocompletarChange($event,columna.nombre,fila)"
-                                                    *ngIf="fila[columna.nombre]"
-                                                    style="float:right;margin-top:-20px;font-size: 0.8rem;z-index: 1000;position: sticky;padding-right: 3px;"></i>
-                                                <i class="pi pi-pencil" *ngIf="!fila[columna.nombre]"
-                                                    style="float:right;margin-top:-20px;font-size: 0.8rem;padding-right: 3px;"></i>
 
-                                   
+                                            <p-autoComplete appendTo="body" [inputStyle]="{'width':'100%'}"
+                                                [(ngModel)]="fila[columna.nombre]"
+                                                (ngModelChange)="onMetodoChange($event,columna.nombre,fila)"
+                                                (mousedown)="onClickComponente(fila)"
+                                                [suggestions]="resultadoAutocompletar" [style]="{'width':'100%'}"
+                                                [forceSelection]="true"
+                                                (completeMethod)="onAutocompletar($event,columna.nombre)" field="label">
+                                                <ng-template let-opciones pTemplate="item">
+                                                    <div style="width: 100%;height: 100%;padding: 0;margin: 0;"
+                                                        *ngFor="let valor  of opciones.label.split('|')">
+                                                        <span
+                                                            style="font-size: 0.8rem;padding-left: 5px;min-width:100%;">
+                                                            {{valor}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </p-autoComplete>
+                                            <i class="pi pi-times"
+                                                (click)="onBorrarAutocompletarChange($event,columna.nombre,fila)"
+                                                *ngIf="fila[columna.nombre]"
+                                                style="float:right;margin-top:-20px;font-size: 0.8rem;z-index: 1000;position: sticky;padding-right: 3px;"></i>
+                                            <i class="pi pi-pencil" *ngIf="!fila[columna.nombre]"
+                                                style="float:right;margin-top:-20px;font-size: 0.8rem;padding-right: 3px;"></i>
 
                                         </div>
 
@@ -569,7 +565,7 @@
                 <ng-template pTemplate>
                     <span class="p-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" placeholder="Busqueda General"
+                        <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" placeholder="Buscar"
                             autofocus="true" />
                     </span>
 
@@ -611,8 +607,8 @@
                 </ion-row>
 
 
-                <ion-row *ngIf="seleccionada" name="djtablaEditable" focus="false" [dir]="numeroTabla"
-                    class="p-fluid p-formgrid p-grid">
+                <ion-row id="formularioTabla" *ngIf="seleccionada" name="djtablaEditable" focus="false"
+                    [dir]="numeroTabla" class="p-fluid p-formgrid p-grid">
                     <ng-container *ngFor="let columna of columnas">
                         <ion-col *ngIf="columna.visible" class="p-field" [size]="numeroColumnasGrid">
                             <!--  FORMULARIO COMPONENTES WEB PRIMENG-->
@@ -623,14 +619,15 @@
                                 <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
                                     <input pInputText type="text" [(ngModel)]="seleccionada[columna.nombre]"
-                                        class="componente componente-formulario" (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                        class="componente componente-formulario"
+                                        (change)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         [disabled]="columna.lectura" [maxlength]="columna.longitud">
                                 </div>
                                 <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
-                                    <p-calendar appendTo="body" inputStyleClass="componente componente-formulario" [style]="{'width':'100%'}"
-                                        dateFormat="dd/mm/yy" showButtonBar="false" [yearNavigator]="true"
-                                        yearRange="1950:2050"
+                                    <p-calendar appendTo="body" inputStyleClass="componente componente-formulario"
+                                        [style]="{'width':'100%'}" dateFormat="dd/mm/yy" showButtonBar="false"
+                                        [yearNavigator]="true" yearRange="1950:2050"
                                         (onSelect)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         (onTodayClick)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         (onClearClick)="onMetodoChange($event,columna.nombre,seleccionada)"
@@ -641,7 +638,8 @@
                                 </div>
                                 <div *ngIf="columna.componente === 'Hora'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
-                                    <p-inputMask mask="99:99:99" [style]="{'width':'99%'}" styleClass="componente componente-formulario"
+                                    <p-inputMask mask="99:99:99" [style]="{'width':'99%'}"
+                                        styleClass="componente componente-formulario"
                                         (change)="onMetodoChange($event,columna.nombre,seleccionada)"
                                         [(ngModel)]="seleccionada[columna.nombre]" placeholder="hh:mm:ss"
                                         [disabled]="columna.lectura">
@@ -722,6 +720,12 @@
                                             </td>
                                         </ng-template>
                                     </p-autoComplete>
+                                    <i class="pi pi-times"
+                                        (click)="onBorrarAutocompletarChange($event,columna.nombre,seleccionada)"
+                                        *ngIf="seleccionada[columna.nombre]"
+                                        style="float:right;margin-top:-20px;font-size: 0.8rem;z-index: 1000;position: sticky;padding-right: 3px;cursor: pointer;"></i>
+                                    <i class="pi pi-pencil" *ngIf="!seleccionada[columna.nombre]"
+                                        style="float:right;margin-top:-20px;font-size: 0.8rem;padding-right: 3px;position: sticky;"></i>
                                 </div>
 
                                 <div *ngIf="columna.componente === 'Upload'">
@@ -883,8 +887,6 @@
                                                         {{valor}}</span>
                                                 </td>
                                             </ion-select-option>
-
-
                                         </ion-select>
                                     </ion-item>
                                 </div>

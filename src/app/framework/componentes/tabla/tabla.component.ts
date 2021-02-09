@@ -153,7 +153,7 @@ export class TablaComponent implements OnInit {
   private itemSeparadorVista: MenuItem;
   //Servicio
   private metodoServicio: string;
-  private bodyServicio: any;
+  private parametrosServicio: any;
   //Seleccion single / multiple se
   tipoSeleccion?: 'simple' | 'multiple';
   selectionMode = 'single';
@@ -473,25 +473,25 @@ export class TablaComponent implements OnInit {
 
   }
 
-  public setTablaServicio(metodoServicio: string, bodyServicio: {}, numeroTabla: number): Promise<Columna[]> {
+  public setTablaServicio(metodoServicio: string, parametrosServicio: {}, numeroTabla: number): Promise<Columna[]> {
     this.tabla.numeroTabla = numeroTabla + '';
     this.metodoServicio = metodoServicio;
-    this.bodyServicio = bodyServicio;
+    this.parametrosServicio = parametrosServicio;
     this.tabla.columnas = new Array<Columna>();
     this.tabla.datos = [];
     this.lectura = true;
-    if (this.utilitario.isDefined(bodyServicio)) {
-      this.bodyServicio = bodyServicio;
+    if (this.utilitario.isDefined(parametrosServicio)) {
+      this.parametrosServicio = parametrosServicio;
     }
     else {
-      this.bodyServicio = {};
+      this.parametrosServicio = {};
     }
-    this.bodyServicio['ide_opci'] = this.utilitario.getIdeOpci();
-    this.bodyServicio['numero_tabl'] = this.numeroTabla;
-    this.bodyServicio['soloColumnas'] = true;
+    this.parametrosServicio['ide_opci'] = this.utilitario.getIdeOpci();
+    this.parametrosServicio['numero_tabl'] = this.numeroTabla;
+    this.parametrosServicio['soloColumnas'] = true;
     //Forma Columnas
     return new Promise(resolve => {
-      this.sistemaService.llamarServicioPost(this.metodoServicio, this.bodyServicio).subscribe(async resp => {
+      this.sistemaService.llamarServicioPost(this.metodoServicio, this.parametrosServicio).subscribe(async resp => {
         const respuesta: any = resp;
         if (respuesta.datos) {
           for (const colActual of respuesta.datos) {
@@ -602,7 +602,7 @@ export class TablaComponent implements OnInit {
     nombreColumna = nombreColumna.toLowerCase();
     const col = this.tabla.columnas.find(col => col.nombre === nombreColumna);
     if (this.utilitario.isDefined(col) === false) {
-      this.utilitario.agregarMensajeError('La columna <strong>' + nombreColumna + '</strong> no existe en la tabla ' + this.tabla.nombreTabla);
+      this.utilitario.agregarMensajeError('La columna <strong>' + nombreColumna + '</strong> no existe.');
     }
     return col;
   }
@@ -624,13 +624,19 @@ export class TablaComponent implements OnInit {
     //Carga los combos
     if (this.isDibujar === false) {
       // solo si aun no consulta se cargan los combos
-      this.formarCombos();
+      this.formarCombos().then(() => {
+        this.consultar();
+        this.isDibujar = true;
+      });
       this.ordenarColumnas();
       this.formarMenuContextual();
     }
-    //this.getSize();
-    this.consultar();
-    this.isDibujar = true;
+    else {
+      //this.getSize();
+      this.consultar();
+      this.isDibujar = true;
+    }
+
   }
 
 
@@ -647,44 +653,54 @@ export class TablaComponent implements OnInit {
   /**
    * Forma los combos de las columnas configuradas
    */
-  private formarCombos() {
+  private formarCombos(): Promise<boolean> {
     //Forma objetos a las columnas combo en tabla editable
-    const columnasCombo = this.columnas.filter(col => col.isCombo === true);
-    for (const colActual of columnasCombo) {
-      colActual.listaCombo = [];
-      if (this.utilitario.isDefined(colActual.configCombo.sql)) {
-        //es combo sql
-        this.sistemaService.getComboSql(colActual.configCombo.sql).subscribe(resp => {
-          const respuest: any = resp;
-          if (respuest.datos) {
-            colActual.listaCombo = respuest.datos;
-            if (colActual.nullCombo) {
-              //Agrega null a opcion
-              colActual.listaCombo.unshift({ value: null, label: ' ' });
-            }
-          }
-        }, (err) => {
-          this.utilitario.agregarMensajeErrorServicioWeb(err);
-        });
-      }
-      else {
-        //es combo tabla
-        this.sistemaService.getComboTabla(colActual.configCombo.nombreTabla, colActual.configCombo.campoPrimario,
-          colActual.configCombo.campoNombre, colActual.configCombo.condicion).subscribe(resp => {
-            const respuest: any = resp;
-            if (respuest.datos) {
-              colActual.listaCombo = respuest.datos;
-              if (colActual.nullCombo) {
-                //Agrega null a opcion
-                colActual.listaCombo.unshift({ value: null, label: ' ' });
+    return new Promise(async resolve => {
+      const columnasCombo = this.columnas.filter(col => col.isCombo === true);
+      for (const colActual of columnasCombo) {
+        colActual.listaCombo = [];
+        if (this.utilitario.isDefined(colActual.configCombo.sql)) {
+          //es combo sql
+          await new Promise(resolve => {
+            this.sistemaService.getComboSql(colActual.configCombo.sql).subscribe(resp => {
+              const respuest: any = resp;
+              if (respuest.datos) {
+                colActual.listaCombo = respuest.datos;
+                if (colActual.nullCombo) {
+                  //Agrega null a opcion
+                  colActual.listaCombo.unshift({ value: null, label: ' ' });
+                }
               }
-            }
-          }, (err) => {
-            this.utilitario.agregarMensajeErrorServicioWeb(err);
+              resolve(true);
+            }, (err) => {
+              resolve(false);
+              this.utilitario.agregarMensajeErrorServicioWeb(err);
+            });
           });
+        }
+        else {
+          //es combo tabla
+          await new Promise(resolve => {
+            this.sistemaService.getComboTabla(colActual.configCombo.nombreTabla, colActual.configCombo.campoPrimario,
+              colActual.configCombo.campoNombre, colActual.configCombo.condicion).subscribe(resp => {
+                const respuest: any = resp;
+                if (respuest.datos) {
+                  colActual.listaCombo = respuest.datos;
+                  if (colActual.nullCombo) {
+                    //Agrega null a opcion
+                    colActual.listaCombo.unshift({ value: null, label: ' ' });
+                  }
+                }
+                resolve(true);
+              }, (err) => {
+                resolve(false);
+                this.utilitario.agregarMensajeErrorServicioWeb(err);
+              });
+          });
+        }
       }
-
-    }
+      resolve(true);
+    });
   }
 
 
@@ -799,7 +815,7 @@ export class TablaComponent implements OnInit {
               //si es tipo formulario y no hay datos inserta una fila 
               if (this.tipoFormulario) {
                 if (this.lectura === false) {
-                 this.crearFila();
+                  this.crearFila();
                 }
               }
             }
@@ -849,9 +865,9 @@ export class TablaComponent implements OnInit {
       }
     }
     // this.tabla.datos=[];
-    this.bodyServicio['soloColumnas'] = false;
+    this.parametrosServicio['soloColumnas'] = false;
     this.seleccionada = null;
-    this.sistemaService.llamarServicioPost(this.metodoServicio, this.bodyServicio).subscribe(resp => {
+    this.sistemaService.llamarServicioPost(this.metodoServicio, this.parametrosServicio).subscribe(resp => {
       const respuest: any = resp;
       if (respuest.datos) {
         this.tabla.datos = respuest.datos;
@@ -1251,6 +1267,11 @@ export class TablaComponent implements OnInit {
 
   ejecutar() {
     this.seleccionada = null;
+    this.consultar();
+  }
+
+  ejecutarServicio( parametrosServicio: {}){
+    this.parametrosServicio=parametrosServicio;
     this.consultar();
   }
 
@@ -1664,8 +1685,9 @@ export class TablaComponent implements OnInit {
     this.eliminadas = [];
     this.textoFiltroGlobal = '';
     this.filtroGlobal = false;
-    this.consultar();
-    this.formarCombos();
+    this.formarCombos().then(() => {
+      this.consultar();
+    });
   }
 
 
