@@ -1126,8 +1126,8 @@ ion-button {
 }
 
 .p-component {
-  background: var(--ion-background-color);
-  color: var(--ion-color-text);
+  //background: var(--ion-background-color);
+  //color: var(--ion-color-text);
   border-color: var(--ion-color-light-shade);
 }
 
@@ -1211,6 +1211,7 @@ ion-button {
   //background: var(--ion-color-light);
   padding: 8px;
 }
+
 .p-overlaypanel .p-overlaypanel-content {
   background: var(--ion-background-color);
 }

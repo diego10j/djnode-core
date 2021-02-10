@@ -2,10 +2,12 @@
   <app-mensaje #mensaje></app-mensaje>
   <app-barra #barra>
     <app-rango-fechas #ranFechas></app-rango-fechas>
-    <app-combo #comUsuarios label="Usuario"></app-combo>
+    <app-combo #comUsuarios label="Usuario"></app-combo>   
   </app-barra>
-
-  <app-tabla #tabTabla1></app-tabla>
-
-
+  <app-tabla #tabTabla1>
+    <ng-template #barra>
+      <app-boton texto="Eliminar Auditoría" color="danger" icono="trash-outline" (click)="confirmarEliminar()">
+      </app-boton>
+    </ng-template>
+  </app-tabla>
 </ion-content>

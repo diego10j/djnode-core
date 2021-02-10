@@ -89,8 +89,8 @@ export class RangoFechasComponent implements OnInit {
    * Asigna las fechas Máximas a la fecha Actual
    */
   setControlarFechasMaximas() {
-    this.calFechaInicial.setFechaMaxima(this.utilitario.toDate(this.utilitario.getFechaActual()));
-    this.calFechaFinal.setFechaMaxima(this.utilitario.toDate(this.utilitario.getFechaActual()));
+    this.calFechaInicial.setFechaMaxima(this.utilitario.getFechaActualDate());
+    this.calFechaFinal.setFechaMaxima(this.utilitario.getFechaActualDate());
   }
 
   getValorFechaInicial(): string {

@@ -408,9 +408,9 @@ export class TablaComponent implements OnInit {
       };
       this.menuContextual.push(this.itemGuardar);
       this.menuContextual.push({ separator: true });
-      this.menuContextual.push(this.itemActualizar);
-    }
 
+    }
+    this.menuContextual.push(this.itemActualizar);
 
     //Menu Opciones
     this.itemSeparadorVista.visible = !this.lectura;
@@ -479,7 +479,7 @@ export class TablaComponent implements OnInit {
     this.parametrosServicio = parametrosServicio;
     this.tabla.columnas = new Array<Columna>();
     this.tabla.datos = [];
-    this.lectura = true;
+    this.setLectura(true);
     if (this.utilitario.isDefined(parametrosServicio)) {
       this.parametrosServicio = parametrosServicio;
     }

@@ -57,6 +57,48 @@
                         </ion-card-content>
                     </ion-card>
                 </ion-col>
+
+
+                <ion-col class="ion-no-padding" size="12">
+
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-title mode="md">Tu Dispositivo
+                                <ion-icon *ngIf="!userAgent.mobile" name="desktop-outline" style="float: right;"
+                                    color="primary"></ion-icon>
+                                <ion-icon *ngIf="userAgent.mobile" name="phone-portrait-outline" style="float: right;"
+                                    color="primary"></ion-icon>
+                            </ion-card-title>
+        
+        
+        
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-item lines="none">
+                                <ion-thumbnail slot="start">
+                                    <img *ngIf="!userAgent.mobile" src="assets/img/pc.png" alt="Computador">
+                                    <img *ngIf="userAgent.mobile" src="assets/img/telefono.png" alt="Telefono">
+                                </ion-thumbnail>
+                                <ion-label>
+                                    <h3 class="card-title text-uppercase  mb-0">{{sistemaOperativo.nombre}}</h3>
+                                </ion-label>
+                                <ion-icon [name]="sistemaOperativo.icono" [color]="sistemaOperativo.color"></ion-icon>
+                            </ion-item>
+        
+        
+                            <ion-item lines="none" *ngIf="dispositivo ==='desktop'">
+                                <ion-thumbnail slot="start">
+                                    <img [src]="'assets/img/browser/'+ userAgent.browser.name  + '-logo.png' " alt="Navegador">
+                                </ion-thumbnail>
+                                <ion-label>
+                                    <h3 class="card-title text-uppercase mb-0">{{userAgent.browser.name }}</h3>
+                                </ion-label>
+                                <ion-badge color="success">v {{userAgent.browser.version }}</ion-badge>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+
             </ion-row>
 
         </ion-col>
@@ -135,85 +177,43 @@
                         </ion-card-content>
                     </ion-card>
                 </ion-col>
+                <ion-col class="ion-no-padding" size="12">
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-title mode="md">Enlaces Rápidos
+                                <ion-icon name="link-outline" style="float: right;" color="primary"></ion-icon>
+                            </ion-card-title>
+        
+                        </ion-card-header>
+        
+                        <ion-card-content *ngIf="!datosClima">
+        
+                            <ion-chip *ngFor="let count of  contador(10)">
+                                <ion-skeleton-text animated style="width: 100px;height: 30px"></ion-skeleton-text>
+                            </ion-chip>
+        
+                        </ion-card-content>
+        
+        
+                        <ion-card-content *ngIf="datosClima">
+        
+                            <ion-chip *ngFor="let pant of  datosPantallas; ; let i = index" [class]="'pantalla'+ (i+1)"
+                                (click)="abrirPantalla(pant)">
+                                <ion-icon *ngIf="!pant.icono" name="browsers-outline"></ion-icon>
+                                <ion-icon *ngIf="pant.icono" [name]="pant.icono"></ion-icon>
+                                <ion-label> {{pant.pantalla}}</ion-label>
+                            </ion-chip>
+        
+                        </ion-card-content>
+        
+                    </ion-card>
+        
+                </ion-col>
             </ion-row>
 
         </ion-col>
 
 
     </ion-row>
-    <ion-row>
-        <ion-col class="ion-no-padding" size-xl="6" size-lg="6" size-xs="6" size-md="6" size-sm="12" size-xs="12">
 
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title mode="md">Tu Dispositivo
-                        <ion-icon *ngIf="!userAgent.mobile" name="desktop-outline" style="float: right;"
-                            color="primary"></ion-icon>
-                        <ion-icon *ngIf="userAgent.mobile" name="phone-portrait-outline" style="float: right;"
-                            color="primary"></ion-icon>
-                    </ion-card-title>
-
-
-
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-item lines="none">
-                        <ion-thumbnail slot="start">
-                            <img *ngIf="!userAgent.mobile" src="assets/img/pc.png" alt="Computador">
-                            <img *ngIf="userAgent.mobile" src="assets/img/telefono.png" alt="Telefono">
-                        </ion-thumbnail>
-                        <ion-label>
-                            <h3 class="card-title text-uppercase  mb-0">{{sistemaOperativo.nombre}}</h3>
-                        </ion-label>
-                        <ion-icon [name]="sistemaOperativo.icono" [color]="sistemaOperativo.color"></ion-icon>
-                    </ion-item>
-
-
-                    <ion-item lines="none" *ngIf="dispositivo ==='desktop'">
-                        <ion-thumbnail slot="start">
-                            <img [src]="'assets/img/browser/'+ userAgent.browser.name  + '-logo.png' " alt="Navegador">
-                        </ion-thumbnail>
-                        <ion-label>
-                            <h3 class="card-title text-uppercase mb-0">{{userAgent.browser.name }}</h3>
-                        </ion-label>
-                        <ion-badge color="success">v {{userAgent.browser.version }}</ion-badge>
-                    </ion-item>
-                </ion-card-content>
-            </ion-card>
-        </ion-col>
-
-        <ion-col class="ion-no-padding" size-xl="6" size-lg="6" size-xs="6" size-md="6" size-sm="12" size-xs="12">
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title mode="md">Enlaces Rápidos
-                        <ion-icon name="link-outline" style="float: right;" color="primary"></ion-icon>
-                    </ion-card-title>
-
-                </ion-card-header>
-
-                <ion-card-content *ngIf="!datosClima">
-
-                    <ion-chip *ngFor="let count of  contador(10)">
-                        <ion-skeleton-text animated style="width: 100px;height: 30px"></ion-skeleton-text>
-                    </ion-chip>
-
-                </ion-card-content>
-
-
-                <ion-card-content *ngIf="datosClima">
-
-                    <ion-chip *ngFor="let pant of  datosPantallas; ; let i = index" [class]="'pantalla'+ (i+1)"
-                        (click)="abrirPantalla(pant)">
-                        <ion-icon *ngIf="!pant.icono" name="browsers-outline"></ion-icon>
-                        <ion-icon *ngIf="pant.icono" [name]="pant.icono"></ion-icon>
-                        <ion-label> {{pant.pantalla}}</ion-label>
-                    </ion-chip>
-
-                </ion-card-content>
-
-            </ion-card>
-
-        </ion-col>
-
-    </ion-row>
 </ion-content>

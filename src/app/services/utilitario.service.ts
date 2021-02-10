@@ -319,7 +319,7 @@ export class UtilitarioService {
         if(this.isDefined(formato)===false){
             formato=this.FORMATO_FECHA_HORA_FRONT;
         }
-        return this.toDate(this.getFechaActual(formato));
+        return this.toDate(new Date(), formato);
     }
 
 

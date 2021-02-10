@@ -9,8 +9,8 @@ export class DomSanitizerPipe implements PipeTransform {
   constructor( private domSanitizer: DomSanitizer ) { }
 
   transform( img: string ): any {
-    const domImg = `background-image: url('${ img }')`;
-    return this.domSanitizer.bypassSecurityTrustResourceUrl( domImg );
+    //const domImg = `background-image: url('${ img }')`; 
+    return this.domSanitizer.bypassSecurityTrustResourceUrl( img );
   }
 
 }
