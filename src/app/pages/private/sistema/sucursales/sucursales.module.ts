@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SucursalesPageRoutingModule } from './sucursales-routing.module';
 
 import { SucursalesPage } from './sucursales.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 
 @NgModule({
   imports: [

@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import { ComboComponent } from '../../../../framework/componentes/combo/combo.component';
-import { RangoFechasComponent } from '../../../../framework/componentes/rango-fechas/rango-fechas.component';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
+import { Pantalla } from '@djnode/clases/pantalla';
+import { ComboComponent } from '@djnode/componentes/combo/combo.component';
+import { RangoFechasComponent } from '@djnode/componentes/rango-fechas/rango-fechas.component';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
 
 @Component({
   selector: 'app-consulta-auditoria',

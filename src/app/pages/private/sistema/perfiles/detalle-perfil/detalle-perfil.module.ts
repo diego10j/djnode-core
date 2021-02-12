@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { DetallePerfilPage } from './detalle-perfil.page';
-import { ComponentesModule } from '../../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 import { TabViewModule } from 'primeng/tabview';
 import { DetallePerfilPageRoutingModule } from './detalle-perfil-routing.module';
 

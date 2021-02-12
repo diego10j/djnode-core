@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import { ModalTablaComponent } from '../../../../framework/componentes/modal-tabla/modal-tabla.component';
-import Condicion from '../../../../framework/interfaces/condicion';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
+import { Pantalla } from '@djnode/clases/pantalla';
+import { ModalTablaComponent } from '@djnode/componentes/modal-tabla/modal-tabla.component';
+import Condicion from '@djnode/interfaces/condicion';
 
 @Component({
   selector: 'app-usuarios',
@@ -17,7 +17,7 @@ export class UsuariosPage extends Pantalla {
   @ViewChild('modTabla2', { static: false }) modTabla2: ModalTablaComponent;
 
   condicionTabla2: Condicion = { condicion: 'ide_usua = ?', valores: [-1] };
-  
+
   async ionViewWillEnter() {
     this.barra.ocultarBotonGuardar();
     // Configura Tabla opcion
@@ -56,7 +56,7 @@ export class UsuariosPage extends Pantalla {
       this.tabTabla1.actualizar();
       this.modTabla2.cerrar();
     }
-    else{
+    else {
       this.modTabla2.ejecutando = false;
     }
   }

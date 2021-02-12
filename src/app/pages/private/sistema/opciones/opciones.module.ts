@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { OpcionesPageRoutingModule } from './opciones-routing.module';
 
 import { OpcionesPage } from './opciones.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 import {TabViewModule} from 'primeng/tabview';
 
 @NgModule({

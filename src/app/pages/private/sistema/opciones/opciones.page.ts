@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { UtilitarioService } from '../../../../services/utilitario.service';
-import { ArbolComponent } from '../../../../framework/componentes/arbol/arbol.component';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ArbolComponent } from '@djnode/componentes/arbol/arbol.component';
+import { Pantalla } from '@djnode/clases/pantalla';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
 
 @Component({
   selector: 'app-opciones',

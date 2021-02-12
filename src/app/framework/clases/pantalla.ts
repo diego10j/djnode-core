@@ -1,8 +1,7 @@
-import { UtilitarioService } from '../../services/utilitario.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 import { Component, ViewChild } from '@angular/core';
-import { BarraComponent } from '../componentes/barra/barra.component';
-import { MensajeComponent } from '../componentes/mensaje/mensaje.component';
-import { ModalController } from '@ionic/angular';
+import { BarraComponent } from '@djnode/componentes/barra/barra.component';
+import { MensajeComponent } from '@djnode/componentes/mensaje/mensaje.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

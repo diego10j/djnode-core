@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import { UtilitarioService } from '../../../../services/utilitario.service';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
+import { Component, ViewChild } from '@angular/core';
+import { Pantalla } from '@djnode/clases/pantalla';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
 
 @Component({
   selector: 'app-empresa',

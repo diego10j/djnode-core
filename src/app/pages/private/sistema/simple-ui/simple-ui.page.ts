@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
-import { ModalTablaComponent } from '../../../../framework/componentes/modal-tabla/modal-tabla.component';
-import Condicion from '../../../../framework/interfaces/condicion';
+import { Pantalla } from '@djnode/clases/pantalla';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
+import { ModalTablaComponent } from '@djnode/componentes/modal-tabla/modal-tabla.component';
+import Condicion from '@djnode/interfaces/condicion';
 
 @Component({
   selector: 'app-simple-ui',

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { UsuariosPageRoutingModule } from './usuarios-routing.module';
 
 import { UsuariosPage } from './usuarios.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 
 @NgModule({
   imports: [

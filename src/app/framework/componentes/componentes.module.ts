@@ -18,7 +18,7 @@ import {DividerModule} from 'primeng/divider';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 
-import { PipesModule } from '../../pipes/pipes.module';
+import { PipesModule } from '@djnode/pipes/pipes.module';
 import { IonicModule } from '@ionic/angular';
 import {TieredMenuModule} from 'primeng/tieredmenu';
 import {PanelModule} from 'primeng/panel';

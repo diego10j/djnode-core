@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
-import { PipesModule } from '../../../pipes/pipes.module';
+import { PipesModule } from '../../../framework/pipes/pipes.module';
 
 @NgModule({
   imports: [

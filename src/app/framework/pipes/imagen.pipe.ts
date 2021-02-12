@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { UtilitarioService } from '../services/utilitario.service';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../../environments/environment.prod';
 //const URL = environment.rest_api;
 @Pipe({
   name: 'imagen'

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ConsultaAuditoriaPageRoutingModule } from './consulta-auditoria-routing.module';
 
 import { ConsultaAuditoriaPage } from './consulta-auditoria.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 
 @NgModule({
   imports: [

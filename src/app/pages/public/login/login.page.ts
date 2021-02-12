@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UtilitarioService } from '../../../services/utilitario.service';
-import { SeguridadService } from '../../../framework/servicios/seguridad.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
+import { SeguridadService } from '@djnode/servicios/seguridad.service';
 import { Router } from '@angular/router';
 
 @Component({

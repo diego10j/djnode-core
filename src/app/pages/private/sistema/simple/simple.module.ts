@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SimplePage } from './simple.page';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [

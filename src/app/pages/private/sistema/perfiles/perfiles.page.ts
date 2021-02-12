@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import Condicion from '../../../../framework/interfaces/condicion';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
+import { Pantalla } from '@djnode/clases/pantalla';
+import Condicion from '@djnode/interfaces/condicion';
 
 @Component({
   selector: 'app-perfiles',

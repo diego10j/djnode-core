@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { UtilitarioService } from '../../../../services/utilitario.service';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
-import { Pantalla } from '../../../../framework/clases/pantalla';
+import { Component, ViewChild } from '@angular/core';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
+import { Pantalla } from '@djnode/clases/pantalla';
 
 @Component({
   selector: 'app-simple',

@@ -1,17 +1,16 @@
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../environments/environment.prod';
-import { SistemaService } from '../framework/servicios/sistema.service';
-import { TablaComponent } from '../framework/componentes/tabla/tabla.component';
+import { SistemaService } from '@djnode/servicios/sistema.service';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
 import { LoadingController, Platform } from '@ionic/angular';
-import Condicion from '../framework/interfaces/condicion';
+import Condicion from '@djnode/interfaces/condicion';
 import * as moment from 'moment';
 import 'moment/locale/es';
-import { MensajeComponent } from '../framework/componentes/mensaje/mensaje.component';
+import { MensajeComponent } from '@djnode/componentes/mensaje/mensaje.component';
 @Injectable({
     providedIn: 'root',
 })
@@ -309,15 +308,15 @@ export class UtilitarioService {
      * Retorna la fecha actual en formato
      */
     getFechaActual(formato?: string): string {
-        if(this.isDefined(formato)===false){
-            formato=this.FORMATO_FECHA_HORA_FRONT;
+        if (this.isDefined(formato) === false) {
+            formato = this.FORMATO_FECHA_HORA_FRONT;
         }
         return this.getFormatoFecha(new Date(), formato);
     }
 
     getFechaActualDate(formato?: string): Date {
-        if(this.isDefined(formato)===false){
-            formato=this.FORMATO_FECHA_HORA_FRONT;
+        if (this.isDefined(formato) === false) {
+            formato = this.FORMATO_FECHA_HORA_FRONT;
         }
         return this.toDate(new Date(), formato);
     }
@@ -649,7 +648,7 @@ export class UtilitarioService {
 
 
     getPantallasGenericas(): string[] {
-        return ['simple', 'simple-ui','doble', 'recursiva', 'triple'];
+        return ['simple', 'simple-ui', 'doble', 'recursiva', 'triple'];
     }
 
     async abrirLoading() {
@@ -720,10 +719,10 @@ export class UtilitarioService {
      * @param formato 
      */
     toDate(fecha, formato = 'YYYY-MM-DD'): Date {
-        if(this.isDefined(fecha)){
+        if (this.isDefined(fecha)) {
             return moment(fecha, formato).toDate();
         }
-       return null;
+        return null;
     }
 
     /**

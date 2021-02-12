@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TablasSistemaPageRoutingModule } from './tablas-sistema-routing.module';
 import { TablasSistemaPage } from './tablas-sistema.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({

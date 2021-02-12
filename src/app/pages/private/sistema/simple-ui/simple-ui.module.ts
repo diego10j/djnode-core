@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SimpleUiPageRoutingModule } from './simple-ui-routing.module';
 
 import { SimpleUiPage } from './simple-ui.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 
 @NgModule({
   imports: [

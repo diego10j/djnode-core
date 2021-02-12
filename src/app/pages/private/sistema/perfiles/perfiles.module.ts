@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 
 import { PerfilesPage } from './perfiles.page';
-import { ComponentesModule } from '../../../../framework/componentes/componentes.module';
+import { ComponentesModule } from '@djnode/componentes/componentes.module';
 import { PerfilesPageRoutingModule } from './perfiles-routing.module';
 
 @NgModule({

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { SeguridadService } from '../../../../framework/servicios/seguridad.service';
-import { UtilitarioService } from '../../../../services/utilitario.service';
-import { Usuario } from '../../../../framework/clases/usuario';
-import { UploadService } from '../../../../framework/servicios/upload.service';
-import Condicion from '../../../../framework/interfaces/condicion';
+import { Component, } from '@angular/core';
+import { Usuario } from '@djnode/clases/usuario';
+import Condicion from '@djnode/interfaces/condicion';
+import { SeguridadService } from '@djnode/servicios/seguridad.service';
+import { UploadService } from '@djnode/servicios/upload.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 
 @Component({
   selector: 'app-perfil',

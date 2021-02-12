@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Pantalla } from '../../../../../framework/clases/pantalla';
-import { TablaComponent } from '../../../../../framework/componentes/tabla/tabla.component';
+import { Pantalla } from '@djnode/clases/pantalla';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
 import { Params } from '@angular/router';
-import Condicion from '../../../../../framework/interfaces/condicion';
+import Condicion from '@djnode/interfaces/condicion';
 
 @Component({
   selector: 'app-detalle-perfil',

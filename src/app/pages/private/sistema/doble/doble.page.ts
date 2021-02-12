@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { TablaComponent } from '../../../../framework/componentes/tabla/tabla.component';
-import { UtilitarioService } from '../../../../services/utilitario.service';
-import { Pantalla } from '../../../../framework/clases/pantalla';
-import Condicion from '../../../../framework/interfaces/condicion';
+import { Component, ViewChild } from '@angular/core';
+import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
+import { Pantalla } from '@djnode/clases/pantalla';
 
 @Component({
   selector: 'app-doble',
