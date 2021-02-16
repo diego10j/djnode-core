@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SistemaService } from '../../servicios/sistema.service';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { SistemaService } from '@djnode/servicios/sistema.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 import { TreeNode, MenuItem } from 'primeng/api';
-import Condicion from '../../interfaces/condicion';
+import Condicion from '@djnode/interfaces/condicion';
 import { TieredMenu } from 'primeng/tieredmenu';
 import { Tree } from 'primeng/tree';
 

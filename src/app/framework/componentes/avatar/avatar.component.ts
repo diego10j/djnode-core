@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 
 @Component({
   selector: 'app-avatar',

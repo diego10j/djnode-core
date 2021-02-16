@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UtilitarioService } from '../../../services/utilitario.service';
-import { SistemaService } from '../../servicios/sistema.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
+import { SistemaService } from '@djnode/servicios/sistema.service';
 
 @Component({
   selector: 'app-autocompletar',

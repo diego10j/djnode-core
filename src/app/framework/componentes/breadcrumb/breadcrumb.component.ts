@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 import { ActivatedRoute, ActivationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { filter, map } from 'rxjs/operators';

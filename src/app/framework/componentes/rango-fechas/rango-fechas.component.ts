@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 import { CalendarioComponent } from '../calendario/calendario.component';
 
 @Component({

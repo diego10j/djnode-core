@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Columna from '../../clases/columna';
+import Columna from '@djnode/clases/columna';
 import { ModalController } from '@ionic/angular';
-import { UtilitarioService } from '../../../services/utilitario.service';
-import { SistemaService } from '../../servicios/sistema.service';
-import Tabla from '../../clases/tabla';
+import { UtilitarioService } from '@servicios/utilitario.service';
+import { SistemaService } from '@djnode/servicios/sistema.service';
+import Tabla from '@djnode/clases/tabla';
 
 @Component({
   selector: 'app-formato-tabla',

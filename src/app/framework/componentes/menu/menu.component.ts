@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { UtilitarioService } from '../../../services/utilitario.service';
-import { SeguridadService } from '../../servicios/seguridad.service';
-import { Usuario } from '../../clases/usuario';
+import { UtilitarioService } from '@servicios/utilitario.service';
+import { SeguridadService } from '@djnode/servicios/seguridad.service';
+import { Usuario } from '@djnode/clases/usuario';
 import { MenuController } from '@ionic/angular';
 import { createAnimation, Animation } from '@ionic/core';
 

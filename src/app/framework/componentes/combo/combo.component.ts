@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { UtilitarioService } from '../../../services/utilitario.service';
-import { SistemaService } from '../../servicios/sistema.service';
-import { Dropdown } from 'primeng/dropdown';
+import { UtilitarioService } from '@servicios/utilitario.service';
+import { SistemaService } from '@djnode/servicios/sistema.service';
+
 
 @Component({
   selector: 'app-combo',

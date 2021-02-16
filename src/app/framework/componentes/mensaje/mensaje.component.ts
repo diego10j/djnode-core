@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 
 @Component({
   selector: 'app-mensaje',

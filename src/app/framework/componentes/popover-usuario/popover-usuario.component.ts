@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SeguridadService } from '../../servicios/seguridad.service';
-import { Usuario } from '../../clases/usuario';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { SeguridadService } from '@djnode/servicios/seguridad.service';
+import { Usuario } from '@djnode/clases/usuario';
+import { UtilitarioService } from '@servicios/utilitario.service';
 import { PopoverController } from '@ionic/angular';
 
 @Component({

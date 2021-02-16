@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ContentChild, TemplateRef, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { UtilitarioService } from '../../../services/utilitario.service';
+import { UtilitarioService } from '@servicios/utilitario.service';
 
 @Component({
   selector: 'app-modal',
