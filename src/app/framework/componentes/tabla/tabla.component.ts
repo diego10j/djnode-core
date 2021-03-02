@@ -29,7 +29,12 @@ export class TablaComponent implements OnInit {
     this.tabla = new Tabla();
     this.isDibujar = false;
     this.plataforma = this.utilitario.getPlataforma();
-
+    //Permiso a Opciones
+    if (this.utilitario.isDefined(localStorage.getItem('perm_util_perf'))) {
+      if (localStorage.getItem('perm_util_perf') === 'true') {
+        this.isPermisoOpciones = true;
+      }
+    }
   }
 
   get columnas(): Columna[] {
@@ -174,6 +179,8 @@ export class TablaComponent implements OnInit {
   mascaraFechaHora: string;
 
   public isDibujar = false; //Sirve para controlar si se ejecuto el metodo consultar
+
+  isPermisoOpciones = false;
 
   fechaPickerConfig = {
     allowMultiSelect: false,
@@ -1270,8 +1277,8 @@ export class TablaComponent implements OnInit {
     this.consultar();
   }
 
-  ejecutarServicio( parametrosServicio: {}){
-    this.parametrosServicio=parametrosServicio;
+  ejecutarServicio(parametrosServicio: {}) {
+    this.parametrosServicio = parametrosServicio;
     this.consultar();
   }
 

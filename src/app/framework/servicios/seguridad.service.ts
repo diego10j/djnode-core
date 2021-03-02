@@ -1,9 +1,8 @@
-import { MenuItem } from 'primeng/api';
 import { environment } from './../../../environments/environment';
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Usuario } from '../clases/usuario';
 import { of, Observable } from 'rxjs';
 import { ServicioBase } from '../clases/servicio-base';
@@ -36,6 +35,8 @@ export class SeguridadService extends ServicioBase {
         tap((resp: any) => {
           this.guardarLocalStorage(resp);
           localStorage.setItem('ultimaFecha', resp.ultimaFecha);
+          localStorage.setItem('ide_empr', resp.ide_empr);
+          localStorage.setItem('perm_util_perf', resp.perm_util_perf);
         })
       );
   }
@@ -58,6 +59,8 @@ export class SeguridadService extends ServicioBase {
     localStorage.removeItem('ultimaFecha');
     localStorage.removeItem('identificacion');
     localStorage.removeItem('avatar');
+    localStorage.removeItem('ide_empr');
+    localStorage.removeItem('perm_util_perf');
     this.llamarServicioIpPublic();
     this.usuario = null;
     this.router.navigateByUrl('/login');
