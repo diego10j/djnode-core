@@ -503,6 +503,10 @@ export class TablaComponent implements OnInit {
         if (respuesta.datos) {
           for (const colActual of respuesta.datos) {
             const col: Columna = new Columna();
+            if(col.nombre === this.tabla.campoPrimario){
+              //Oculta y hace lectura campo primario x defecto
+              col.visible = false;
+            }
             col.nombre = colActual.nombre;
             col.nombreVisual = colActual.nombrevisual;
             col.orden = colActual.orden;
@@ -523,7 +527,6 @@ export class TablaComponent implements OnInit {
           //El campo primario va a ser simepre el de la columna 0
           //Oculta y hace lectura campo primario
           this.campoPrimario = respuesta.campoPrimario;
-          this.getColumna(this.tabla.campoPrimario).visible = false;
           //console.log( this.campoPrimario );
         }
         resolve(this.tabla.columnas);
@@ -565,6 +568,11 @@ export class TablaComponent implements OnInit {
         if (respuesta.datos) {
           for (const colActual of respuesta.datos) {
             const col: Columna = new Columna();
+            if(col.nombre === this.tabla.campoPrimario){
+              //Oculta y hace lectura campo primario x defecto
+              col.visible = false;
+              col.lectura = true;
+            }
             col.nombre = colActual.nombre;
             col.nombreVisual = colActual.nombrevisual.toUpperCase();
             col.orden = colActual.orden;
@@ -589,9 +597,6 @@ export class TablaComponent implements OnInit {
           if (this.utilitario.isDefined(this.tabla.campoForanea)) {
             this.getColumna(this.tabla.campoForanea).visible = false;
           }
-          //Oculta y hace lectura campo primario
-          this.getColumna(this.tabla.campoPrimario).visible = false;
-          this.getColumna(this.tabla.campoPrimario).lectura = true;
         }
         resolve(this.tabla.columnas);
       }, (err) => {
@@ -1368,7 +1373,7 @@ export class TablaComponent implements OnInit {
   insertar() {
     if (this.lectura === false) {
       if (this.isDibujar) {
-        this.borrarFiltros(); //????
+        //this.borrarFiltros(); //????
         if (this.validarInsertar && this.getInsertadas().length > 0 && this.getTotalFilas() > 0) {
           this.utilitario.agregarMensajeAdvertencia('Ya existe un registro insertado',
             'No se puede insertar');

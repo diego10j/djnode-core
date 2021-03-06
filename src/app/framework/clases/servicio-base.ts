@@ -28,6 +28,10 @@ export class ServicioBase {
      */
     llamarServicioPost(servicio: string, body: any) {
         const url = `${environment.API_REST}/${servicio}`;
+        body['ide_empr'] = localStorage.getItem('ide_empr');
+        body['ide_sucu'] = localStorage.getItem('ide_sucu');
+        body['ide_usua'] = localStorage.getItem('ide_usua');
+        body['usuario'] = localStorage.getItem('identificacion');
         return this.http.post(url, body, this.headers);
     }
 

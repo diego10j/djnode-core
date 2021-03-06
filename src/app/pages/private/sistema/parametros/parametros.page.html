@@ -1,0 +1,14 @@
+<ion-content>
+  <app-mensaje #mensaje></app-mensaje>
+  <app-barra #barra>
+    <app-boton texto="Importar Parámetros" icono="cloud-download-outline" color="secondary" (onClick)="importar()">
+    </app-boton>
+  </app-barra>
+  <app-tabla #tabTabla1>
+    <ng-template #barra>
+      <app-boton texto="Configurar" color="primary" icono="hammer-outline" (click)="configurar()" [disabled]="!tabTabla1.seleccionada">
+      </app-boton>
+    </ng-template>
+  </app-tabla>
+  <app-modal-tabla #modTabla2></app-modal-tabla>
+</ion-content>

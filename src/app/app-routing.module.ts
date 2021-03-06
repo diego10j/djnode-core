@@ -5,7 +5,7 @@ import { PublicRoutingModule } from './pages/public/public-routing.module';
 import { ErrorComponent } from './pages/public/error/error.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', component: ErrorComponent },
+  { path: '**', component: ErrorComponent }
 ];
 
 

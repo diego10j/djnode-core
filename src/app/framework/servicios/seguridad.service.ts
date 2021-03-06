@@ -91,7 +91,7 @@ export class SeguridadService extends ServicioBase {
       ip: localStorage.getItem('ip') || '127.0.0.1',
       dispositivo: this.utilitario.getPlataforma()
     };
-    return this.llamarServicioPost('api/seguridad/registrar', body);
+    return this.llamarServicioPost('api/usuario/registrar', body);
   }
 
 

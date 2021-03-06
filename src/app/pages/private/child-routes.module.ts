@@ -62,6 +62,10 @@ const childRoutes: Routes = [
     loadChildren: () => import('./sistema/bloqueos/bloqueos.module').then(m => m.BloqueosPageModule)
   },
   {
+    path: 'parametros',
+    loadChildren: () => import('./sistema/parametros/parametros.module').then( m => m.ParametrosPageModule)
+  },
+  {
     path: 'perfil',
     loadChildren: () => import('./usuario/perfil/perfil.module').then(m => m.PerfilPageModule)
   },

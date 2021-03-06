@@ -168,4 +168,11 @@ export class SistemaService extends ServicioBase {
     return this.llamarServicioPost('api/sistema/getDatosClima', body);
   }
 
+  importarParametros() {
+    const body = {
+      ide_empr: localStorage.getItem('ide_empr')
+    };
+    return this.llamarServicioPost('api/sistema/importarParametros', body);
+  }
+
 }
