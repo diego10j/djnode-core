@@ -1,6 +1,6 @@
 {
   "name": "djnode-core",
-  "version": "0.2.1",
+  "version": "0.4.1",
   "license": "MIT",
   "author": "Diego Jacome",
   "homepage": "https://produapps.com/",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/diego10j/djnode.git"
+    "url": "https://github.com/diego10j/djnode-core.git"
   },
   "dependencies": {
     "@angular/animations": "^10.1.6",
@@ -73,7 +73,8 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "webpack-cli": "^4.5.0"
   },
   "config": {
     "ionic_source_map_type": "source-map",
