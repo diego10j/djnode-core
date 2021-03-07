@@ -68,11 +68,7 @@ export class SeguridadService extends ServicioBase {
 
 
   validarToken(): Observable<boolean> {
-    return this.http.get(`${environment.API_REST}/api/seguridad/renew`, {
-      headers: {
-        'x-token': this.token
-      }
-    }).pipe(
+    return this.http.get(`${environment.API_REST}/api/seguridad/renew`).pipe(
       map((resp: any) => {
         this.usuario = new Usuario(resp.datos.nombre, resp.datos.email, resp.datos.avatar, false, resp.datos.rol, resp.datos.ide_usua);
         this.guardarLocalStorage(resp);
@@ -176,7 +172,6 @@ export class SeguridadService extends ServicioBase {
   auditoriaAccesoPantalla(ide_opci: string, dispositivo: string) {
     const body = {
       ide_opci,
-      ide_usua: localStorage.getItem('ide_usua'),
       ip: localStorage.getItem('ip') || '127.0.0.1',
       dispositivo
     };
@@ -186,7 +181,6 @@ export class SeguridadService extends ServicioBase {
 
   private llamarServicioLogout(dispositivo: string) {
     const body = {
-      ide_usua: localStorage.getItem('ide_usua'),
       ip: localStorage.getItem('ip') || '127.0.0.1',
       dispositivo
     };
@@ -201,11 +195,11 @@ export class SeguridadService extends ServicioBase {
 
 
   getPantallasFrecuentes() {
-    const body = {
-      ide_usua: localStorage.getItem('ide_usua')
-    };
-    return this.llamarServicioPost('api/seguridad/getPantallasFrecuentes', body);
+    return this.llamarServicioPost('api/seguridad/getPantallasFrecuentes');
   }
 
+  borrarAuditoria() {
+    return this.llamarServicioPost('api/sistema/borrarAuditoria');
+  }
 
 }

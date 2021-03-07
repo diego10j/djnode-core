@@ -169,10 +169,7 @@ export class SistemaService extends ServicioBase {
   }
 
   importarParametros() {
-    const body = {
-      ide_empr: localStorage.getItem('ide_empr')
-    };
-    return this.llamarServicioPost('api/sistema/importarParametros', body);
+    return this.llamarServicioPost('api/sistema/importarParametros');
   }
 
 }

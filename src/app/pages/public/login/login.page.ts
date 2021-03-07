@@ -48,7 +48,9 @@ export class LoginPage {
       }, (err) => {
         // Si sucede un error
         this.utilitario.cerrarLoading();
-        this.utilitario.agregarMensajeError(err.error.mensaje);
+        if(this.utilitario.isDefined(err.error)){
+          this.utilitario.agregarMensajeError(err.error.mensaje);
+        }
       });
 
   }

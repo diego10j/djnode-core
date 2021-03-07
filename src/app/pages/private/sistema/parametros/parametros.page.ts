@@ -66,9 +66,20 @@ export class ParametrosPage extends Pantalla {
 
   }
 
-  importar(): void {
-
+  async importar(): Promise<void> {
+    this.tabTabla1.buscando = true;
+    this.sistema.importarParametros().subscribe(resp => {
+      const respuesta: any = resp;
+      this.mensaje.agregarMensajeExito(respuesta.mensaje);
+      this.tabTabla1.actualizar();
+      this.tabTabla1.buscando = false;
+    }, (err) => {
+      this.utilitario.agregarMensajeErrorServicioWeb(err);
+      this.tabTabla1.buscando = false;
+    }
+    );
   }
+
 
   configurar(): void {
     if (this.utilitario.isDefined(this.tabTabla1.seleccionada)) {

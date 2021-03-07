@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { BarraComponent } from '@djnode/componentes/barra/barra.component';
 import { MensajeComponent } from '@djnode/componentes/mensaje/mensaje.component';
 import { ActivatedRoute } from '@angular/router';
+import { SistemaService } from '../servicios/sistema.service';
 
 @Component({
   selector: 'pantalla',
@@ -15,7 +16,8 @@ export abstract class Pantalla {
 
 
 
-  constructor(public utilitario: UtilitarioService, public route: ActivatedRoute) {
+  constructor(public utilitario: UtilitarioService, public route: ActivatedRoute,
+    public sistema: SistemaService) {
   }
 
   ionViewDidEnter() {
