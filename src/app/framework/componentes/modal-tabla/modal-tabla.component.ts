@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, TemplateRef, ContentChild } from '@angular/core';
 import { TablaComponent } from '../tabla/tabla.component';
 
 @Component({
@@ -14,7 +14,13 @@ export class ModalTablaComponent {
   @Input() valorBotonCancelar = 'Cancelar';
   @Input() mostrarBotonAceptar = true;
   @Input() valorBotonAceptar = 'Aceptar';
+
+  @Input() width = '55%';
+  @Input() height = '65%';
   ejecutando = false;
+
+  @ContentChild('footer') footer: TemplateRef<any>;
+  @ContentChild('header') header: TemplateRef<any>;
 
   @ViewChild('tabTablaModal', { static: false }) tabTablaModal: TablaComponent;
 
@@ -32,7 +38,7 @@ export class ModalTablaComponent {
     this.titulo = titulo;
   }
 
-  public setModalFormulario(){
+  public setModalFormulario() {
     this.tabla.setLectura(false);
     this.tabla.setTipoFormulario();
     this.tabla.setNumeroColumnasGrid(1);

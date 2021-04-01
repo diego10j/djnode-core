@@ -28,13 +28,20 @@ export default class Columna {
     nullCombo = true;
     textoFiltro: string;
     tipoFiltro?: 'text' | 'numeric' | 'date' | 'boolean' = 'text';
-    ordenable=true;
-    expandible=false;
-    campoNombreAvatar:string;
+    ordenable = true;
+    expandible = false;
+    campoNombreAvatar: string;
     resizable = true;
+
+    //Boton/ Icono lado derecho
+    _iconoGroup: string;
+    _labelGroup: string;
+    _estiloGroup: string;
+    isGrupo = false;
 
     //Eventos
     onMetodoChange?: (event?: any) => void;
+    onClickBoton?: (event?: any) => void;
 
     setLongitud(_longitud: number) {
 
@@ -87,10 +94,12 @@ export default class Columna {
     }
 
     setEtiqueta() {
+        this.lectura = true;
         this.componente = 'Etiqueta';
     }
 
     setCombo(nombreTabla: string, campoPrimario: string, campoNombre: string, condicion?: string) {
+        this.listaCombo = [];
         this.configCombo = {
             nombreTabla,
             campoPrimario,
@@ -102,12 +111,21 @@ export default class Columna {
     }
 
     setComboSql(sql: string) {
+        this.listaCombo = [];
         this.configCombo = {
             sql
         };
         this.componente = "Combo";
         this.setLongitud(50);// ancho por defecto de una columna que se hace combo
     }
+
+
+    setComboLista(_listaCombo: any[]) {
+        this.componente = "Combo";
+        this.listaCombo = _listaCombo;
+        this.setLongitud(50); // ancho por defecto de una columna que se hace combo
+    }
+
 
     setAutocompletar() {
         if (this.componente === 'Combo') {
@@ -117,21 +135,21 @@ export default class Columna {
 
     setUpload() {
         this.componente = 'Upload';
-        this.ordenable=false;
-        if(this.lectura){
+        this.ordenable = false;
+        if (this.lectura) {
             this.anchoColumna = 10;
         }
-        else{
+        else {
             this.anchoColumna = 20;
         }
     }
 
-    setAvatar(campoNombreAvatar:string){
-        this.campoNombreAvatar=campoNombreAvatar;
+    setAvatar(campoNombreAvatar: string) {
+        this.campoNombreAvatar = campoNombreAvatar;
         this.componente = 'Avatar';
         this.anchoColumna = 5;
-        this.ordenable=false;
-        this.resizable=false;
+        this.ordenable = false;
+        this.resizable = false;
     }
 
     get isCombo(): boolean {
@@ -151,16 +169,16 @@ export default class Columna {
 
     setFiltro(_filtro: boolean) {
         this.filtro = true;
-        this.tipoFiltro='text';
-        if(_filtro){
-            if(this.tipo === 'numeric' || this.tipo ===  'decimal' || this.tipo === 'int' || this.tipo === 'bigint' || this.tipo === 'integer' || this.tipo === 'money'){
-                this.tipoFiltro='numeric';
+        this.tipoFiltro = 'text';
+        if (_filtro) {
+            if (this.tipo === 'numeric' || this.tipo === 'decimal' || this.tipo === 'int' || this.tipo === 'bigint' || this.tipo === 'integer' || this.tipo === 'money') {
+                this.tipoFiltro = 'numeric';
             }
-            else if(this.tipo === 'date'){
-                this.tipoFiltro='date';
+            else if (this.tipo === 'date') {
+                this.tipoFiltro = 'date';
             }
-            else if(this.tipo === 'boolean'){
-                this.tipoFiltro='boolean';
+            else if (this.tipo === 'boolean') {
+                this.tipoFiltro = 'boolean';
             }
         }
     }
@@ -171,11 +189,27 @@ export default class Columna {
 
     setLectura(_lectura: boolean) {
         this.lectura = _lectura;
-        this.componente='Etiqueta';
+        
     }
 
-    setValorDefecto(_valorDefecto:any){
-        this.valorDefecto=_valorDefecto;
+ 
+    setValorDefecto(_valorDefecto: any) {
+        this.valorDefecto = _valorDefecto;
+    }
+
+    setIconoGrupo(icono: string) {
+        this._iconoGroup = icono;
+        this.isGrupo = true;
+    }
+
+    setLabelGrupo(label: string) {
+        this._labelGroup = label;
+        this.isGrupo = true;
+    }
+
+    setEstiloGrupo(estilo: string) {
+        this._estiloGroup = 'p-button-secondary;'+estilo;
+        this.isGrupo = true;
     }
 
 }

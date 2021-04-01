@@ -19,6 +19,10 @@ export class EmpresaPage extends Pantalla{
     this.tabTabla1.ocultarBotonEliminar();
     this.tabTabla1.setTitulo('Datos de la Empresa');
     this.tabTabla1.getColumna('logo_empr').setUpload();
+    this.tabTabla1.getColumna('contacto_empr').setIconoGrupo('pi pi-user');
+    this.tabTabla1.getColumna('mail_empr').setIconoGrupo('pi pi-envelope');
+    this.tabTabla1.getColumna('telefono_empr').setIconoGrupo('pi pi-phone');
+    this.tabTabla1.getColumna('direccion_empr').setIconoGrupo('pi pi-map');
     this.tabTabla1.setLectura(false);
     this.tabTabla1.setTipoFormulario();
     this.tabTabla1.setUnico();

@@ -1,8 +1,6 @@
-
-
-<p-dialog [(visible)]="visible" [style]="{width: '55%',height: '65%'}" [closable]="false" [draggable]="false"
+<p-dialog [(visible)]="visible" [style]="{width: width,height: height}" [closable]="false" [draggable]="false"
   [resizable]="false" [modal]=true styleClass="dialogo" [autoZIndex]="false" [baseZIndex]="2000">
-  <p-header>
+  <ng-template pTemplate="header">
     <ion-toolbar mode="ios" class="width100 border-bottom">
       <ion-buttons slot="end">
         <ion-button (click)="cerrar()">
@@ -11,22 +9,29 @@
       </ion-buttons>
       <ion-title>{{titulo}}</ion-title>
     </ion-toolbar>
-  </p-header>
+  </ng-template>
 
+  <ng-container>
+    <ng-template [ngTemplateOutlet]="header"></ng-template>
+  </ng-container>
   <app-tabla #tabTablaModal></app-tabla>
+  <ng-container>
+    <ng-template [ngTemplateOutlet]="footer"></ng-template>
+  </ng-container>
+
 
   <p-footer>
-    <ion-footer class="ion-no-border">
-      <ion-toolbar mode="ios" lines="none" class="border-top" color="light">
-        <ion-button *ngIf="mostrarBotonCancelar" size="small" slot="end" fill="outline" (click)="cancelar()">
-          {{valorBotonCancelar}}
-        </ion-button>
-        <ion-button *ngIf="mostrarBotonAceptar" size="small" style="padding-left:20px" slot="end" (click)="aceptar()"
-          [disabled]="ejecutando">
-          <ion-spinner *ngIf="ejecutando"></ion-spinner>
-          <ion-label> {{valorBotonAceptar}}</ion-label>
-        </ion-button>
-      </ion-toolbar>
-    </ion-footer>
+    <ion-toolbar mode="ios" lines="none" class="border-top" color="light">
+      <ion-button *ngIf="mostrarBotonCancelar" size="small" slot="end" fill="outline" (click)="cancelar()">
+        {{valorBotonCancelar}}
+      </ion-button>
+      <ion-button *ngIf="mostrarBotonAceptar" size="small" style="padding-left:20px" slot="end" (click)="aceptar()"
+        [disabled]="ejecutando">
+        <ion-spinner *ngIf="ejecutando"></ion-spinner>
+        <ion-label> {{valorBotonAceptar}}</ion-label>
+      </ion-button>
+    </ion-toolbar>
   </p-footer>
+
+
 </p-dialog>

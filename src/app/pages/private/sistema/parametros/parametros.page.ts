@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Pantalla } from '@djnode/clases/pantalla';
+import { ModalTablaSeleccionComponent } from '@djnode/componentes/modal-tabla-seleccion/modal-tabla-seleccion.component';
 import { ModalTablaComponent } from '@djnode/componentes/modal-tabla/modal-tabla.component';
 import { TablaComponent } from '@djnode/componentes/tabla/tabla.component';
 import Condicion from '@djnode/interfaces/condicion';
@@ -14,6 +15,8 @@ export class ParametrosPage extends Pantalla {
 
   @ViewChild('tabTabla1', { static: false }) tabTabla1: TablaComponent;
   @ViewChild('modTabla2', { static: false }) modTabla2: ModalTablaComponent;
+
+  @ViewChild('modTabSeleccion', { static: false }) modTabSeleccion: ModalTablaSeleccionComponent;
 
   condicionTabla2: Condicion = { condicion: 'ide_para = ?', valores: [-1] };
 
@@ -43,15 +46,31 @@ export class ParametrosPage extends Pantalla {
     this.modTabla2.tabla.getColumna('tabla_para').setVisible(false);
     this.modTabla2.tabla.getColumna('campo_codigo_para').setVisible(false);
     this.modTabla2.tabla.getColumna('campo_nombre_para').setVisible(false);
+    this.modTabla2.tabla.getColumna('nom_para').setLectura(true);
     this.modTabla2.tabla.getColumna('ide_empr').setVisible(false);
+    this.modTabla2.tabla.getColumna('valor_para').setIconoGrupo('pi pi-check-circle');
+    this.modTabla2.tabla.getColumna('valor_para').setLabelGrupo('Modificar');
+    this.modTabla2.tabla.getColumna('valor_para').onClickBoton = () => { this.abrirTablaSeleccion(); };
+    this.modTabla2.tabla.onDibujar = () => { this.onDibujarTablaModal(); };
+
     // Para no hacer otra consulta ocupa el combo de la tabla1
-    this.modTabla2.tabla.getColumna('ide_modu').listaCombo = this.tabTabla1.getColumna('ide_modu').listaCombo;
+    this.modTabla2.tabla.getColumna('ide_modu').setComboLista(this.tabTabla1.getColumna('ide_modu').listaCombo);
     this.modTabla2.tabla.setCondiciones(this.condicionTabla2);
-    this.modTabla2.onClickAceptar = () => { this.guardar(); };
+    this.modTabla2.onClickAceptar = () => { this.acpetarConfiguracion(); };
     this.modTabla2.tabla.dibujar(); // última
 
   }
 
+  onDibujarTablaModal() {
+    if (this.utilitario.isDefined(this.modTabla2.tabla.getValor('tabla_para'))) {
+      this.modTabla2.tabla.getColumna('valor_para').isGrupo = true;
+      this.modTabla2.tabla.getColumna('valor_para').setLectura(true);
+    }
+    else {
+      this.modTabla2.tabla.getColumna('valor_para').setLectura(false);
+      this.modTabla2.tabla.getColumna('valor_para').isGrupo = false;
+    }
+  }
 
 
   guardar(): void {
@@ -66,16 +85,25 @@ export class ParametrosPage extends Pantalla {
 
   }
 
+  acpetarConfiguracion() {
+
+  }
+
+  acpetarTablaSeleccion() {
+
+  }
+
+  abrirTablaSeleccion(): void {
+    this.modTabSeleccion.abrir();
+  }
+
   async importar(): Promise<void> {
-    this.tabTabla1.buscando = true;
     this.sistema.importarParametros().subscribe(resp => {
       const respuesta: any = resp;
       this.mensaje.agregarMensajeExito(respuesta.mensaje);
       this.tabTabla1.actualizar();
-      this.tabTabla1.buscando = false;
     }, (err) => {
       this.utilitario.agregarMensajeErrorServicioWeb(err);
-      this.tabTabla1.buscando = false;
     }
     );
   }

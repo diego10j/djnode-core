@@ -199,7 +199,7 @@ export class SeguridadService extends ServicioBase {
   }
 
   borrarAuditoria() {
-    return this.llamarServicioPost('api/sistema/borrarAuditoria');
+    return this.llamarServicioPost('api/seguridad/borrarAuditoria');
   }
 
 }

@@ -63,10 +63,10 @@ export class ConsultaAuditoriaPage extends Pantalla {
   }
 
   eliminarAuditoria(): void {
-    const ide_tabl = this.tabTabla1.getValorSeleccionado();
+  
     this.tabTabla1.buscando = true;
     //Configuracion inicial de la tabla
-    this.utilitario.sistemaService.eliminarConfiguracionTabla(ide_tabl).subscribe(resp => {
+    this.seguridad.borrarAuditoria().subscribe(resp => {
       this.tabTabla1.seleccionada = null;
       this.tabTabla1.actualizar();
     }, (err) => {

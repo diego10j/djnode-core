@@ -123,6 +123,7 @@ export class TablaComponent implements OnInit {
 
   //Templates
   @ContentChild('barra') barra: TemplateRef<any>;
+  @ContentChild('footer') footer: TemplateRef<any>;
 
   @ViewChild('djtabla', { static: false }) djtabla: Table;
   @ViewChild('opcionesTabla', { static: false }) opcionesTabla: TieredMenu;
@@ -263,13 +264,11 @@ export class TablaComponent implements OnInit {
   onModificar?: (event?: any) => void;
   onEliminar?: (event?: any) => void;
   onInsertar?: (event?: any) => void;
-
+  onDibujar?: (event?: any) => void;
 
   setNumeroColumnasGrid(numeroColumnas: number) {
     this.sizeColumnas = numeroColumnas;
   }
-
-
 
   public insertarClick() {
 
@@ -503,7 +502,7 @@ export class TablaComponent implements OnInit {
         if (respuesta.datos) {
           for (const colActual of respuesta.datos) {
             const col: Columna = new Columna();
-            if(col.nombre === this.tabla.campoPrimario){
+            if (col.nombre === this.tabla.campoPrimario) {
               //Oculta y hace lectura campo primario x defecto
               col.visible = false;
             }
@@ -563,12 +562,12 @@ export class TablaComponent implements OnInit {
   private formarColumnas(): Promise<Columna[]> {
     const ide_opci = this.utilitario.getIdeOpci();
     return new Promise(resolve => {
-      this.sistemaService.getColumnasTabla(this.tabla.nombreTabla, ide_opci, this.numeroTabla).subscribe(async resp => {
+      this.sistemaService.getColumnasTabla(this.tabla.nombreTabla, this.tabla.campoPrimario, ide_opci, this.numeroTabla).subscribe(async resp => {
         const respuesta: any = resp;
         if (respuesta.datos) {
           for (const colActual of respuesta.datos) {
             const col: Columna = new Columna();
-            if(col.nombre === this.tabla.campoPrimario){
+            if (col.nombre === this.tabla.campoPrimario) {
               //Oculta y hace lectura campo primario x defecto
               col.visible = false;
               col.lectura = true;
@@ -670,7 +669,7 @@ export class TablaComponent implements OnInit {
     return new Promise(async resolve => {
       const columnasCombo = this.columnas.filter(col => col.isCombo === true);
       for (const colActual of columnasCombo) {
-        colActual.listaCombo = [];
+        //colActual.listaCombo = [];
         if (this.utilitario.isDefined(colActual.configCombo.sql)) {
           //es combo sql
           await new Promise(resolve => {
@@ -851,6 +850,12 @@ export class TablaComponent implements OnInit {
             if (this.tabla.numeroTabla === '1') {
               this.setFocus();
             }
+          }
+
+          if (this.onDibujar) {
+            this.onDibujar({
+              originalEvent: null
+            });
           }
 
         }
@@ -1130,18 +1135,40 @@ export class TablaComponent implements OnInit {
    */
   onMetodoChange(event, nombreColumna, fila) {
     const columna = this.getColumna(nombreColumna);
-    this.seleccionada = fila;
-    if (this.utilitario.isDefined(this.seleccionada['insertada']) === false) {
-      this.seleccionada['modificada'] = true;
-      let colModificadas = [];
-      if (this.utilitario.isDefined(this.seleccionada['colModificadas'])) {
-        colModificadas = this.seleccionada['colModificadas'];
+    //Valida que la columna no sea solo lectura
+    if (columna.lectura === false) {
+      console.log('yyyy');
+      this.seleccionada = fila;
+      if (this.utilitario.isDefined(this.seleccionada['insertada']) === false) {
+        this.seleccionada['modificada'] = true;
+        let colModificadas = [];
+        if (this.utilitario.isDefined(this.seleccionada['colModificadas'])) {
+          colModificadas = this.seleccionada['colModificadas'];
+        }
+        colModificadas.indexOf(columna.nombre) === -1 ? colModificadas.push(columna.nombre) : colModificadas;
+        this.seleccionada['colModificadas'] = colModificadas;
       }
-      colModificadas.indexOf(columna.nombre) === -1 ? colModificadas.push(columna.nombre) : colModificadas;
-      this.seleccionada['colModificadas'] = colModificadas;
+      if (columna.onMetodoChange) {
+        columna.onMetodoChange({
+          originalEvent: event
+        });
+      }
     }
-    if (columna.onMetodoChange) {
-      columna.onMetodoChange({
+
+  }
+
+
+  /**
+ * Ejecuta el método cuando da click en el botón asosciado a la columna
+ * @param event 
+ * @param columna 
+ * @param rowIndex 
+ */
+  onClickBoton(event, nombreColumna, fila) {
+    const columna = this.getColumna(nombreColumna);
+    this.seleccionada = fila;
+    if (columna.onClickBoton) {
+      columna.onClickBoton({
         originalEvent: event
       });
     }

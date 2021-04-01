@@ -54,6 +54,7 @@ import { TextoComponent } from './texto/texto.component';
 import { AutocompletarComponent } from './autocompletar/autocompletar.component';
 import { CheckComponent } from './check/check.component';
 import { HoraComponent } from './hora/hora.component';
+import { ModalTablaSeleccionComponent } from './modal-tabla-seleccion/modal-tabla-seleccion.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { HoraComponent } from './hora/hora.component';
     AvatarComponent,
     ModalComponent,
     ModalTablaComponent,
+    ModalTablaSeleccionComponent,
     CalendarioComponent,
     ComboComponent,
     RangoFechasComponent,
@@ -93,6 +95,7 @@ import { HoraComponent } from './hora/hora.component';
     AvatarComponent,
     ModalComponent,
     ModalTablaComponent,
+    ModalTablaSeleccionComponent,
     CalendarioComponent,
     ComboComponent,
     RangoFechasComponent,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-modal-tabla-seleccion',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalTablaSeleccionComponent implements OnInit {
 
+  @ViewChild('modalTabSelecccion', { static: false }) modalTabSelecccion: ModalComponent;
+
   constructor() { }
 
   ngOnInit() {}
+
+  abrir(){
+    this.modalTabSelecccion.abrir(); 
+  }
 
 }

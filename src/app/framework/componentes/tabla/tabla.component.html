@@ -32,7 +32,7 @@
                             class="p-input-icon-left" style="padding-right:5px">
                             <i class="pi pi-search"></i>
                             <input [(ngModel)]="textoFiltroGlobal" pInputText type="text" placeholder="Buscar"
-                                (input)="onFiltroGlobal(textoFiltroGlobal)" class="texto-busqueda"  />                              
+                                (input)="onFiltroGlobal(textoFiltroGlobal)" class="texto-busqueda" />
                         </span>
                         <button pButton pRipple *ngIf="isBotonInsertar" icon="pi pi-plus" pTooltip="Insertar"
                             tooltipPosition="bottom" class="p-button-success p-mr-2  p-button-sm"
@@ -618,10 +618,34 @@
 
                                 <div *ngIf="columna.componente === 'Texto'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
-                                    <input pInputText type="text" [(ngModel)]="seleccionada[columna.nombre]"
-                                        class="componente componente-formulario"
-                                        (change)="onMetodoChange($event,columna.nombre,seleccionada)"
-                                        [disabled]="columna.lectura" [maxlength]="columna.longitud">
+                                    <div class="p-inputgroup">
+                                        <input pInputText type="text" [(ngModel)]="seleccionada[columna.nombre]"
+                                            class="componente componente-formulario"
+                                            (change)="onMetodoChange($event,columna.nombre,seleccionada)"
+                                            [disabled]="columna.lectura" [maxlength]="columna.longitud">
+                                        <ng-container *ngIf="columna.isGrupo">
+                                            <span *ngIf="!columna.onClickBoton; else botonColumna"
+                                                class="p-inputgroup-addon componente-formulario"><i
+                                                    [class]="columna._iconoGroup"></i>
+                                                <span
+                                                    *ngIf="columna._labelGroup">&nbsp;{{columna._labelGroup}}&nbsp;</span>
+                                            </span>
+                                            <ng-template #botonColumna>
+                                                <button *ngIf="!columna._labelGroup" type="button" pButton pRipple
+                                                    [icon]="columna._iconoGroup" class="p-button-secondary"
+                                                    style="margin-left: 0;"
+                                                    (click)="onClickBoton($event,columna.nombre,seleccionada)"></button>
+                                                <button *ngIf="columna._labelGroup" type="button" pButton pRipple
+                                                    [icon]="columna._iconoGroup" class="p-button-secondary"
+                                                    style="padding-right: 30px;margin-left: 0;"
+                                                    (click)="onClickBoton($event,columna.nombre,seleccionada)"
+                                                    [label]="columna._labelGroup? columna._labelGroup:null"></button>
+
+                                            </ng-template>
+
+                                        </ng-container>
+                                    </div>
+
                                 </div>
                                 <div *ngIf="columna.componente === 'Calendario'" class="p-inputtext-sm"
                                     style="white-space:pre-line;">
@@ -925,6 +949,9 @@
 
 
 
+            </ng-container>
+            <ng-container>
+                <ng-template [ngTemplateOutlet]="footer"></ng-template>
             </ng-container>
         </ion-card-content>
 

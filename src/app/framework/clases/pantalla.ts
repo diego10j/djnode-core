@@ -4,6 +4,7 @@ import { BarraComponent } from '@djnode/componentes/barra/barra.component';
 import { MensajeComponent } from '@djnode/componentes/mensaje/mensaje.component';
 import { ActivatedRoute } from '@angular/router';
 import { SistemaService } from '../servicios/sistema.service';
+import { SeguridadService } from '../servicios/seguridad.service';
 
 @Component({
   selector: 'pantalla',
@@ -17,7 +18,7 @@ export abstract class Pantalla {
 
 
   constructor(public utilitario: UtilitarioService, public route: ActivatedRoute,
-    public sistema: SistemaService) {
+    public sistema: SistemaService, public seguridad: SeguridadService) {
   }
 
   ionViewDidEnter() {

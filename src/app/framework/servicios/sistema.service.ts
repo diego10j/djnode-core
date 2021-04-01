@@ -34,10 +34,11 @@ export class SistemaService extends ServicioBase {
   /**
    * Llama al ws getColumnasTabla
    */
-  getColumnasTabla(nombreTabla: string, ide_opci: string, numero_tabl: string) {
+  getColumnasTabla(nombreTabla: string, campoPrimario: string, ide_opci: string, numero_tabl: string) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     const body = {
       nombreTabla,
+      campoPrimario,
       ide_opci,
       numero_tabl
     };
