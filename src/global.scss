@@ -1120,9 +1120,12 @@ ion-button {
   color: var(--ion-color-text);
   border-color: var(--ion-color-light-shade);
 }
-
 .p-inputtext:enabled:focus {
   box-shadow: none;
+  border-color: var(--ion-color-primary);
+}
+.p-inputtext:not(.p-disabled):hover {
+  border-color: var(--ion-color-primary);
 }
 
 .p-component {
@@ -1476,6 +1479,39 @@ ion-button {
   background: var(--ion-background-active);
   color: var(--ion-color-light-contrast);
 }
+
+//checkbox
+.p-checkbox .p-checkbox-box {
+  background: var(--ion-background-color);
+}
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
+  color: var(--ion-background-color);
+}
+.p-checkbox .p-checkbox-box.p-highlight {
+  border-color: var(--ion-color-primary);
+  background: var(--ion-color-primary);
+}
+
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+  box-shadow: none;
+  border-color: var(--ion-color-primary);
+}
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color:var(--ion-color-primary-shade);
+  background: var(--ion-color-primary);
+}
+
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+  border-color: var(--ion-color-primary);
+}
+.p-input-filled .p-checkbox .p-checkbox-box.p-highlight {
+  background:var(--ion-color-primary);
+}
+.p-input-filled .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  background: var(--ion-color-primary-shade);
+}
+
+
 
 /////
 .dp-popup {

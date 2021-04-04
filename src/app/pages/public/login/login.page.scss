@@ -7,11 +7,11 @@ ion-content {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--ion-color-light-contrast);
+  color: var(--ion-color-text);
 }
 
 body {
-  color: var(--ion-color-light-contrast);
+  color: var(--ion-color-text);
   min-height: 100vh;
   width: 100%;
   display: grid;
@@ -26,7 +26,7 @@ section {
 }
 
 section.side {
-  background: url(../../../../assets/img/bk.png) no-repeat;
+  background: url(../../../../assets/img/bk1.png) no-repeat;
   background-size: 100% 102%;
 }
 
@@ -54,7 +54,7 @@ section.side {
 .separator {
   width: 150px;
   height: 4px;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--ion-color-primary);
   margin: 24px;
 }
 
@@ -88,11 +88,13 @@ button {
 
 input {
   width: 100%;
-  background: var(--ion-color-light);
+  background: var(--ion-background);
   color: var(--ion-color-light-contrast);
   border-color: var(--ion-color-light-shade);
   letter-spacing: 0.5px;
   padding: 14px 64px;
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 10px;
 }
 
 input ~ i {
@@ -100,7 +102,7 @@ input ~ i {
   left: 32px;
   top: 50%;
   transform: translateY(-50%);
-  color: #8594a3;
+  color: var(--ion-color-medium-shade);
   transition: color   0.4s;
 }
 
@@ -115,7 +117,7 @@ button.submit {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: bold;
-  background:var(--ion-color-secondary);
+  background:var(--ion-color-primary);
   cursor: pointer;
   transition: opacity 0.4s;
 }
@@ -142,7 +144,7 @@ button.submit:hover {
   display: flex;
   
   a {
-    color: var(--ion-color-secondary) !important;
+    color: var(--ion-color-primary) !important;
     font-weight: 600;
     text-decoration: none;
   }
@@ -152,10 +154,10 @@ button.submit:hover {
     font-size: 14px;
     font-weight: 600;
     padding-left: 3px;
-    color: var(--ion-color-secondary) 
+    color: var(--ion-color-primary) 
 
  }
  button:hover{
-  color: var(--ion-color-secondary-tint) 
+  color: var(--ion-color-primary-tint) 
 }
 }

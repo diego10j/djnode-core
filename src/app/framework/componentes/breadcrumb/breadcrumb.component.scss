@@ -24,7 +24,7 @@
 
     ul li:last-child a.p-menuitem-link {
       .p-menuitem-text {
-        color: #ffffff;
+        color: var(--ion-color-dark);
         cursor: pointer;
       }
     }

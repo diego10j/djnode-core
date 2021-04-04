@@ -4,7 +4,7 @@
   <app-calendario #calFechaInicial style="width: 7rem;"> </app-calendario>
   <ion-label class="textos-float ion-padding-horizontal">Fecha Final:</ion-label>
   <app-calendario #calFechaFinal style="width: 7rem;margin-right: 15px;"> </app-calendario>
-  <app-boton icono="pi pi-search" titulo="Buscar" color="medium" modo="prime" (click)="buscarClick()"></app-boton>
+  <app-boton icono="pi pi-search" titulo="Buscar" color="secondary" modo="prime" (click)="buscarClick()"></app-boton>
 </ion-row>
 <!--  MOVIL -->
 <ion-row *ngIf="plataforma !== 'desktop'" style="align-items: center;" class="ion-no-padding">
@@ -15,6 +15,6 @@
     <app-calendario #calFechaFinal class="app-calendario" label=" Fecha Fin"></app-calendario>
   </ion-col>
   <ion-col class="ion-no-padding">
-    <app-boton style="margin-top: 17px;display: block;" icono="pi pi-search" titulo="Buscar" color="medium" modo="prime" (click)="buscarClick()"></app-boton>
+    <app-boton style="margin-top: 17px;display: block;" icono="pi pi-search" titulo="Buscar" color="secondary" modo="prime" (click)="buscarClick()"></app-boton>
   </ion-col>
 </ion-row>
