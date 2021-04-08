@@ -1,5 +1,6 @@
-<p-dialog [(visible)]="visible" [style]="{width: '50%',height: '60%'}" [closable]="false" [draggable]="false"
-  [resizable]="false" [modal]=true styleClass="dialogo" appendTo="body" [baseZIndex]="1">
+<p-dialog [(visible)]="visible" [style]="{width: width,height: height}" [closable]="false" [draggable]="false"
+  [responsive]="true" [resizable]="false" [modal]=true styleClass="dialogo"  [baseZIndex]="2000"
+  [autoZIndex]="false">
   <p-header>
     <ion-toolbar mode="ios" class="bg-white width100 border-bottom">
       <ion-buttons slot="end">
@@ -17,12 +18,12 @@
     <ion-footer class="ion-no-border">
       <ion-toolbar mode="ios" lines="none" class="border-top" color="light">
         <ion-button *ngIf="mostrarBotonCancelar" size="small" slot="end" fill="outline" (click)="cancelar()">
-          {{valorBotonCancelar}}
+          {{labelBotonCancelar}}
         </ion-button>
         <ion-button *ngIf="mostrarBotonAceptar" size="small" style="padding-left:20px" slot="end" (click)="aceptar()"
           [disabled]="ejecutando">
           <ion-spinner *ngIf="ejecutando"></ion-spinner>
-          <ion-label> {{valorBotonAceptar}}</ion-label>
+          <ion-label> {{labelBotonAceptar}}</ion-label>
         </ion-button>
       </ion-toolbar>
     </ion-footer>

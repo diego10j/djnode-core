@@ -44,7 +44,7 @@ export class UsuariosPage extends Pantalla {
     this.modTabla2.tabla.getColumna('activo_usua').setValorDefecto(true);
     this.modTabla2.tabla.getColumna('avatar_usua').setUpload();
     this.modTabla2.tabla.setCondiciones(this.condicionTabla2);
-    this.modTabla2.onClickAceptar = () => { this.guardar(); };
+    this.modTabla2.modal.onClickAceptar = () => { this.guardar(); };
     this.modTabla2.tabla.dibujar(); // última
 
   }
@@ -57,7 +57,7 @@ export class UsuariosPage extends Pantalla {
       this.modTabla2.cerrar();
     }
     else {
-      this.modTabla2.ejecutando = false;
+      this.modTabla2.completarLoading();
     }
   }
 

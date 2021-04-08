@@ -11,10 +11,14 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   @Input() titulo = 'Título';
   @Input() mostrarBotonCancelar = true;
-  @Input() valorBotonCancelar = 'Cancelar';
+  @Input() labelBotonCancelar = 'Cancelar';
   @Input() mostrarBotonAceptar = true;
-  @Input() valorBotonAceptar = 'Aceptar';
+  @Input() labelBotonAceptar = 'Aceptar';
   @Input() visible = false;
+
+  @Input() width = "65%";
+  @Input() height = "55%";
+
   ejecutando = false;
 
   //Eventos

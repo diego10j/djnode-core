@@ -632,12 +632,12 @@
                                             </span>
                                             <ng-template #botonColumna>
                                                 <button *ngIf="!columna._labelGroup" type="button" pButton pRipple
-                                                    [icon]="columna._iconoGroup" class="p-button-secondary"
+                                                    [icon]="columna._iconoGroup" class="p-button-info"
                                                     style="margin-left: 0;"
                                                     (click)="onClickBoton($event,columna.nombre,seleccionada)"></button>
                                                 <button *ngIf="columna._labelGroup" type="button" pButton pRipple
-                                                    [icon]="columna._iconoGroup" class="p-button-secondary"
-                                                    style="padding-right: 30px;margin-left: 0;"
+                                                    [icon]="columna._iconoGroup" class="p-button-info"
+                                                    style="padding-right: 30px;margin-left: 0;" [pTooltip]="columna._labelGroup? columna._labelGroup:null"
                                                     (click)="onClickBoton($event,columna.nombre,seleccionada)"
                                                     [label]="columna._labelGroup? columna._labelGroup:null"></button>
 

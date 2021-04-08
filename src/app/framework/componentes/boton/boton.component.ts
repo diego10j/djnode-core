@@ -18,6 +18,8 @@ export class BotonComponent implements OnInit {
   @Input() soloBorde = false;
   @Output() onClick = new EventEmitter<any>();
 
+  ejecutando = false;
+
   onClickButton(event) {
     this.onClick.emit(event);
   }
@@ -32,5 +34,13 @@ export class BotonComponent implements OnInit {
   constructor() { }
 
   ngOnInit() { }
+
+  iniciarLoading() {
+    this.ejecutando = true;
+  }
+
+  completarLoading() {
+    this.ejecutando = false;
+  }
 
 }

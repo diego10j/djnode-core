@@ -1,42 +1,27 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild, TemplateRef, ContentChild } from '@angular/core';
 import { TablaComponent } from '../tabla/tabla.component';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-modal-tabla',
   templateUrl: './modal-tabla.component.html',
   styleUrls: ['./modal-tabla.component.scss'],
 })
-export class ModalTablaComponent {
+export class ModalTablaComponent{
 
-  @Input() visible = false;
-  @Input() titulo = 'Titulo';
-  @Input() mostrarBotonCancelar = true;
-  @Input() valorBotonCancelar = 'Cancelar';
-  @Input() mostrarBotonAceptar = true;
-  @Input() valorBotonAceptar = 'Aceptar';
 
-  @Input() width = '55%';
-  @Input() height = '65%';
-  ejecutando = false;
-
-  @ContentChild('footer') footer: TemplateRef<any>;
-  @ContentChild('header') header: TemplateRef<any>;
-
+  @ViewChild('modalTabla', { static: false }) modalTabla: ModalComponent;
   @ViewChild('tabTablaModal', { static: false }) tabTablaModal: TablaComponent;
 
-  //Eventos
-  public onClickAceptar?: (event?: any) => void;
-  public onClickCancelar?: (event?: any) => void;
+  
 
   constructor() {
+
   }
 
   ngOnInit() {
   }
 
-  public setTitulo(titulo: string) {
-    this.titulo = titulo;
-  }
 
   public setModalFormulario() {
     this.tabla.setLectura(false);
@@ -47,33 +32,46 @@ export class ModalTablaComponent {
   }
 
   public abrir() {
-    this.visible = true;
+    this.modalTabla.abrir();
   }
 
   public cerrar() {
-    this.ejecutando = false;
-    this.visible = false;
-    if (this.onClickCancelar) {
-      this.onClickCancelar({
-        originalEvent: null
-      });
-    }
+    this.modalTabla.cerrar();
   }
 
   aceptar() {
-    this.ejecutando = true;
-    if (this.onClickAceptar) {
-      this.onClickAceptar({
-        originalEvent: null
-      });
-    }
+    this.modalTabla.aceptar();
   }
+
   cancelar() {
-    this.cerrar();
+    this.modalTabla.cerrar();
+  }
+
+
+  completarLoading() {
+    this.modal.ejecutando = false;
   }
 
 
   get tabla(): TablaComponent {
     return this.tabTablaModal;
   }
+
+  get modal(): ModalComponent {
+    return this.modalTabla;
+  }
+
+  setWidth(width: string) {
+    this.modalTabla.width = width;
+  }
+
+  setHeight(height: string) {
+    this.modalTabla.height = height
+  }
+
+  public setTitulo(titulo: string) {
+    this.modalTabla.titulo = titulo;
+  }
+
+
 }
