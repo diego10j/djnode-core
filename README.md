@@ -9,7 +9,7 @@ Framework para crear aplicaciones de manera rápida usando componentes Ionic y P
 
 ## Demo
 
-https://djnode-core.produapps.com/login
+https://djnode-core.produapps.com
 
 * Usuario :  admin
 * Contraseña: 1234
