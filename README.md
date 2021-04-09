@@ -20,3 +20,7 @@ https://djnode-core.produapps.com/login
 <img src="pantallas/login.png?raw=1" width="750" />
 </p>
 
+<p>
+<img src="pantallas/inicio.png?raw=1" width="750" />
+</p>
+
