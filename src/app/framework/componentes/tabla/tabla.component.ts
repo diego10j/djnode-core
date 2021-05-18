@@ -796,7 +796,7 @@ export class TablaComponent implements OnInit {
     }
     // this.tabla.datos=[];
     this.seleccionada = null;
-    this.sistemaService.consultarTabla(this.tabla.nombreTabla, this.tabla.campoOrden, condicionesTabla,
+    this.sistemaService.consultarTabla(this.tabla.nombreTabla, this.tabla.campoPrimario, this.tabla.campoOrden, condicionesTabla,
       this.tabla.numeroFilas, this.tabla.pagina).subscribe(resp => {
         const respuest: any = resp;
         if (respuest.datos) {

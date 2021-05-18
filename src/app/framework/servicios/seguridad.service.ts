@@ -37,13 +37,13 @@ export class SeguridadService extends ServicioBase {
           localStorage.setItem('ultimaFecha', resp.ultimaFecha);
           localStorage.setItem('ide_empr', resp.ide_empr);
           localStorage.setItem('perm_util_perf', resp.perm_util_perf);
+          localStorage.setItem('menu', JSON.stringify(resp.menu));
         })
       );
   }
 
   guardarLocalStorage(resp: any) {
     localStorage.setItem('token', resp.token);
-    localStorage.setItem('menu', JSON.stringify(resp.datos.menu));
     localStorage.setItem('ide_usua', resp.datos.ide_usua);
     localStorage.setItem('avatar', resp.datos.avatar);
     localStorage.setItem('identificacion', resp.datos.identificacion);

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
 
-  API_REST:  'https://djnode-api.produapps.com',//https://djnode-api.produapps.com
+  API_REST:  'http://',//https://djnode-api.produapps.com
   FORMATO_FECHA: 'YYYY-MM-DD',
   FORMATO_FECHAHORA: 'YYYY-MM-DD HH:mm:ss',
   MASCARA_FECHA: '9999-99-99',

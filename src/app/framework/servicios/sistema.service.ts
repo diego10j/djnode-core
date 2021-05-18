@@ -18,11 +18,13 @@ export class SistemaService extends ServicioBase {
    * @param filas 
    * @param pagina 
    */
-  consultarTabla(nombreTabla: string, campoOrden: string, condiciones: Condicion[], filas: number, pagina: number) {
+  consultarTabla(nombreTabla: string, campoPrimario: string, campoOrden: string, condiciones: Condicion[], filas: number, pagina: number) {
     nombreTabla = nombreTabla.toLowerCase();//pg estandar para tablas
     campoOrden = campoOrden.toLowerCase();//pg estandar para tablas
+    campoPrimario = campoPrimario.toLowerCase();//pg estandar para tablas
     const body = {
       nombreTabla,
+      campoPrimario,
       campoOrden,
       condiciones,
       filas,
