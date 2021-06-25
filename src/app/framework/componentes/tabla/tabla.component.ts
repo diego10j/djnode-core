@@ -582,7 +582,7 @@ export class TablaComponent implements OnInit {
             col.anchoColumna = colActual.anchocolumna;
             col.componente = colActual.componente;
             col.visible = colActual.visible;
-            col.lectura = colActual.lectura;
+            col.lectura = colActual.lectura || false;
             col.valorDefecto = colActual.valordefecto;
             col.mascara = colActual.mascara;
             col.filtro = colActual.filtro;
@@ -1137,7 +1137,6 @@ export class TablaComponent implements OnInit {
     const columna = this.getColumna(nombreColumna);
     //Valida que la columna no sea solo lectura
     if (columna.lectura === false) {
-      console.log('yyyy');
       this.seleccionada = fila;
       if (this.utilitario.isDefined(this.seleccionada['insertada']) === false) {
         this.seleccionada['modificada'] = true;
@@ -1594,7 +1593,7 @@ export class TablaComponent implements OnInit {
         if (this.utilitario.isDefined(valor)) {
           this.buscando = true;
           // Valida si es posible eliminar la fila seleccionada
-          booUnico = await await this.isValidarUnico(this.tabla.nombreTabla, colActual, valor);
+          booUnico = await this.isValidarUnico(this.tabla.nombreTabla, colActual, valor);
           if (!booUnico) {
             return false;
           }
@@ -1749,8 +1748,8 @@ export class TablaComponent implements OnInit {
       objInsert['tipo'] = 'insertar';
       objInsert['nombreTabla'] = this.tabla.nombreTabla.toLowerCase();
       objInsert['campoPrimario'] = this.tabla.campoPrimario.toLowerCase();
-      objInsert['columnas'] = columnasInsert,
-        objInsert['serial'] = this.tabla.calculaPrimaria;
+      objInsert['columnas'] = columnasInsert;
+      objInsert['serial'] = this.tabla.calculaPrimaria;
       if (!this.tabla.calculaPrimaria) {
         //elimina campo primario cuando es serial
         //objInsert['key'] = filaActual[this.tabla.campoPrimario];
@@ -1960,6 +1959,9 @@ export class TablaComponent implements OnInit {
     if (_lectura === true) {
       this.isBotonEliminar = false;
       this.isBotonInsertar = false;
+      for (const colActual of this.columnas) {
+        colActual.lectura = true;
+      }
     }
   }
 
