@@ -647,10 +647,6 @@ export class UtilitarioService {
     }
 
 
-    getPantallasGenericas(): string[] {
-        return ['simple', 'simple-ui', 'doble', 'recursiva', 'triple'];
-    }
-
     async abrirLoading() {
         const loading = await this.loadingController.create({
             //message: 'Cargando...',

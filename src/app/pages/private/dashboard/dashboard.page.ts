@@ -116,13 +116,7 @@ export class DashboardPage {
   abrirPantalla(opcion) {
     if (opcion) {
       if (this.utilitario.isDefined(opcion.ruta)) {
-        var index = this.utilitario.getPantallasGenericas().indexOf(opcion.ruta);
-        if (index === -1) {
-          this.utilitario.abrirPagina(opcion.ruta);
-        }
-        else {
-          this.utilitario.abrirPagina(opcion.ruta + '/' + 'generic_' + opcion.data);
-        }
+        this.utilitario.abrirPagina(opcion.ruta);
         if (this.utilitario.isDefined(opcion.data)) {
           this.seguridad.auditoriaAccesoPantalla(opcion.data, this.utilitario.getPlataforma());
         }

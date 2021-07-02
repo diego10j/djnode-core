@@ -189,10 +189,10 @@ export default class Columna {
 
     setLectura(_lectura: boolean) {
         this.lectura = _lectura;
-        
+
     }
 
- 
+
     setValorDefecto(_valorDefecto: any) {
         this.valorDefecto = _valorDefecto;
     }
@@ -208,7 +208,7 @@ export default class Columna {
     }
 
     setEstiloGrupo(estilo: string) {
-        this._estiloGroup = 'p-button-secondary;'+estilo;
+        this._estiloGroup = 'p-button-secondary;' + estilo;
         this.isGrupo = true;
     }
 

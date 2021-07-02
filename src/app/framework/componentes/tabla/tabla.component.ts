@@ -507,19 +507,16 @@ export class TablaComponent implements OnInit {
               col.visible = false;
             }
             col.nombre = colActual.nombre;
-            col.nombreVisual = colActual.nombrevisual;
+            col.nombreVisual = colActual.nombreVisual;
             col.orden = colActual.orden;
-            col.anchoColumna = colActual.anchocolumna;
+            col.componente = colActual.componente;
+            col.anchoColumna = colActual.anchoColumna;
             col.tipo = colActual.tipo;
             col.visible = colActual.visible;
             col.lectura = true;
-            col.componente = colActual.componente;
             col.filtro = colActual.filtro;
             col.comentario = colActual.comentario;
             col.mayusculas = colActual.mayusculas;
-            if (this.utilitario.isDefined(this.campoPrimario) === false) {
-
-            }
             this.tabla.columnas.push(col);
           }
           //console.log(this.tabla.columnas);
@@ -573,17 +570,17 @@ export class TablaComponent implements OnInit {
               col.lectura = true;
             }
             col.nombre = colActual.nombre;
-            col.nombreVisual = colActual.nombrevisual.toUpperCase();
+            col.nombreVisual = colActual.nombreVisual.toUpperCase();
             col.orden = colActual.orden;
             col.requerida = colActual.requerida;
             col.tipo = colActual.tipo;
             col.longitud = colActual.longitud;
             col.decimales = colActual.decimales;
-            col.anchoColumna = colActual.anchocolumna;
             col.componente = colActual.componente;
+            col.anchoColumna = colActual.anchoColumna;
             col.visible = colActual.visible;
             col.lectura = colActual.lectura || false;
-            col.valorDefecto = colActual.valordefecto;
+            col.valorDefecto = colActual.valorDefecto;
             col.mascara = colActual.mascara;
             col.filtro = colActual.filtro;
             col.comentario = colActual.comentario;

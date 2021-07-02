@@ -112,15 +112,7 @@ export class BreadcrumbComponent implements OnDestroy {
   private abrirPagina(opcion) {
     if (this.utilitario.isDefined(opcion)) {
       if (opcion.ruta) {
-        if (this.utilitario.isDefined(opcion.ruta)) {
-          var index = this.utilitario.getPantallasGenericas().indexOf(opcion.ruta);
-          if (index === -1) {
-            this.utilitario.abrirPagina(opcion.ruta);
-          }
-          else {
-            this.utilitario.abrirPagina(opcion.ruta + '/' + 'generic_' + opcion.data);
-          }
-        }
+        this.utilitario.abrirPagina(opcion.ruta);
       }
     }
   }
